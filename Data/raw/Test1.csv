@@ -1,0 +1,34 @@
+SectorCode,Site,Replicate,SurveyID,BvA,n.scored,CORAL,CvI,Response
+NIN-NTH,Lefroy Bay,N6A,2013,Before,300,62,control,62
+NIN-NTH,Lefroy Bay,N6A,2014,Before,282,67,control,67
+NIN-NTH,Lefroy Bay,N6A,2015,Before,303,68,control,68
+NIN-NTH,Lefroy Bay,N6B,2013,Before,285,59,control,59
+NIN-NTH,Lefroy Bay,N6B,2014,Before,285,60,control,60
+NIN-NTH,Lefroy Bay,N6B,2015,Before,315,59,control,59
+NIN-NTH,Lefroy Bay,N6C,2013,Before,324,58,control,58
+NIN-NTH,Lefroy Bay,N6C,2014,Before,306,53,control,53
+NIN-NTH,Lefroy Bay,N6C,2015,Before,309,54,control,54
+NIN-NTH,Oyster Stacks 1,OS1A,2014,Before,288,40,control,40
+NIN-NTH,Oyster Stacks 1,OS1A,2015,Before,288,25,control,25
+NIN-NTH,Oyster Stacks 1,OS1B,2014,Before,297,57,control,57
+NIN-NTH,Oyster Stacks 1,OS1B,2015,Before,327,27,control,27
+NIN-NTH,Oyster Stacks 1,OS1C,2014,Before,324,55,control,55
+NIN-NTH,Oyster Stacks 1,OS1C,2015,Before,300,36,control,36
+NIN-NTH,Turquoise,N2A,2013,Before,288,106,impact,106
+NIN-NTH,Turquoise,N2A,2014,Before,315,132,impact,132
+NIN-NTH,Turquoise,N2A,2015,Before,291,95,impact,95
+NIN-NTH,Turquoise,N2B,2013,Before,264,110,impact,110
+NIN-NTH,Turquoise,N2B,2014,Before,297,125,impact,125
+NIN-NTH,Turquoise,N2B,2015,Before,303,108,impact,108
+NIN-NTH,Turquoise,N2C,2013,Before,282,118,impact,118
+NIN-NTH,Turquoise,N2C,2014,Before,294,110,impact,110
+NIN-NTH,Turquoise,N2C,2015,Before,300,112,impact,112
+NIN-NTH,Winderabandi,N5A,2013,Before,300,86,control,86
+NIN-NTH,Winderabandi,N5A,2014,Before,303,84,control,84
+NIN-NTH,Winderabandi,N5A,2015,Before,303,113,control,113
+NIN-NTH,Winderabandi,N5B,2013,Before,306,74,control,74
+NIN-NTH,Winderabandi,N5B,2014,Before,300,70,control,70
+NIN-NTH,Winderabandi,N5B,2015,Before,300,65,control,65
+NIN-NTH,Winderabandi,N5C,2013,Before,300,91,control,91
+NIN-NTH,Winderabandi,N5C,2014,Before,303,86,control,86
+NIN-NTH,Winderabandi,N5C,2015,Before,339,110,control,110
