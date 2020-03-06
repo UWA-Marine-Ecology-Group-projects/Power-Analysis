@@ -18,10 +18,10 @@ p.dir <- paste(w.dir, "Plots", sep='/')
 ### Load data ----
 
 # Set method name --
-method <- "Towed Video"
+method <- "Stereo BRUVs"
 
 # Set file name --
-filen <- "Tv-sg-HPZ-100it-1rep.csv"
+filen <- "Bruv-NPZ-100it__scenario_power_summary.csv"
 
 
 
@@ -32,9 +32,11 @@ names(df)
 
 # Make the effects column positive
 #df$effect.p <- ifelse(df$effect=1, 
-df$effect.p <- df$effect
+df$effect.p <- df$effect*(-1)
+head(df)
 
-df$sublocations.within.locations <- as.factor(df$sublocations.within.locations)
+#df$sublocations.within.locations <- as.factor(df$sublocations.within.locations)
+df$replicates <- as.factor(df$replicates)
 df$times.after <- as.factor(df$times.after)
 
 ## Plot results
@@ -42,19 +44,21 @@ df$times.after <- as.factor(df$times.after)
 theme_set(theme_bw())
                                   
 
-p <- ggplot() + geom_line(aes(y = sig.outcomes, x = effect.p, colour = times.after, linetype = sublocations.within.locations),
+p <- ggplot() + geom_line(aes(y = sig.outcomes, x = effect.p, colour = times.after, linetype = replicates),
                            data = df, stat="identity", cex = 1) 
 
+p <- ggplot() + geom_line(aes(y = sig.outcomes, x = effect.p, colour = replicates, linetype = times.after),
+                          data = df, stat="identity", cex = 1) 
   
 p  + scale_color_brewer(palette="GnBu") + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
                                                   
 
-p <- p + scale_color_manual(values = c("grey", "yellow","greenyellow", "green4")) + 
-  scale_x_continuous (name = "Decrease in % cover") +
+p <- p + scale_color_manual(values = c("grey60", "yellow","lawngreen", "green4", "blue3")) + 
+  scale_x_continuous (name = "Decrease in % cover of seagrasses") +
   scale_y_continuous( name = "Power")+
   geom_hline(yintercept = 0.8, linetype ="dashed", color = "grey81", size = 1.2) +
   #geom_hline(yintercept = 0.6, linetype ="dashed", color = "grey81", size = 1) +
-  labs(color = "Times after", linetype = "Control locations", title = "BRUV survey") +
+  labs(color = "Replicates", linetype = "Times after", title = "National Park Zone - Stereo-BRUVs survey") +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(),
         axis.line = element_line(colour = "black"), axis.text.x = element_text(size = 12), axis.text.y = element_text(size = 12),
         axis.title = element_text(size = 12, face = "bold"), plot.title=element_text(size=14, face = "bold")) 
@@ -62,26 +66,25 @@ p <- p + scale_color_manual(values = c("grey", "yellow","greenyellow", "green4")
 p
 ## save plot
 
-ggsave(paste(p.dir, "Bruvs_v4.png", sep='/'), plot = p, device = "png", scale =1, dpi = 300)
+ggsave(paste(p.dir, "Bruv-NPZ-100it__scenario_power_summary.png", sep='/'), plot = p, device = "png", scale =1, dpi = 300)
 
 
 ### Faceted ###
 
-controlnames <- c(
-  "2" = "2 controls", 
-  "3" = "3 controls", 
-  "5" = "5 controls",
-  "10" = "10 contorls"
+timesafter <- c(
+  "1" = "1 time after", 
+  "2" = "2 times after", 
+  "3" = "3 times after"
   )
 
-p4 <- ggplot() + geom_line(aes(y = sig.outcomes, x = effect.p, colour = times.after),
-                           data = pa, stat="identity", cex = 1) +
-  facet_grid(locations.control~., labeller = as_labeller(controlnames)) +
-  scale_color_manual(values = c("grey", "yellow","greenyellow", "green4")) + 
-  scale_x_continuous (name = "Decrease in % cover") +
+p4 <- ggplot() + geom_line(aes(y = sig.outcomes, x = effect.p, colour = replicates),
+                           data = df, stat="identity", cex = 1) +
+  facet_grid(times.after~., labeller = as_labeller(timesafter)) +
+  scale_color_manual(values = c("grey", "yellow","greenyellow", "green4", "blue")) + 
+  scale_x_continuous (name = "Decrease in % cover of seagrasses") +
   scale_y_continuous( name = "Power", breaks = c(0.4,0.6,0.8,1))+
   geom_hline(yintercept = 0.8, linetype ="dashed", color = "grey81", size = 1.2) +
-  labs(color = "Times after", linetype = "Control locations", title = "BRUV survey")+
+  labs(color = "Replicates", linetype = "Control locations", title = "National Park Zone - Stereo-BRUVs survey")+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         axis.line = element_line(colour = "black"), axis.text.x = element_text(size = 12), axis.text.y = element_text(size = 12),
         axis.title = element_text(size = 12, face = "bold"),
@@ -91,7 +94,7 @@ p4 <- ggplot() + geom_line(aes(y = sig.outcomes, x = effect.p, colour = times.af
 p4
 
 ## Save plot
-ggsave(paste(w.directory, "Plots", "Bruvs_facet_v4.png", sep='/'), plot = p4, device = "png", scale =1, dpi = 300)
+ggsave(paste(p.dir, "Bruv-NPZ-100it__scenario_power_summary_facet.png", sep='/'), plot = p4, device = "png", scale =1, dpi = 300)
 
 
 ### AUV ####
