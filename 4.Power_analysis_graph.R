@@ -106,20 +106,31 @@ ggsave(paste(p.dir, "Tv-HPZ-100it__scenario_power_summary_facet.png", sep='/'), 
 
 ### AUV ####
 
-setwd("C:/Users/21933549/Dropbox/UWA/Research Associate/PowAn/Seagrass_AUV")
+library(ggplot2)
+library(ggthemes)
+library(extrafont)
 
-## Set main directory ----
+## Clear workspace ----
+rm(list = ls())
 
-w.directory <- dirname("C:/Users/21933549/Dropbox/UWA/Research Associate/PowAn/Seagrass_AUV/ ")
+# Set working directory ####
+w.dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
+# Set data directory - to read the data from
+d.dir <- paste(w.dir, "Data", "Power-analysis-results", sep='/')
+# Set graph directory - to save plots
+p.dir <- paste(w.dir, "Plots", sep='/')
 
+# Set file name --
+filen <- "Auv-NPZ-100it__scenario_power_summary.csv"
 
 # Load data
-pa <- read.csv(paste(w.directory, "seagrass_auv_v7__scenario_power_summary.csv", sep='/'))
-str(pa)
-names(pa)
+df <- read.csv(paste(d.dir, filen, sep='/'))
+str(df)
+names(df)
 
-pa$locations.control <- as.factor(pa$locations.control)
-pa$times.after <- as.factor(pa$times.after)
+
+df$locations.control <- as.factor(df$locations.control)
+df$times.after <- as.factor(df$times.after)
 
 theme_set(theme_bw())
 
