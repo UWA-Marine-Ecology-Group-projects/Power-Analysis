@@ -61,7 +61,8 @@ p <- p +
   scale_y_continuous( name = "Power")+
   geom_hline(yintercept = 0.8, linetype ="dashed", color = "grey81", size = 1.2) +
   #geom_hline(yintercept = 0.6, linetype ="dashed", color = "grey81", size = 1) +
-  labs(color = "Replicates", linetype = "Times after", title = "National Park Zone - Stereo-BRUVs survey") +
+  #labs(color = "Replicates", linetype = "Times after", title = "National Park Zone - Stereo-BRUVs survey") +
+  labs(color = "Times after", linetype = "sublocations", title = "Habitat Protection Zone - Towed survey") +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(),
         axis.line = element_line(colour = "black"), axis.text.x = element_text(size = 12), axis.text.y = element_text(size = 12),
         axis.title = element_text(size = 12, face = "bold"), plot.title=element_text(size=14, face = "bold")) 
@@ -89,7 +90,8 @@ p4 <- ggplot() +
   scale_x_continuous (name = "Decrease in % cover of seagrasses") +
   scale_y_continuous( name = "Power", breaks = c(0.4,0.6,0.8,1))+
   geom_hline(yintercept = 0.8, linetype ="dashed", color = "grey81", size = 1.2) +
-  labs(color = "Replicates", linetype = "Control locations", title = "National Park Zone - Stereo-BRUVs survey")+
+  #labs(color = "Replicates", linetype = "Control locations", title = "National Park Zone - Stereo-BRUVs survey") +
+  labs(color = "sublocations", linetype = "Control locations", title = "Habitat Protection Zone - Towed video survey") +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         axis.line = element_line(colour = "black"), axis.text.x = element_text(size = 12), axis.text.y = element_text(size = 12),
         axis.title = element_text(size = 12, face = "bold"),
