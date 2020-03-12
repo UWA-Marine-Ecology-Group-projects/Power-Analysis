@@ -131,23 +131,26 @@ names(df)
 
 df$locations.control <- as.factor(df$locations.control)
 df$times.after <- as.factor(df$times.after)
+df$ sublocations.within.locations <- as.factor(df$ sublocations.within.locations)
+
+df$effect.p <- df$effect*(-1)
 
 theme_set(theme_bw())
 
 
-pauv <- ggplot() + geom_line(aes(y = sig.outcomes, x = effect.p, colour = times.after, linetype = locations.control),
-                           data = pa, stat="identity", cex = 1) 
+pauv <- ggplot() + geom_line(aes(y = sig.outcomes, x = effect.p, colour = times.after, linetype = sublocations.within.locations),
+                           data = df, stat="identity", cex = 1) 
 
 
 pauv  + scale_color_brewer(palette="GnBu") + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 
-pauv2 <- pauv + scale_color_manual(values = c("grey", "yellow","greenyellow", "green4")) + 
+pauv2 <- pauv + scale_color_manual(values = c("grey60", "lawngreen", "blue3")) + 
   scale_x_continuous (name = "Decrease in % cover") +
   scale_y_continuous( name = "Power")+
   geom_hline(yintercept = 0.8, linetype ="dashed", color = "grey81", size = 1.2) +
   #geom_hline(yintercept = 0.6, linetype ="dashed", color = "grey81", size = 1) +
-  labs(color = "Times after", linetype = "Control locations", title = "AUV survey") +
+  labs(color = "Times after", linetype = "No. sublocations locations", title = "National Park zone - AUV survey") +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(),
         axis.line = element_line(colour = "black"), axis.text.x = element_text(size = 12), axis.text.y = element_text(size = 12),
         axis.title = element_text(size = 12, face = "bold"), plot.title=element_text(size=14, face = "bold")) 
@@ -155,7 +158,7 @@ pauv2 <- pauv + scale_color_manual(values = c("grey", "yellow","greenyellow", "g
 pauv2
 ## save plot
 
-ggsave(paste(w.directory, "Plots", "Auvs_v7.png", sep='/'), plot = pauv2, device = "png", scale =1, dpi = 300)
+ggsave(paste(p.dir, "Auvs-NPZ-100it__scenario_power_summary.png", sep='/'), plot = pauv2, device = "png", scale =1, dpi = 300)
 
 
 ### Faceted ###
@@ -167,14 +170,20 @@ controlnames <- c(
   "10"= "10 controls"
 )
 
-pauv4 <- ggplot() + geom_line(aes(y = sig.outcomes, x = effect.p, colour = times.after),
-                           data = pa, stat="identity", cex = 1) +
-  facet_grid(locations.control~., labeller = as_labeller(controlnames)) +
-  scale_color_manual(values = c("grey", "yellow","greenyellow", "green4")) + 
+timesafter <- c(
+  "1" = "1 time after", 
+  "2" = "2 times after", 
+  "3" = "3 times after"
+)
+
+pauv4 <- ggplot() + geom_line(aes(y = sig.outcomes, x = effect.p, colour = sublocations.within.locations),
+                           data = df, stat="identity", cex = 1) +
+  facet_grid(times.after~., labeller = as_labeller(timesafter)) +
+  scale_color_manual(values = c("grey60", "lawngreen", "blue3")) + 
   scale_x_continuous (name = "Decrease in % cover") +
   scale_y_continuous( name = "Power", breaks = c(0,0.2,0.4,0.6,0.8,1))+
   geom_hline(yintercept = 0.8, linetype ="dashed", color = "grey81", size = 1.2) +
-  labs(color = "Times after", linetype = "Control locations", title = "AUV survey")+
+  labs(color = "No. sublocations", linetype = "Control locations", title = "National Park zone - AUV survey")+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         axis.line = element_line(colour = "black"), axis.text.x = element_text(size = 12), axis.text.y = element_text(size = 12),
         axis.title = element_text(size = 12, face = "bold"),
@@ -184,7 +193,7 @@ pauv4 <- ggplot() + geom_line(aes(y = sig.outcomes, x = effect.p, colour = times
 pauv4
 
 ## Save plot
-ggsave(paste(w.directory, "Plots", "Auvs_facet_v7.png", sep='/'), plot = pauv4, device = "png", scale =1, dpi = 300)
+ggsave(paste(p.dir, "Auvs-NPZ-100it__scenario_power_summary_facet.png", sep='/'), plot = pauv4, device = "png", scale =1, dpi = 300)
 
 
 ### Towed Video ####
