@@ -45,10 +45,8 @@ names(df)
 
 
 # Compute statistics ----
-
-
-# list classes:
-
+ 
+# https://stats.stackexchange.com/questions/169056/aggregate-all-data-by-date-and-id
 
 
 dfmean <- aggregate(. ~ZoneName, data=df, mean, na.rm=T)
