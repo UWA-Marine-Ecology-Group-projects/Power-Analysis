@@ -121,7 +121,7 @@ d.dir <- paste(w.dir, "Data", "Power-analysis-results", sep='/')
 p.dir <- paste(w.dir, "Plots", sep='/')
 
 # Set file name --
-filen <- "Auv-NPZ-100it__scenario_power_summary.csv"
+filen <- "Auv-NPZ-5it_50replicates_50datapoints__scenario_power_summary.csv"
 
 # Load data
 df <- read.csv(paste(d.dir, filen, sep='/'))
@@ -158,7 +158,8 @@ pauv2 <- pauv + scale_color_manual(values = c("grey60", "lawngreen", "blue3")) +
 pauv2
 ## save plot
 
-ggsave(paste(p.dir, "Auvs-NPZ-100it__scenario_power_summary.png", sep='/'), plot = pauv2, device = "png", scale =1, dpi = 300)
+#ggsave(paste(p.dir, "Auvs-NPZ-100it__scenario_power_summary.png", sep='/'), plot = pauv2, device = "png", scale =1, dpi = 300)
+ggsave(paste(p.dir, "tests", "Auv-NPZ-5it_50replicates_50datapoints.png", sep='/'), plot = pauv2, device = "png", scale =1, dpi = 300)
 
 
 ### Faceted ###
