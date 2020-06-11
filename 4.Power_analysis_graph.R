@@ -124,11 +124,14 @@ ggsave(paste(p.dir, "Tv-HPZ-100it__scenario_power_summary_facet.png", sep='/'), 
 
 ### Load data ----
 
-# Set method name --
-method <- "towed video"
+method <- "Towed Video"
+zone  <- "Special Purpose Zone"
 
 # Set file name --
-filen <- "TV-HPZ-500it__scenario_power_summary.csv"
+filen <- "TV-SPZ-500it__scenario_power_summary.csv"
+
+# set plot name --
+plotn <- gsub("csv$", "png", filen)
 
 
 
@@ -211,7 +214,9 @@ p4
 ggsave(paste(p.dir, "Tv-HPZ-100it__scenario_power_summary_facet.png", sep='/'), plot = p4, device = "png", scale =1, dpi = 300)
 
 
-### AUV ####
+#####################
+
+#####   AUV   #####
 
 library(ggplot2)
 library(ggthemes)
@@ -228,7 +233,14 @@ d.dir <- paste(w.dir, "Data", "Power-analysis-results", sep='/')
 p.dir <- paste(w.dir, "Plots", sep='/')
 
 # Set file name --
-filen <- "Auv-NPZ-5it_50replicates_50datapoints__scenario_power_summary.csv"
+method <- "AUV"
+zone  <- "Naional Park Zone"
+
+# Set file name --
+filen <- "AUV-NPZ-500it__50reps_20datapoints_scenario_power_summary.csv"
+
+# set plot name --
+plotn <- gsub("csv$", "png", filen)
 
 # Load data
 df <- read.csv(paste(d.dir, filen, sep='/'))
@@ -244,6 +256,7 @@ df$effect.p <- df$effect*(-1)
 
 theme_set(theme_bw())
 
+titleplot <- paste(method, zone, sep=' - ')
 
 pauv <- ggplot() + geom_line(aes(y = sig.outcomes, x = effect.p, colour = times.after, linetype = sublocations.within.locations),
                            data = df, stat="identity", cex = 1) 
@@ -257,7 +270,7 @@ pauv2 <- pauv + scale_color_manual(values = c("grey60", "lawngreen", "blue3")) +
   scale_y_continuous( name = "Power")+
   geom_hline(yintercept = 0.8, linetype ="dashed", color = "grey81", size = 1.2) +
   #geom_hline(yintercept = 0.6, linetype ="dashed", color = "grey81", size = 1) +
-  labs(color = "Times after", linetype = "No. sublocations locations", title = "National Park zone - AUV survey") +
+  labs(color = "Times after", linetype = "No. sublocations locations", title = titleplot) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(),
         axis.line = element_line(colour = "black"), axis.text.x = element_text(size = 12), axis.text.y = element_text(size = 12),
         axis.title = element_text(size = 12, face = "bold"), plot.title=element_text(size=14, face = "bold")) 
@@ -266,8 +279,8 @@ pauv2
 ## save plot
 
 #ggsave(paste(p.dir, "Auvs-NPZ-100it__scenario_power_summary.png", sep='/'), plot = pauv2, device = "png", scale =1, dpi = 300)
-ggsave(paste(p.dir, "tests", "Auv-NPZ-5it_50replicates_50datapoints.png", sep='/'), plot = pauv2, device = "png", scale =1, dpi = 300)
-
+#ggsave(paste(p.dir, "tests", "Auv-NPZ-5it_50replicates_50datapoints.png", sep='/'), plot = pauv2, device = "png", scale =1, dpi = 300)
+ggsave(paste(p.dir, plotn, sep='/'), plot = pauv2, device = "png", scale =1, dpi = 300)
 
 ### Faceted ###
 
