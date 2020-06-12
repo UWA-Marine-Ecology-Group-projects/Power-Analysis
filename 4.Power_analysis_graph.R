@@ -234,10 +234,13 @@ p.dir <- paste(w.dir, "Plots", sep='/')
 
 # Set file name --
 method <- "AUV"
-zone  <- "Naional Park Zone"
+zone  <- "National Park Zone"
 
 # Set file name --
 filen <- "AUV-NPZ-500it__50reps_20datapoints_scenario_power_summary.csv"
+
+# for tests
+#filen <- "Test_Auv-HPZ.csv"
 
 # set plot name --
 plotn <- gsub("csv$", "png", filen)
