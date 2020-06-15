@@ -125,10 +125,10 @@ ggsave(paste(p.dir, "Tv-HPZ-100it__scenario_power_summary_facet.png", sep='/'), 
 ### Load data ----
 
 method <- "Towed Video"
-zone  <- "Special Purpose Zone"
+zone  <- "Habitat Protection Zone"
 
 # Set file name --
-filen <- "TV-SPZ-500it__scenario_power_summary.csv"
+filen <- "TV-HPZ-5it_Test.csv"
 
 # set plot name --
 plotn <- gsub("csv$", "png", filen)
@@ -157,9 +157,7 @@ theme_set(theme_bw())
 
 p <- ggplot() + geom_line(aes(y = sig.outcomes, x = effect.p, colour = times.after, linetype = sublocations.within.locations),
                            data = df, stat="identity", cex = 1) # TV
-
-p <- ggplot() + geom_line(aes(y = sig.outcomes, x = effect.p, colour = replicates, linetype = sublocations.within.locations),
-                          data = df, stat="identity", cex = 1) 
+ 
   
 p  + scale_color_brewer(palette="GnBu") + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
                                                   
@@ -239,7 +237,7 @@ zone  <- "Multiple Use Zone"
 # Set file name --
 #filen <- "AUV-HPZ-500it_50replicates_20datapoints__scenario_power_summary.csv"
 #test files
-filen <- "AUV-MUZ-test.csv"
+filen <- "AUV-MUZ-50it_Test.csv"
 
 # for tests
 #filen <- "Test_Auv-HPZ.csv"
