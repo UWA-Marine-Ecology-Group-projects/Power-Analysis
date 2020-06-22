@@ -240,7 +240,7 @@ zone  <- "Special Purpose Zone"
 #filen <- "AUV-HPZ-500it_50replicates_20datapoints__scenario_power_summary.csv"
 #test files
 filen <- "AUV-MUZ-50it_Test.csv"
-filen <- "AUV-SPZ-100it_50replicates_20datapooints__1time_after.csv"
+filen <- "Auv-SPZ-100it_50replicates_20datapoints__scenario_power_summary.csv"
 
 # for tests
 #filen <- "Test_Auv-HPZ.csv"
