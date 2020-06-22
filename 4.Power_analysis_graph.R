@@ -1,5 +1,7 @@
 ### Plots for Power Analysis of Seagrass ####
 
+### Set libraries ----
+
 library(ggplot2)
 library(ggthemes)
 library(extrafont)
@@ -128,7 +130,7 @@ method <- "Towed Video"
 zone  <- "Habitat Protection Zone"
 
 # Set file name --
-filen <- "TV-HPZ-5it_Test.csv"
+filen <- "TV-HPZ-100it_test.csv"
 
 # set plot name --
 plotn <- gsub("csv$", "png", filen)
@@ -232,12 +234,13 @@ p.dir <- paste(w.dir, "Plots", sep='/')
 
 # Set file name --
 method <- "AUV"
-zone  <- "Multiple Use Zone"
+zone  <- "Special Purpose Zone"
 
 # Set file name --
 #filen <- "AUV-HPZ-500it_50replicates_20datapoints__scenario_power_summary.csv"
 #test files
 filen <- "AUV-MUZ-50it_Test.csv"
+filen <- "AUV-SPZ-100it_50replicates_20datapooints__1time_after.csv"
 
 # for tests
 #filen <- "Test_Auv-HPZ.csv"
