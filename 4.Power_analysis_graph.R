@@ -127,10 +127,10 @@ ggsave(paste(p.dir, "Tv-HPZ-100it__scenario_power_summary_facet.png", sep='/'), 
 ### Load data ----
 
 method <- "Towed Video"
-zone  <- "Habitat Protection Zone"
+zone  <- "Multiple Use Zone"
 
 # Set file name --
-filen <- "TV-HPZ-100it_test.csv"
+filen <- "TV-MUZ-100it_50replicates_20datapoints__scenario_power_summary.csv"
 
 # set plot name --
 plotn <- gsub("csv$", "png", filen)
@@ -234,13 +234,13 @@ p.dir <- paste(w.dir, "Plots", sep='/')
 
 # Set file name --
 method <- "AUV"
-zone  <- "Special Purpose Zone"
+zone  <- "Multiple Use Zone"
 
 # Set file name --
 #filen <- "AUV-HPZ-500it_50replicates_20datapoints__scenario_power_summary.csv"
 #test files
 filen <- "AUV-MUZ-50it_Test.csv"
-filen <- "Auv-SPZ-100it_50replicates_20datapoints__scenario_power_summary.csv"
+filen <- "Auv-MUZ-100it_50replicates_20datapoints__scenario_power_summary.csv"
 
 # for tests
 #filen <- "Test_Auv-HPZ.csv"
