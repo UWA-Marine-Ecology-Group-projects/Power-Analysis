@@ -155,6 +155,8 @@ df$sublocations.within.locations <- as.factor(df$sublocations.within.locations)
 ## Plot results
 
 theme_set(theme_bw())
+
+titleplot <- paste(method, zone, sep=' - ')
                                   
 
 p <- ggplot() + geom_line(aes(y = sig.outcomes, x = effect.p, colour = times.after, linetype = sublocations.within.locations),
@@ -172,7 +174,7 @@ p <- p +
   geom_hline(yintercept = 0.8, linetype ="dashed", color = "grey81", size = 1.2) +
   #geom_hline(yintercept = 0.6, linetype ="dashed", color = "grey81", size = 1) +
   #labs(color = "Replicates", linetype = "Times after", title = "National Park Zone - Stereo-BRUVs survey") +
-  labs(color = "Times after", linetype = "sublocations", title = "Habitat Protection Zone - Towed survey") +
+  labs(color = "Times after", linetype = "sublocations", title = titleplot) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(),
         axis.line = element_line(colour = "black"), axis.text.x = element_text(size = 12), axis.text.y = element_text(size = 12),
         axis.title = element_text(size = 12, face = "bold"), plot.title=element_text(size=14, face = "bold")) 
