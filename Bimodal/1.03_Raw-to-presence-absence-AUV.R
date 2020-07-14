@@ -122,9 +122,22 @@ head(hab)
 hab.points.zone <- cbind(hab, points.zone)
 head(hab.points.zone)
 
+## Get fata ready for epower ----
+
+df <- hab.points.zone
+
+# Remove NA's -  in the zone column --
+#df <- na.omit(df)
+df <- df %>% drop_na(ZoneName)
+str(df)# 25340 obs
+
+
+
 #### Save presence absence data ----
 
 
 write.csv(hab.points.zone, paste(tidy.dir, paste(study, "seag-pres-abs.csv", sep='-'), sep='/'))
 
 
+hab.points.zone <- read.csv(paste(tidy.dir, paste(study, "seag-pres-abs.csv", sep='-'), sep='/'))
+str(hab.points.zone)

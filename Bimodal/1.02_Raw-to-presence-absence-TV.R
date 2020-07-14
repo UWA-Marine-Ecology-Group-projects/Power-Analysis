@@ -116,6 +116,6 @@ head(hab.points.zone)
 
 #### Save presence absence data ----
 
-write.csv(hab.points, paste(tidy.dir, paste(study, "seag-pres-abs.csv", sep='-'), sep='/'))
+write.csv(hab.points.zone, paste(tidy.dir, paste(study, "seag-pres-abs.csv", sep='-'), sep='/'))
 
-
+hab.points <- read.csv(paste(tidy.dir, paste(study, "seag-pres-abs.csv", sep='-'), sep='/'))
