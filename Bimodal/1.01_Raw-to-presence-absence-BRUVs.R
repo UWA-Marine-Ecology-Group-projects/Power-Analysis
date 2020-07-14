@@ -116,6 +116,39 @@ head(habitat)
 
 hab.points <- merge(habitat, metadata, by="Sample", all=T)
 
+#### Match to CMR zones ---- 
+
+# read GB shapefile --
+s.dir <- "G:/My Drive/Anita/Shapefiles"
+
+gb <- readOGR(paste(s.dir, "GeoBay.shp", sep='/'))
+plot(gb)
+gb
+
+# habitat data into spatial points ---
+head(hab.points)
+hsp <- hab.points
+
+coordinates(hsp) <- ~Longitude+Latitude
+points(hsp)
+
+# extract zone from each point --
+points.zone <- raster::extract(gb, hsp, df = T)
+head(points.zone)
+# check for duplicates --
+points.zone$point.ID[duplicated(points.zone$point.ID)]
+#points.zone <- points.zone[!duplicated(points.zone$point.ID),] # remove
+
+hab <- as.data.frame(hsp)
+head(hab)
+
+# combine habitat and zone dfs --
+hab.points.zone <- cbind(hab, points.zone)
+head(hab.points.zone)
+
+
 #### Save presence absence data ----
 
 write.csv(hab.points, paste(tidy.dir, paste(study, "seag-pres-abs.csv", sep='-'), sep='/'))
+
+hab.points <- read.csv(paste(tidy.dir, paste(study, "seag-pres-abs.csv", sep='-'), sep='/'))

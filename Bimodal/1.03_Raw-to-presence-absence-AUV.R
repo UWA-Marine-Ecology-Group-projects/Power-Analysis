@@ -9,6 +9,9 @@ library(readr)
 library(stringr)
 library(readr)
 library(devtools)
+library(sp)
+library(raster)
+library(rgdal)
 #install.packages("remotes")
 #remotes::install_github("UWAMEGFisheries/GlobalArchive")
 #library(GlobalArchive)
@@ -91,6 +94,37 @@ head(metadata)
 
 hab.points <- merge(habitat, metadata[,c(2:4)], by="Sample")
 
+
+#### Match to CMR zones ---- 
+
+# read GB shapefile --
+s.dir <- "G:/My Drive/Anita/Shapefiles"
+
+gb <- readOGR(paste(s.dir, "GeoBay.shp", sep='/'))
+plot(gb)
+gb
+
+# habitat data into spatial points ---
+head(hab.points)
+hsp <- hab.points
+
+coordinates(hsp) <- ~longitude+latitude
+points(hsp)
+
+# extract zone from each point --
+points.zone <- raster::extract(gb, hsp, df = T)
+head(points.zone)
+
+hab <- as.data.frame(hsp)
+head(hab)
+
+# combine habitat and zone dfs --
+hab.points.zone <- cbind(hab, points.zone)
+head(hab.points.zone)
+
 #### Save presence absence data ----
 
-write.csv(hab.points, paste(tidy.dir, paste(study, "seag-pres-abs.csv", sep='-'), sep='/'))
+
+write.csv(hab.points.zone, paste(tidy.dir, paste(study, "seag-pres-abs.csv", sep='-'), sep='/'))
+
+
