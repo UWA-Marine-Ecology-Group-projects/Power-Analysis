@@ -123,6 +123,8 @@ write.csv(hab.points.zone, paste(tidy.dir, paste(study, "seag-pres-abs.csv", sep
 
 ## Get data ready for epower ----
 
+### HPZ ####
+
 hab.points.zone <- read.csv(paste(tidy.dir, paste(study, "seag-pres-abs.csv", sep='-'), sep='/'))
 str(hab.points.zone)
 
@@ -267,6 +269,6 @@ head(dfall)
 
 #### Save data for epower ----
 
-write.csv(dfall, paste(tidy.dir, paste(study, "seag-epower.csv", sep='-'), sep='/'))
+write.csv(dfall, paste(tidy.dir, paste(study, "HPZ-seag-epower.csv", sep='-'), sep='/'))
 
 
