@@ -9,6 +9,9 @@ library(readr)
 library(stringr)
 library(readr)
 library(devtools)
+library(sp)
+library(raster)
+library(rgdal)
 #install.packages("remotes")
 #remotes::install_github("UWAMEGFisheries/GlobalArchive")
 #library(GlobalArchive)
@@ -150,4 +153,297 @@ head(hab.points.zone)
 #### Save presence absence data ----
 
 write.csv(hab.points.zone, paste(tidy.dir, paste(study, "seag-pres-abs.csv", sep='-'), sep='/'))
+
+
+#### Remove BRUVS w NAs
+
+df <- read.csv(paste(tidy.dir, paste(study, "seag-pres-abs.csv", sep='-'), sep='/'))
+str(df)
+
+
+# Remove NA's -  in the zone column --
+#df <- na.omit(df)
+df <- df %>% drop_na(ZoneName)
+str(df)# 9001 obs
+
+# Remove unwanted columns
+names(df)
+df <- df[, c(3:5,9:12,15,26)]
+names(df)
+head(df)
+
+dfs <- df
+
+coordinates(dfs) <- ~ Longitude + Latitude
+points(dfs)
+
+
+#####  CLUSTER BRUVS  #####
+
+# Method 1 ----
+# https://gis.stackexchange.com/questions/17638/clustering-spatial-data-in-r
+
+library(geosphere)
+
+# convert data to a SpatialPointsDataFrame object
+xy <- SpatialPointsDataFrame(
+  matrix(c(df$Longitude,df$Latitude), ncol=2), data.frame(ID=seq(1:length(df$Longitude))),
+  proj4string=CRS("+proj=longlat +ellps=GRS80 +no_defs"))
+
+plot(gb)
+plot(xy, add=T)
+
+# use the distm function to generate a geodesic distance matrix in meters
+mdist <- distm(xy)
+
+# cluster all points using a hierarchical clustering approach
+hc <- hclust(as.dist(mdist), method="average")
+
+# define the distance threshold, in this case 40 m
+d <- 6000
+
+# define clusters based on a tree "height" cutoff "d" and add them to the SpDataFrame
+xy$clust <- cutree(hc, k=15, h=d)
+
+xy
+
+plot(xy, col = xy$clust, add=T)
+
+
+# Method 2: MBH ----
+
+# Using clusters planned for GB transects as centres of clusters --
+
+# but first I need to reduce the amount of clusters, because they are too many
+
+library(pdist)
+library(fields)
+library(rgeos)
+
+# read GB poly in utm ----
+gbu <- readOGR('G:/My Drive/Anita/Shapefiles/GeoBay_CMR_UTM.shp')
+gbu
+
+crsp <- "+proj=utm +zone=50 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
+
+## High res - MUZ ----
+
+hmuz <- readOGR("G:/My Drive/meg_projects/Project_Parks_Geo_fish and habitat/Sampling design/GB_Design/Multib_Lidar_Design/coords_MUZ/coords_MUZ_2020-05-18.shp")
+plot(gb)
+plot(hmuz, add=T)
+
+hmuzp <- spTransform(hmuz, crsp)
+
+hmuz.mat <- gWithinDistance(hmuzp, dist = 3000, byid = TRUE)
+diag(hmuz.mat) <- NA
+hmuz.mat
+
+# extract the upper triangular part of matrix and use the column sums as a criterion to remove the points:
+
+hmuz.mat[lower.tri(hmuz.mat, diag=TRUE)] <- NA
+hmuz.mat
+
+colSums(hmuz.mat, na.rm=TRUE) == 0
+v1 <- colSums(hmuz.mat, na.rm=TRUE) == 0
+hmuz[v1, ] # 5 features left
+
+# plot --
+plot(gbu)
+plot(hmuzp[v1, ], pch=20, col="red", add=T)
+
+plot(gb)
+plot(hmuz[v1,], add=T)
+
+# Save cluster centroids --
+hmuz.cluters <- hmuz[v1, ]
+hmuz.clus.df <- as.data.frame(hmuz.cluters)
+
+
+## High res - SPZ----
+
+transects <- readOGR("G:/My Drive/meg_projects/Project_Parks_Geo_fish and habitat/Sampling design/GB_Design/Multib_Lidar_Design/coords_SPZ/coords_spz_2020-05-18.shp")
+plot(gb)
+plot(transects, add=T)
+
+transectsp <- spTransform(transects, crsp)
+
+transects.mat <- gWithinDistance(transectsp, dist = 3000, byid = TRUE)
+diag(transects.mat) <- NA
+transects.mat
+
+# extract the upper triangular part of matrix and use the column sums as a criterion to remove the points:
+
+transects.mat[lower.tri(transects.mat, diag=TRUE)] <- NA
+transects.mat
+
+colSums(transects.mat, na.rm=TRUE) == 0
+v1 <- colSums(transects.mat, na.rm=TRUE) == 0
+transects[v1, ] # 5 features left
+
+# plot --
+plot(gbu)
+plot(transectsp[v1, ], pch=20, col="red", add=T)
+
+plot(gb)
+plot(transects[v1,], add=T)
+
+# Save cluster centroids --
+hspz.cluters <- transects[v1, ]
+hspz.clus.df <- as.data.frame(hspz.cluters)
+
+
+## High res - NPZ and HPZ ----
+
+#transects <- readOGR("G:/My Drive/meg_projects/Project_Parks_Geo_fish and habitat/Sampling design/GB_Design/Multib_Lidar_Design/coords_SPZ/coords_spz_2020-05-18.shp")
+
+t <- read.csv("G:/My Drive/meg_projects/Project_Parks_Geo_fish and habitat/Sampling design/GB_Design/Multib_Lidar_Design/coordinates_hires_NPZ_HPZ.csv")
+str(t)
+
+transectsp <- t
+
+coordinates(transectsp) <- ~ start_x + start_y
+
+proj4string(transectsp) <- proj4string(gbu)
+#plot(gb)
+#plot(transects, add=T)
+
+#transectsp <- spTransform(transects, crsp)
+
+transects.mat <- gWithinDistance(transectsp, dist = 2000, byid = TRUE)
+diag(transects.mat) <- NA
+transects.mat
+
+# extract the upper triangular part of matrix and use the column sums as a criterion to remove the points:
+
+transects.mat[lower.tri(transects.mat, diag=TRUE)] <- NA
+transects.mat
+
+colSums(transects.mat, na.rm=TRUE) == 0
+v1 <- colSums(transects.mat, na.rm=TRUE) == 0
+transects[v1, ] # 5 features left
+
+# plot --
+plot(gbu)
+plot(transectsp[v1, ], pch=20, col="red", add=T)
+
+#plot(gb)
+#plot(transects[v1,], add=T)
+
+# Save cluster centroids --
+hspz.cluters <- transectsp[v1, ]
+
+gb
+crsgb <- "+proj=longlat +ellps=GRS80 +no_defs"
+
+hnpz.hpz.cluters2 <- spTransform(hspz.cluters, crsgb)
+
+
+hnpz.hpz.clus.df <- as.data.frame(hnpz.hpz.cluters2)
+
+
+## Low res - SPZ----
+
+transects <- readOGR("G:/My Drive/meg_projects/Project_Parks_Geo_fish and habitat/Sampling design/GB_Design/Bathy250m_design/rstudio-export (1)/Design4_notClustTransects_2020-05-17.shp")
+plot(gbu)
+plot(transects, add=T)
+
+transectsp <- transects
+
+#transectsp <- spTransform(transects, crsp)
+
+transects.mat <- gWithinDistance(transectsp, dist = 4000, byid = TRUE)
+diag(transects.mat) <- NA
+transects.mat
+
+# extract the upper triangular part of matrix and use the column sums as a criterion to remove the points:
+
+transects.mat[lower.tri(transects.mat, diag=TRUE)] <- NA
+transects.mat
+
+colSums(transects.mat, na.rm=TRUE) == 0
+v1 <- colSums(transects.mat, na.rm=TRUE) == 0
+transects[v1, ] # 5 features left
+
+# plot --
+plot(gbu)
+plot(transectsp[v1, ], pch=20, col="red", add=T)
+
+#plot(gb)
+#plot(transects[v1,], add=T)
+
+# Save cluster centroids --
+transects2 <- transects[v1, ]
+transects3 <- spTransform(transects2, crsgb)
+
+plot(gb)
+plot(transects3, add=T)
+
+bz.cluters <- transects3
+bz.clus.df <- as.data.frame(bz.cluters)
+
+#### Join all the cluster centroids ----
+head(bz.clus.df)
+bz <- bz.clus.df[, c(10,11)]
+bz$cluster <- c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15)
+bz$bathy.res <- "Low"
+names(bz) <- c("long", "lat", "cluster",   "bathy.res")
+
+head(hmuz.clus.df)
+hmuz <- hmuz.clus.df[,c(7,8)]
+hmuz$cluster <- c(1,2,3,4,5)
+hmuz$bathy.res <- "High"
+names(hmuz) <- c("long", "lat", "cluster",   "bathy.res")
+
+head(hspz.clus.df)
+hspz <- hspz.clus.df[,c(7,8)]
+hspz$cluster <- c(1,2,3,4,5)
+hspz$bathy.res <- "High"
+names(hspz) <- c("long", "lat", "cluster",   "bathy.res")
+
+head(hnpz.hpz.clus.df)
+hnhpz <- hnpz.hpz.clus.df[,c(12,13)]
+hnhpz$cluster <- c(1,2,3,4)
+hnhpz$bathy.res <- "High"
+names(hnhpz) <- c("long", "lat", "cluster",   "bathy.res")
+
+# joing all clusters
+gbclusters <- rbind(bz, hmuz, hspz, hnhpz)
+gbclusters
+
+c <- gbclusters
+
+coordinates(c) <- ~long+lat
+plot(gb)
+plot(c, add=T)
+proj4string(c) <- proj4string(gb)
+
+c2 <- spTransform(c, crsp)
+
+## some around the HPZ deep zone are really close.. run another buffer
+c.mat <- gWithinDistance(c2, dist = 2000, byid = TRUE)
+diag(c.mat) <- NA
+c.mat
+
+# extract the upper triangular part of matrix and use the column sums as a criterion to remove the points:
+
+c.mat[lower.tri(c.mat, diag=TRUE)] <- NA
+c.mat
+
+colSums(c.mat, na.rm=TRUE) == 0
+v1 <- colSums(c.mat, na.rm=TRUE) == 0
+c2[v1, ] # 5 features left
+
+# plot --
+plot(gbu)
+plot(c2[v1, ], pch=20, col="red", add=T)
+
+plot(gb)
+plot(c[v1, ], pch=20, col="red", add=T)
+
+gbclust <- c[v1, ]
+
+writeOGR(gbclust, "Y:/Power-Analysis/Bimodal/Data/spatial", "BRUV_MBHclusters", driver = "ESRI Shapefile")
+
+gbclust.df <- as.data.frame(gbclust)
+write.csv(gbclust.df, paste(tidy.dir, "BRUV_MBHclusters.csv", sep ='/'))
 
