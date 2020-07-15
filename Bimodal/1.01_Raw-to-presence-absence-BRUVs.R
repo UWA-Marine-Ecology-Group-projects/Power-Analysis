@@ -447,3 +447,46 @@ writeOGR(gbclust, "Y:/Power-Analysis/Bimodal/Data/spatial", "BRUV_MBHclusters", 
 gbclust.df <- as.data.frame(gbclust)
 write.csv(gbclust.df, paste(tidy.dir, "BRUV_MBHclusters.csv", sep ='/'))
 
+####
+gbclust.df$clusterID <- c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27)
+
+df <- gbclust.df
+
+coordinates(df) <- ~ long + lat
+proj4string(df) <- proj4string(gb)
+
+gbclustp <- spTransform(df, crsp)
+
+#cids <- gbclustp$clusterID
+
+buff <- gBuffer(gbclustp, byid=T, width = 2000)
+
+plot(gbu)
+plot(buff, add=T)
+
+writeOGR(buff, "Y:/Power-Analysis/Bimodal/Data/spatial", "BRUV_MBHclusters_2000mbuffer", driver = "ESRI Shapefile")
+
+
+xyp <- spTransform(xy, crsp)
+
+buff2 <- spTransform(buff, crsgb)
+
+clustpoints <- raster::extract(buff2, xy, df=T)
+head(clustpoints)
+toremove <- clustpoints$point.ID[duplicated(clustpoints$point.ID)] # check for replicates
+# remove reps
+clustpoints <- clustpoints[-toremove,]
+
+head(clustpoints)
+# bind to df
+test <- cbind(clustpoints, as.data.frame(xy))
+
+# remove nas from culsterIDs
+# Remove NA's -  in the zone column --
+#df <- na.omit(df)
+head(test)
+test <- test %>% drop_na(clusterID)
+str(test)# 25340 obs
+
+plot(gb)
+points(test$coords.x1, test$coords.x2, col = "red", cex=1)
