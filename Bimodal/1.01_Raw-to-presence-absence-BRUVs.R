@@ -180,15 +180,19 @@ points(dfs)
 
 #####  CLUSTER BRUVS  #####
 
-# Method 1 ----
+# Method 1 : hierarchical clustering approach----
 # https://gis.stackexchange.com/questions/17638/clustering-spatial-data-in-r
 
 library(geosphere)
 
 # convert data to a SpatialPointsDataFrame object
-xy <- SpatialPointsDataFrame(
-  matrix(c(df$Longitude,df$Latitude), ncol=2), data.frame(ID=seq(1:length(df$Longitude))),
-  proj4string=CRS("+proj=longlat +ellps=GRS80 +no_defs"))
+#xy <- SpatialPointsDataFrame(
+ # matrix(c(df$Longitude,df$Latitude), ncol=2), data.frame(ID=seq(1:length(df$Longitude))),
+  #proj4string=CRS("+proj=longlat +ellps=GRS80 +no_defs"))
+
+#writeOGR(xy, "Y:/Power-Analysis/Bimodal/Data/spatial", "CMR-points", driver = "ESRI Shapefile")
+
+xy <- readOGR("Y:/Power-Analysis/Bimodal/Data/spatial/CMR-points-utm.shp")
 
 plot(gb)
 plot(xy, add=T)
@@ -207,7 +211,31 @@ xy$clust <- cutree(hc, k=15, h=d)
 
 xy
 
-plot(xy, col = xy$clust, add=T)
+plot(xy, col = xy$clust, add=T) # 15 clusters
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Method 2: MBH ----
@@ -446,6 +474,7 @@ writeOGR(gbclust, "Y:/Power-Analysis/Bimodal/Data/spatial", "BRUV_MBHclusters", 
 
 gbclust.df <- as.data.frame(gbclust)
 write.csv(gbclust.df, paste(tidy.dir, "BRUV_MBHclusters.csv", sep ='/'))
+gbclust.df <- read.csv(paste(tidy.dir, "BRUV_MBHclusters.csv", sep ='/'))
 
 ####
 gbclust.df$clusterID <- c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27)
@@ -459,6 +488,8 @@ gbclustp <- spTransform(df, crsp)
 
 #cids <- gbclustp$clusterID
 
+## Create 2000m buffer ----
+
 buff <- gBuffer(gbclustp, byid=T, width = 2000)
 
 plot(gbu)
@@ -466,10 +497,14 @@ plot(buff, add=T)
 
 writeOGR(buff, "Y:/Power-Analysis/Bimodal/Data/spatial", "BRUV_MBHclusters_2000mbuffer", driver = "ESRI Shapefile")
 
+buff <- readOGR("Y:/Power-Analysis/Bimodal/Data/spatial/BRUV_MBHclusters_2000mbuffer.shp")
+
+## extract points within buffers ----
+
 
 xyp <- spTransform(xy, crsp)
 
-buff2 <- spTransform(buff, crsgb)
+buff2 <- spTransform(buff, proj4string(gb))
 
 clustpoints <- raster::extract(buff2, xy, df=T)
 head(clustpoints)
@@ -486,7 +521,78 @@ test <- cbind(clustpoints, as.data.frame(xy))
 #df <- na.omit(df)
 head(test)
 test <- test %>% drop_na(clusterID)
-str(test)# 25340 obs
+str(test)# 3342 obs
+test$clusterID <- as.factor(test$clusterID)
+head(test)
+levels(test$clusterID)
 
 plot(gb)
-points(test$coords.x1, test$coords.x2, col = "red", cex=1)
+points(xy)
+#points(test$coords.x1, test$coords.x2, col = "red", cex=1)
+points(test$coords.x1, test$coords.x2, col = test$clusterID, cex=1)
+plot(buff2, add=T)
+
+
+## Create buffer according to zone ----
+
+plot(gbu)
+plot(gbclustp, add=T)
+
+gbclustp.df <- as.data.frame(gbclustp)
+
+gbclustp2 <- raster::extract(gbu, gbclustp, sp = T)
+
+gbclustp2 <- cbind(gbclustp.df, gbclustp2)
+
+clustgb <- gbclustp2
+
+coordinates(clustgb) <- ~long + lat
+
+plot(gbu)
+plot(clustgb, col = clustgb$ZoneName, add=T)
+
+# run another buffer for MUZ and SPZ so they include more BRUVs --
+# 4000 m buffer --
+
+muzone <- clustgb[clustgb$ZoneName==("Multiple Use Zone"), ]
+spzone <- clustgb[clustgb$ZoneName==("Special Purpose Zone (Mining Exclusion)"), ]
+plot(muzone)
+plot(spzone)
+bigzones <- union(muzone, spzone)
+plot(bigzones)
+
+m.mat <- gWithinDistance(bigzones, dist = 5000, byid = TRUE)
+diag(m.mat) <- NA
+m.mat
+
+# extract the upper triangular part of matrix and use the column sums as a criterion to remove the points:
+
+m.mat[lower.tri(m.mat, diag=TRUE)] <- NA
+m.mat
+
+colSums(m.mat, na.rm=TRUE) == 0
+v1 <- colSums(m.mat, na.rm=TRUE) == 0
+bigzones[v1, ] # 16 features left
+
+# plot --
+plot(gbu)
+plot(bigzones[v1, ], pch=20, col="red", add=T)
+
+#plot(gb)
+#plot(muzone[v1, ], pch=20, col="red", add=T)
+
+bigzones.c <- bigzones[v1, ]
+
+
+buff.bigz <- gBuffer(bigzones.c, byid=T, width = 4000)
+
+plot(gbu)
+plot(buff.bigz, add=T)
+plot(xyp, add=T, col = "blue", pch = 20, cex = 1)
+
+writeOGR(buff.bigz, "Y:/Power-Analysis/Bimodal/Data/spatial", "BRUV_MBHclusters_4000mbuffer", driver = "ESRI Shapefile")
+
+buff.bigz <- readOGR("Y:/Power-Analysis/Bimodal/Data/spatial/BRUV_MBHclusters_4000mbuffer.shp")
+
+
+
