@@ -176,7 +176,9 @@ dfs <- df
 
 coordinates(dfs) <- ~ Longitude + Latitude
 points(dfs)
+proj4string(dfs) <- proj4string(gb)
 
+writeOGR(dfs, "Y:/Power-Analysis/Bimodal/Data/spatial", "CMR-points", driver = "ESRI Shapefile", overwrite = T)
 
 #####  CLUSTER BRUVS  #####
 
@@ -392,11 +394,12 @@ levels(hpz$clust)[levels(hpz$clust)=="2"] <- "17"
 clusteredpoints <- union(spz,muz)
 clusteredpoints <- union(clusteredpoints,npz)
 clusteredpoints <- union(clusteredpoints,hpz)
+clusteredpoints$Seagrss # check you still have sg data
 
 plot(gb)
 plot(clusteredpoints, col = clusteredpoints$clust, pch=20, add=T)
 
-#writeOGR(clusteredpoints, "Y:/Power-Analysis/Bimodal/Data/spatial", "BRUV_clusteredpoints", driver = "ESRI Shapefile")
+#writeOGR(clusteredpoints, "Y:/Power-Analysis/Bimodal/Data/spatial", "BRUV_clusteredpoints", driver = "ESRI Shapefile", overwrite=T)
 
 clusteredpoints <- readOGR("Y:/Power-Analysis/Bimodal/Data/spatial/BRUV_clusteredpoints.shp")
 
@@ -404,6 +407,11 @@ clusteredp.df <- as.data.frame(clusteredpoints)
 
 #write.csv(clusteredp.df, paste(tidy.dir, "BRUV_clusteredpoints.csv", sep ='/'))
 
+
+
+
+
+### ---- ###
 
 # Method 2: MBH ----
 
@@ -762,4 +770,142 @@ writeOGR(buff.bigz, "Y:/Power-Analysis/Bimodal/Data/spatial", "BRUV_MBHclusters_
 buff.bigz <- readOGR("Y:/Power-Analysis/Bimodal/Data/spatial/BRUV_MBHclusters_4000mbuffer.shp")
 
 
+
+### --- ### --- ### ---
+
+## Method 1 : Get data ready for epower ----
+
+### NPZ ####
+
+c.points <- readOGR("Y:/Power-Analysis/Bimodal/Data/spatial/BRUV_clusteredpoints.shp")
+
+df <- read.csv(paste(tidy.dir, "BRUV_clusteredpoints.csv", sep ='/'))
+
+
+# Remove unwanted columns
+names(df)
+head(df)
+df <- df[, c(2,3,6,8,20:22)]
+names(df)
+head(df)
+
+### split the data by zone name--
+dfz <- split(df, df$ZoneNam)
+str(dfz)
+# remove special purpose zone
+dfn <-  dfz[-4]
+str(dfn)
+
+# new listo into data frame
+dfn <- do.call(rbind.data.frame, dfn)
+dfn
+str(dfn)
+names(dfn)
+head(dfn)
+summary(dfn)
+
+dfn <- droplevels(dfn)
+
+levels(dfn$ZoneNam)
+
+
+#### NOT GOING TO SUBSAMPLE BRUV DATA --
+
+#### T1 ####
+
+#subsample dat to n=2500( 100 images/25 points per transect ) to improve speed
+
+#dfn1 <-as.data.frame(dfn %>% group_by(clust) %>% sample_n(size = 2500))
+#str(dfn1)
+#dfn1 <- droplevels(dfn1)
+#str(dfn1) # 11250 obs
+
+dfn1 <- dfn
+names(dfn1)
+
+## calculate presences and no. scored ----
+
+sg.pres1 <- aggregate(Seagrss ~ clust + ZoneNam, data = dfn1, sum)
+sg.pres1
+
+no.scored1 <-  aggregate(Seagrss ~ clust + ZoneNam, data = dfn1, length)           
+no.scored1
+names(no.scored1) <- c("Transect", "ZoneName", "no.scored")
+
+df1 <- cbind(sg.pres1, no.scored1[,3])
+df1
+names(df1) <- c("Transect",        "ZoneName",       "Seagrass",    "no.scored")
+df1$Time <- "T1"
+df1
+
+#### T2 ####
+
+#subsample dat to n=2500( 100 images/25 points per transect ) to improve speed
+
+#dfn2 <-as.data.frame(dfn %>% group_by(campaignid) %>% sample_n(size = 2500))
+#str(dfn2)
+#dfn2 <- droplevels(dfn2)
+#str(dfn2) # 11250 obs
+
+dfn2 <- dfn
+
+## calculate presences and no. scored ----
+
+sg.pres2 <- aggregate(Seagrss ~ clust + ZoneNam, data = dfn2, sum)
+sg.pres2
+
+no.scored2 <-  aggregate(Seagrss ~ clust + ZoneNam, data = dfn2, length)           
+no.scored2
+names(no.scored2) <- c("Transect", "ZoneName", "no.scored")
+
+df2<- cbind(sg.pres2, no.scored2[,3])
+df2
+names(df2) <- c("Transect",        "ZoneName",       "Seagrass",    "no.scored")
+df2$Time <- "T2"
+df2
+
+#### T3 ####
+
+#subsample dat to n=2500( 100 images/25 points per transect ) to improve speed
+
+#dfn3 <-as.data.frame(dfn %>% group_by(campaignid) %>% sample_n(size = 2500))
+#str(dfn3)
+#dfn3 <- droplevels(dfn3)
+#str(dfn3) # 11250 obs
+
+dfn3 <- dfn
+
+## calculate presences and no. scored ----
+
+sg.pres3 <- aggregate(Seagrss ~ clust + ZoneNam, data = dfn3, sum)
+sg.pres3
+
+no.scored3 <-  aggregate(Seagrss ~ clust + ZoneNam, data = dfn3, length)           
+no.scored3
+names(no.scored3) <- c("Transect", "ZoneName", "no.scored")
+
+df3<- cbind(sg.pres3, no.scored3[,3])
+df3
+names(df3) <- c("Transect",        "ZoneName",       "Seagrass",    "no.scored")
+df3$Time <- "T3"
+df3
+
+## joint these together --
+
+dfall <- rbind(df1, df2, df3)
+dfall
+
+
+# Make Period Column
+dfall$Period <- "Before"
+names(dfall)
+
+# Make control impact column
+levels(dfall$ZoneName)
+dfall$CvI <- ifelse(dfall$ZoneName=="National Park Zone", "Impact", "Control")
+head(dfall)
+
+#### Save data for epower ----
+
+write.csv(dfall, paste(tidy.dir, paste(study, "NPZ-seag-epower.csv", sep='-'), sep='/'))
 
