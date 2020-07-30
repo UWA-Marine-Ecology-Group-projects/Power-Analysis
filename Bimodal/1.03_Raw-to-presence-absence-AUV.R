@@ -476,3 +476,171 @@ head(dfall)
 
 write.csv(dfall, paste(tidy.dir, paste(study, "HPZ-seag-epower.csv", sep='-'), sep='/'))
 
+
+
+### MUZ ####
+
+hab.points.zone <- read.csv(paste(tidy.dir, paste(study, "seag-pres-abs.csv", sep='-'), sep='/'))
+str(hab.points.zone)
+
+
+df <- hab.points.zone
+
+# Remove NA's -  in the zone column --
+#df <- na.omit(df)
+df <- df %>% drop_na(ZoneName)
+str(df)# 60464 obs
+
+# Remove unwanted columns
+names(df)
+head(df)
+df <- df[, c(3,4,6,11,19)]
+names(df)
+head(df)
+
+### split the data by zone name--
+dfz <- split(df, df$ZoneName)
+str(dfz)
+# remove special purpose zone
+dfn <-  dfz[-4]
+str(dfn)
+
+# new listo into data frame
+dfn <- do.call(rbind.data.frame, dfn)
+dfn
+str(dfn)
+names(dfn)
+head(dfn)
+summary(dfn)
+
+dfn <- droplevels(dfn)
+
+levels(dfn$ZoneName)
+
+# joing grid 02 with 02-exp ---
+
+# rename to combine AUV 2 grids
+levels(dfn$campaignid)[levels(dfn$campaignid)=="r20150527_081513_wa-gb-auv-02-exp"] <- "r20150526_035926_wa-gb-auv-02"
+
+dfn <- droplevels(dfn)
+levels(dfn$campaignid)
+summary(dfn)
+
+# Remove grid 6 from MUZ to make a balanced design - 2 grids per zone
+dfn <- dfn[dfn$campaignid!="r20150527_034110_wa-gb-auv-06",]
+dfn <- droplevels(dfn)
+levels(dfn$campaignid)
+
+#### Make a replicate df to dupicate and rename NPZ to acheive a balanced design ###
+dfnNPZ2 <- dfn
+str(dfnNPZ2)
+levels(dfnNPZ2$campaignid)[levels(dfnNPZ2$campaignid)=="r20150527_055625_wa-gb-auv-05"] <- "DuplicateNPZ"
+head(dfnNPZ2)
+dfnNPZ2 <- dfnNPZ2[dfnNPZ2$campaignid!="r20150526_024446_wa-gb-auv-01",]
+dfnNPZ2 <- dfnNPZ2[dfnNPZ2$campaignid!="r20150526_035926_wa-gb-auv-02",]
+dfnNPZ2 <- dfnNPZ2[dfnNPZ2$campaignid!="r20150526_050219_wa-gb-auv-03",]
+dfnNPZ2 <- dfnNPZ2[dfnNPZ2$campaignid!="r20150527_072129_wa-gb-auv-04",]
+
+dfnNPZ2 <- droplevels(dfnNPZ2)
+str(dfnNPZ2)
+
+# Change the names of the AUV images
+names(dfnNPZ2)
+dfnNPZ2$Sample <- sub("^", "Dup", dfnNPZ2$Sample) # the ^ represents the point just before the first character
+head(dfnNPZ2)
+
+# join with other data --
+dfn <- rbind(dfn, dfnNPZ2)
+summary(dfn)
+
+#### T1 ####
+
+#subsample dat to n=2500( 100 images/25 points per transect ) to improve speed
+
+dfn1 <-as.data.frame(dfn %>% group_by(campaignid) %>% sample_n(size = 2500))
+str(dfn1)
+dfn1 <- droplevels(dfn1)
+str(dfn1) # 11250 obs
+
+## calculate presences and no. scored ----
+
+sg.pres1 <- aggregate(Seagrass ~ campaignid + ZoneName, data = dfn1, sum)
+sg.pres1
+
+no.scored1 <-  aggregate(Seagrass ~ campaignid + ZoneName, data = dfn1, length)           
+no.scored1
+names(no.scored1) <- c("Transect", "ZoneName", "no.scored")
+
+df1 <- cbind(sg.pres1, no.scored1[,3])
+df1
+names(df1) <- c("Transect",        "ZoneName",       "Seagrass",    "no.scored")
+df1$Time <- "T1"
+df1
+
+#### T2 ####
+
+#subsample dat to n=2500( 100 images/25 points per transect ) to improve speed
+
+dfn2 <-as.data.frame(dfn %>% group_by(campaignid) %>% sample_n(size = 2500))
+str(dfn2)
+dfn2 <- droplevels(dfn2)
+str(dfn2) # 11250 obs
+
+## calculate presences and no. scored ----
+
+sg.pres2 <- aggregate(Seagrass ~ campaignid + ZoneName, data = dfn2, sum)
+sg.pres2
+
+no.scored2 <-  aggregate(Seagrass ~ campaignid + ZoneName, data = dfn2, length)           
+no.scored2
+names(no.scored2) <- c("Transect", "ZoneName", "no.scored")
+
+df2<- cbind(sg.pres2, no.scored2[,3])
+df2
+names(df2) <- c("Transect",        "ZoneName",       "Seagrass",    "no.scored")
+df2$Time <- "T2"
+df2
+
+#### T3 ####
+
+#subsample dat to n=2500( 100 images/25 points per transect ) to improve speed
+
+dfn3 <-as.data.frame(dfn %>% group_by(campaignid) %>% sample_n(size = 2500))
+str(dfn3)
+dfn3 <- droplevels(dfn3)
+str(dfn3) # 11250 obs
+
+## calculate presences and no. scored ----
+
+sg.pres3 <- aggregate(Seagrass ~ campaignid + ZoneName, data = dfn3, sum)
+sg.pres3
+
+no.scored3 <-  aggregate(Seagrass ~ campaignid + ZoneName, data = dfn3, length)           
+no.scored3
+names(no.scored3) <- c("Transect", "ZoneName", "no.scored")
+
+df3<- cbind(sg.pres3, no.scored3[,3])
+df3
+names(df3) <- c("Transect",        "ZoneName",       "Seagrass",    "no.scored")
+df3$Time <- "T3"
+df3
+
+## joint these together --
+
+dfall <- rbind(df1, df2, df3)
+dfall
+
+
+# Make Period Column
+dfall$Period <- "Before"
+names(dfall)
+
+# Make control impact column
+levels(dfall$ZoneName)
+dfall$CvI <- ifelse(dfall$ZoneName=="Multiple Use Zone", "Impact", "Control")
+head(dfall)
+
+#### Save data for epower ----
+
+write.csv(dfall, paste(tidy.dir, paste(study, "MUZ-seag-epower.csv", sep='-'), sep='/'))
+
