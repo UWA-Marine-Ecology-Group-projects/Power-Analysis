@@ -1181,3 +1181,142 @@ head(dfall)
 
 write.csv(dfall, paste(tidy.dir, paste(study, "MUZ-seag-epower.csv", sep='-'), sep='/'))
 
+
+
+
+#### SPZ #####
+
+c.points <- readOGR("Y:/Power-Analysis/Bimodal/Data/spatial/BRUV_clusteredpoints.shp")
+
+df <- read.csv(paste(tidy.dir, "BRUV_clusteredpoints.csv", sep ='/'))
+
+
+# Remove unwanted columns
+names(df)
+head(df)
+df <- df[, c(2,3,6,8,20:22)]
+names(df)
+head(df)
+
+### split the data by zone name--
+dfz <- split(df, df$ZoneNam)
+str(dfz)
+# remove national park zone
+dfn <-  dfz[-3]
+str(dfn)
+
+# new listo into data frame
+dfn <- do.call(rbind.data.frame, dfn)
+dfn
+str(dfn)
+names(dfn)
+head(dfn)
+summary(dfn)
+
+dfn <- droplevels(dfn)
+
+levels(dfn$ZoneNam)
+
+
+#### NOT GOING TO SUBSAMPLE BRUV DATA --
+
+#### T1 ####
+
+#subsample dat to n=2500( 100 images/25 points per transect ) to improve speed
+
+#dfn1 <-as.data.frame(dfn %>% group_by(clust) %>% sample_n(size = 2500))
+#str(dfn1)
+#dfn1 <- droplevels(dfn1)
+#str(dfn1) # 11250 obs
+
+dfn1 <- dfn
+names(dfn1)
+
+## calculate presences and no. scored ----
+
+sg.pres1 <- aggregate(Seagrss ~ clust + ZoneNam, data = dfn1, sum)
+sg.pres1
+
+no.scored1 <-  aggregate(Seagrss ~ clust + ZoneNam, data = dfn1, length)           
+no.scored1
+names(no.scored1) <- c("Transect", "ZoneName", "no.scored")
+
+df1 <- cbind(sg.pres1, no.scored1[,3])
+df1
+names(df1) <- c("Transect",        "ZoneName",       "Seagrass",    "no.scored")
+df1$Time <- "T1"
+df1
+
+#### T2 ####
+
+#subsample dat to n=2500( 100 images/25 points per transect ) to improve speed
+
+#dfn2 <-as.data.frame(dfn %>% group_by(campaignid) %>% sample_n(size = 2500))
+#str(dfn2)
+#dfn2 <- droplevels(dfn2)
+#str(dfn2) # 11250 obs
+
+dfn2 <- dfn
+
+## calculate presences and no. scored ----
+
+sg.pres2 <- aggregate(Seagrss ~ clust + ZoneNam, data = dfn2, sum)
+sg.pres2
+
+no.scored2 <-  aggregate(Seagrss ~ clust + ZoneNam, data = dfn2, length)           
+no.scored2
+names(no.scored2) <- c("Transect", "ZoneName", "no.scored")
+
+df2<- cbind(sg.pres2, no.scored2[,3])
+df2
+names(df2) <- c("Transect",        "ZoneName",       "Seagrass",    "no.scored")
+df2$Time <- "T2"
+df2
+
+#### T3 ####
+
+#subsample dat to n=2500( 100 images/25 points per transect ) to improve speed
+
+#dfn3 <-as.data.frame(dfn %>% group_by(campaignid) %>% sample_n(size = 2500))
+#str(dfn3)
+#dfn3 <- droplevels(dfn3)
+#str(dfn3) # 11250 obs
+
+dfn3 <- dfn
+
+## calculate presences and no. scored ----
+
+sg.pres3 <- aggregate(Seagrss ~ clust + ZoneNam, data = dfn3, sum)
+sg.pres3
+
+no.scored3 <-  aggregate(Seagrss ~ clust + ZoneNam, data = dfn3, length)           
+no.scored3
+names(no.scored3) <- c("Transect", "ZoneName", "no.scored")
+
+df3<- cbind(sg.pres3, no.scored3[,3])
+df3
+names(df3) <- c("Transect",        "ZoneName",       "Seagrass",    "no.scored")
+df3$Time <- "T3"
+df3
+
+## joint these together --
+
+dfall <- rbind(df1, df2, df3)
+dfall
+
+
+# Make Period Column
+dfall$Period <- "Before"
+names(dfall)
+
+# Make control impact column
+levels(dfall$ZoneName)
+dfall$CvI <- ifelse(dfall$ZoneName=="Special Purpose Zone (Mining Exclusion)", "Impact", "Control")
+head(dfall)
+
+#### Save data for epower ----
+
+write.csv(dfall, paste(tidy.dir, paste(study, "SPZ-seag-epower.csv", sep='-'), sep='/'))
+
+
+
