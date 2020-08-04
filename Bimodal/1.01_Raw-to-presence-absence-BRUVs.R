@@ -1184,7 +1184,7 @@ write.csv(dfall, paste(tidy.dir, paste(study, "MUZ-seag-epower.csv", sep='-'), s
 
 
 
-#### SPZ #####
+#### SPZ joined clusters #####
 
 c.points <- readOGR("Y:/Power-Analysis/Bimodal/Data/spatial/BRUV_clusteredpoints.shp")
 
@@ -1201,6 +1201,7 @@ head(df)
 ### split the data by zone name--
 dfz <- split(df, df$ZoneNam)
 str(dfz)
+
 # remove national park zone
 dfn <-  dfz[-3]
 str(dfn)
@@ -1217,6 +1218,35 @@ dfn <- droplevels(dfn)
 
 levels(dfn$ZoneNam)
 
+# combine spz clusters ----
+dfz <- split(dfn, dfn$ZoneNam)
+str(dfz)
+dfz$`Special Purpose Zone (Mining Exclusion)`
+dfz1 <-  as.data.frame(dfz$`Special Purpose Zone (Mining Exclusion)`)
+str(dfz1)
+
+pal1 <- c("black", "grey", "blue", "green", "red", "yellow", "orange", "pink")
+
+spz <- dfz1
+coordinates(spz) <- ~coords.x1 + coords.x2
+spz$clust <- as.factor(spz$clust)
+
+# PLOT SPZ CLUSTERS ---
+# figure out where the upper RIGHT hand corner of your plot extent is
+the_plot_extent <- extent(spz)
+
+# grab the upper right hand corner coordinates
+#furthest_pt_east <- the_plot_extent@xmax
+#furthest_pt_north <- the_plot_extent@ymax
+
+plot(spz, col=(pal1)[spz$clust])
+
+
+legend(#x = furthest_pt_east, y = furthest_pt_north,
+  "bottomleft",   # location of legend
+       legend = levels(spz$clust), fill = pal1, ncol=8, cex =0.7) # categories or elements to render in
+
+
 
 #### NOT GOING TO SUBSAMPLE BRUV DATA --
 
@@ -1230,7 +1260,25 @@ levels(dfn$ZoneNam)
 #str(dfn1) # 11250 obs
 
 dfn1 <- dfn
+str(dfn)
 names(dfn1)
+dfn1$clust <- as.factor(dfn1$clust)
+levels(dfn1$clust)
+
+## Group Clusters ----
+#Cluster 1 = 1+4
+#Cluster 2 = 2+6+8
+#Cluster 3 = 3
+#Cluster 5 = 5 + 7
+
+# rename SPZ BRUV clusters
+levels(dfn1$clust)[levels(dfn1$clust)=="4"] <- "1"
+levels(dfn1$clust)[levels(dfn1$clust)=="6"] <- "2"
+levels(dfn1$clust)[levels(dfn1$clust)=="6"] <- "8"
+levels(dfn1$clust)[levels(dfn1$clust)=="7"] <- "5"
+
+dfn <- droplevels(dfn1$clust)
+levels(dfn1$clust)
 
 ## calculate presences and no. scored ----
 
@@ -1248,6 +1296,45 @@ df1$Time <- "T1"
 df1
 
 #### T2 ####
+
+df2 <- df1
+str(df2)
+df2$Time <- as.factor(df2$Time)
+levels(df2$Time)[levels(df2$Time)=="T1"] <- "T2"
+
+
+#### T3 ####
+
+df3 <- df1
+str(df3)
+df3$Time <- as.factor(df3$Time)
+levels(df3$Time)[levels(df3$Time)=="T1"] <- "T3"
+df3
+
+
+## joint these together --
+
+dfall <- rbind(df1, df2, df3)
+dfall
+
+
+# Make Period Column
+dfall$Period <- "Before"
+names(dfall)
+
+# Make control impact column
+levels(dfall$ZoneName)
+dfall$CvI <- ifelse(dfall$ZoneName=="Special Purpose Zone (Mining Exclusion)", "Impact", "Control")
+head(dfall)
+
+#### Save data for epower ----
+
+write.csv(dfall, paste(tidy.dir, paste(study, "SPZclustered-seag-epower.csv", sep='-'), sep='/'))
+
+
+
+
+### SPZ not clustered ####
 
 #subsample dat to n=2500( 100 images/25 points per transect ) to improve speed
 
