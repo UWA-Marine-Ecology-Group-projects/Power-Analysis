@@ -1274,7 +1274,7 @@ levels(dfn1$clust)
 # rename SPZ BRUV clusters
 levels(dfn1$clust)[levels(dfn1$clust)=="4"] <- "1"
 levels(dfn1$clust)[levels(dfn1$clust)=="6"] <- "2"
-levels(dfn1$clust)[levels(dfn1$clust)=="6"] <- "8"
+levels(dfn1$clust)[levels(dfn1$clust)=="8"] <- "2"
 levels(dfn1$clust)[levels(dfn1$clust)=="7"] <- "5"
 
 dfn <- droplevels(dfn1$clust)
@@ -1331,6 +1331,7 @@ head(dfall)
 
 write.csv(dfall, paste(tidy.dir, paste(study, "SPZclustered-seag-epower.csv", sep='-'), sep='/'))
 
+#df <- read.csv(paste(tidy.dir, paste(study, "SPZclustered-seag-epower.csv", sep='-'), sep='/'))
 
 
 
@@ -1404,6 +1405,7 @@ head(dfall)
 #### Save data for epower ----
 
 write.csv(dfall, paste(tidy.dir, paste(study, "SPZ-seag-epower.csv", sep='-'), sep='/'))
+
 
 
 
