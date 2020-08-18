@@ -1,0 +1,323 @@
+"","sample","maxn","latitude","longitude","depth","point.ID","poly.ID","NetName","ResName","ResArea","ZoneName","ZoneIUCN","NatLegend","Area_KM2","GAZ_DATE","LATEST_GAZ"
+"1","1",0,-33.36345,115.21415,40,1,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"2","10",1,-33.5281667,115.3313333,22.7,2,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"3","100",47,-33.4324833,115.21415,36.7,3,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"4","10000",0,-33.4135833,115.3645833,16.4,4,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"5","10001",0,-33.4217167,115.3722167,15.9,5,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"6","10002",0,-33.4234167,115.3889333,15.4,6,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"7","10003",0,-33.4213,115.35935,16.5,7,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"8","10004",7,-33.4039167,115.3976,15.3,8,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"9","10005",2,-33.4777667,115.3694,24.6,9,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"10","101",15,-33.3885833,115.37675,16.7,10,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"11","102",0,-33.5185,115.1196,34.4,11,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"12","103",16,-33.4581167,115.4547167,18.4,12,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"13","1038",2,-33.5333333,115.4200167,13.9,13,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"14","104",7,-33.4597333,115.2450667,33.3,14,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"15","106",5,-33.57825,115.3451333,13.5,15,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"16","107",16,-33.5833333,115.1881167,20.9,16,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"17","108",0,-33.4690833,115.1676667,35,17,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"18","11",4,-33.5712167,115.2958167,21.7,18,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"19","110",0,-33.4022667,115.3556833,17,19,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"20","1108",0,-33.5580167,115.41435,11.9,20,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"21","111",3,-33.5369,115.3219167,21.9,21,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"22","112",1,-33.4052,115.5224,14.8,22,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"23","113",0,-33.3658333,115.27785,36.6,23,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"24","114",0,-33.3984333,115.1639167,39.7,24,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"25","115",0,-33.4446333,115.4064667,25.2,25,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"26","116",3,-33.4981667,115.2863667,29.7,26,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"27","119",2,-33.4388333,115.5567333,5.2,27,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"28","11R1",0,-33.35885,115.3694,30.4,28,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"29","11R2",0,-33.3967333,115.5076167,18.6,29,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"30","11R3",0,-33.41215,115.5204667,14.7,30,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"31","11R4",2,-33.4197,115.51755,14.5,31,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"32","12",0,-33.40395,115.2615667,38.7,32,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"33","122",5,-33.5375,115.4020833,13.3,33,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"34","12RC1",24,-33.5932167,115.2132833,26.5,34,1,"South-west","Geographe",976.656117,"Habitat Protection Zone","IV","Habitat Protection Zone (IUCN IV)",21.0728286984,"1899/12/30","1899/12/30"
+"35","12RC2",17,-33.5916,115.23785,17.6,35,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"36","12RC3",25,-33.5914667,115.24145,17.9,36,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"37","12RC5",8,-33.5621333,115.3443,14.2,37,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"38","12RC6",27,-33.5711,115.3481333,14.7,38,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"39","12RC7",46,-33.5118,115.41785,15.2,39,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"40","12RC8",8,-33.5148667,115.41815,14.1,40,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"41","12RC9",3,-33.5162167,115.4064167,14.5,41,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"42","13",5,-33.4501833,115.0925167,42.4,42,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"43","135",6,-33.50185,115.4207333,15.8,43,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"44","138",32,-33.5808333,115.1139333,15,44,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"45","139",7,-33.60325,115.2736667,13.4,45,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"46","13RC1",0,-33.5059833,115.43075,13.8,46,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"47","13RC11",11,-33.3740333,115.36925,31,47,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"48","13RC12",1,-33.3743667,115.3668167,31.3,48,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"49","13RC13",5,-33.3754833,115.3631167,31.1,49,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"50","13RC15",10,-33.3768333,115.3559333,32.5,50,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"51","13RC2",2,-33.49485,115.45595,13.4,51,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"52","13RC3",5,-33.4839333,115.45155,13.6,52,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"53","13RC4",15,-33.4993833,115.3964667,19.5,53,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"54","13RC5",0,-33.4839333,115.4656167,26.8,54,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"55","13RC6",6,-33.3809667,115.3892333,29.7,55,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"56","13RC7",6,-33.3774333,115.38605,29.5,56,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"57","13RC8",8,-33.3726,115.3791,30.4,57,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"58","13RC9",11,-33.3730667,115.3747833,30.9,58,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"59","14",8,-33.5296667,115.4130333,13.2,59,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"60","143",4,-33.5761667,115.2367,23.2,60,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"61","144",0,-33.5342333,115.4323167,12.3,61,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"62","15",4,-33.5782333,115.2147833,26.2,62,1,"South-west","Geographe",976.656117,"Habitat Protection Zone","IV","Habitat Protection Zone (IUCN IV)",21.0728286984,"1899/12/30","1899/12/30"
+"63","151",2,-33.4768,115.4328833,17.2,63,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"64","154",13,-33.6033667,115.19675,13.6,64,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"65","16",0,-33.3889,115.4986167,20,65,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"66","160",0,-33.6033667,115.2477833,13.8,66,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"67","167",1,-33.4627333,115.4805667,14.4,67,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"68","17",8,-33.3635833,115.23265,38.8,68,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"69","170",0,-33.54165,115.3698333,15.8,69,3,"South-west","Geographe",976.656117,"National Park Zone","II","National Park Zone (IUCN II)",15.2725206762,"1899/12/30","1899/12/30"
+"70","175",0,-33.5518167,115.12275,28.5,70,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"71","176",22,-33.59,115.1290667,15.4,71,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"72","18",0,-33.3926,115.0981333,42.4,72,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"73","183",5,-33.5687667,115.2488,22.6,73,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"74","19",0,-33.4605,115.3618,26,74,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"75","192",0,-33.4273167,115.5755833,4.9,75,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"76","196",15,-33.5098167,115.4045,15.9,76,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"77","199",17,-33.5975167,115.2108833,15.2,77,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"78","2",26,-33.4405333,115.10095,40.5,78,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"79","20",7,-33.4338667,115.2221167,36,79,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"80","202",0,-33.5779333,115.4117167,9.8,80,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"81","207",0,-33.5738333,115.23165,23.3,81,1,"South-west","Geographe",976.656117,"Habitat Protection Zone","IV","Habitat Protection Zone (IUCN IV)",21.0728286984,"1899/12/30","1899/12/30"
+"82","208",2,-33.3873,115.5742333,7.2,82,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"83","21",0,-33.3857167,115.39765,15.7,83,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"84","215",0,-33.6065667,115.2241167,14.1,84,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"85","218",1,-33.5954833,115.3030667,14.7,85,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"86","22",21,-33.57455,115.1806667,22.6,86,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"87","224",1,-33.4189,115.5035833,16.5,87,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"88","23",3,-33.5041833,115.4289333,13.6,88,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"89","234",0,-33.6031667,115.3602167,9.3,89,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"90","236",0,-33.4949167,115.4766833,13.1,90,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"91","24",2,-33.47115,115.2861667,29.2,91,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"92","240",2,-33.4387833,115.4684667,18.9,92,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"93","247",0,-33.5561,115.1345167,26.4,93,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"94","25",0,-33.3833333,115.0827833,42.5,94,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"95","250",0,-33.5628167,115.4223667,10,95,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"96","256",4,-33.4083167,115.4774833,11.1,96,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"97","26",27,-33.5500333,115.3236167,20.5,97,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"98","267",0,-33.5707,115.1362,23.2,98,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"99","27",0,-33.5463667,115.1883833,28.2,99,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"100","270",1,-33.52045,115.4206,13.7,100,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"101","271",36,-33.5937,115.2133167,27.3,101,1,"South-west","Geographe",976.656117,"Habitat Protection Zone","IV","Habitat Protection Zone (IUCN IV)",21.0728286984,"1899/12/30","1899/12/30"
+"102","272",13,-33.3815,115.4879333,11.7,102,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"103","279",3,-33.5011833,115.4379167,14.2,103,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"104","28",5,-33.42715,115.2872833,34,104,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"105","282",2,-33.5571833,115.3322333,18.2,105,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"106","287",18,-33.5940333,115.2189,16.4,106,1,"South-west","Geographe",976.656117,"Habitat Protection Zone","IV","Habitat Protection Zone (IUCN IV)",21.0728286984,"1899/12/30","1899/12/30"
+"107","288",1,-33.4709833,115.4775833,14.3,107,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"108","29",9,-33.4869667,115.1764,34.3,108,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"109","295",0,-33.5555333,115.46605,2.5,109,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"110","298",18,-33.5825167,115.1301333,18.1,110,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"111","3",0,-33.4920833,115.3549,24.8,111,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"112","30",0,-33.42405,115.33405,31.8,112,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"113","304",9,-33.5958333,115.1453667,13.7,113,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"114","31",0,-33.5986333,115.2369167,26.3,114,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"115","314",32,-33.5869,115.1628333,20,115,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"116","316",19,-33.3839667,115.5281667,9.3,116,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"117","32",2,-33.4807833,115.46205,14.1,117,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"118","320",1,-33.4417833,115.49575,15.1,118,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"119","327",15,-33.4892333,115.3942,11.8,119,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"120","33",4,-33.3527667,115.3204833,34.1,120,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"121","330",15,-33.5691167,115.104,17.7,121,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"122","331",16,-33.6030833,115.2530333,14.3,122,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"123","335",0,-33.5771167,115.2266667,21.6,123,1,"South-west","Geographe",976.656117,"Habitat Protection Zone","IV","Habitat Protection Zone (IUCN IV)",21.0728286984,"1899/12/30","1899/12/30"
+"124","34",0,-33.3845167,115.0739,43,124,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"125","346",5,-33.6092,115.2392833,14,125,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"126","35",12,-33.4055,115.4157167,27.9,126,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"127","352",3,-33.4517667,115.4879833,15.2,127,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"128","36",0,-33.4269,115.20765,38.2,128,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"129","362",9,-33.627,115.2948,9.4,129,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"130","368",0,-33.5725167,115.45125,3.7,130,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"131","37",0,-33.3585,115.3721,30.3,131,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"132","375",21,-33.5902167,115.2205667,26.9,132,1,"South-west","Geographe",976.656117,"Habitat Protection Zone","IV","Habitat Protection Zone (IUCN IV)",21.0728286984,"1899/12/30","1899/12/30"
+"133","378",4,-33.5555833,115.3912,13.3,133,3,"South-west","Geographe",976.656117,"National Park Zone","II","National Park Zone (IUCN II)",15.2725206762,"1899/12/30","1899/12/30"
+"134","38",0,-33.5036833,115.1274333,34.5,134,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"135","384",5,-33.4274667,115.51415,13.5,135,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"136","39",4,-33.465,115.43285,19.8,136,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"137","391",4,-33.50165,115.4101333,17,137,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"138","394",3,-33.5181,115.3820167,19,138,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"139","395",0,-33.6072833,115.3444333,9.2,139,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"140","399",0,-33.6143333,115.31295,10.8,140,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"141","4",0,-33.3921,115.2280833,38.4,141,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"142","40",0,-33.4719667,115.2287167,33.7,142,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"143","400",0,-33.3575833,115.5516833,9.8,143,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"144","407",28,-33.4881667,115.4274667,16.2,144,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"145","41",0,-33.36785,115.0985833,42.5,145,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"146","416",0,-33.6147833,115.2806167,12.3,146,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"147","42",1,-33.5425167,115.3862333,13,147,3,"South-west","Geographe",976.656117,"National Park Zone","II","National Park Zone (IUCN II)",15.2725206762,"1899/12/30","1899/12/30"
+"148","428",1,-33.45045,115.5572167,7.6,148,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"149","432",2,-33.4270333,115.4686,10.7,149,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"150","439",0,-33.6309333,115.2730667,8.4,150,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"151","44",12,-33.3984333,115.30965,34.4,151,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"152","442",3,-33.5066,115.41935,14.3,152,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"153","443",6,-33.5698,115.2024833,27,153,1,"South-west","Geographe",976.656117,"Habitat Protection Zone","IV","Habitat Protection Zone (IUCN IV)",21.0728286984,"1899/12/30","1899/12/30"
+"154","448",7,-33.3965,115.4930667,10.6,154,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"155","45",0,-33.4445667,115.13165,41.1,155,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"156","451",0,-33.41975,115.5529,7.8,156,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"157","455",0,-33.5671333,115.1820333,24.9,157,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"158","458",0,-33.51505,115.50435,6.2,158,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"159","46",0,-33.4028,115.3493,18,159,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"160","463",0,-33.51505,115.50435,24.3,160,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"161","47",1,-33.5485,115.2877667,24.3,161,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"162","474",0,-33.4681167,115.5436,6.8,162,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"163","48",0,-33.40275,115.5133833,17.2,163,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"164","480",0,-33.3475833,115.5777,7.4,164,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"165","49",0,-33.3809167,115.2720667,37.7,165,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"166","490",3,-33.5613,115.3612,13.4,166,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"167","492",1,-33.4637833,115.4974833,14.7,167,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"168","496",4,-33.4851167,115.4752333,15.3,168,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"169","499",1,-33.45165,115.5441167,9.9,169,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"170","5",20,-33.3627833,115.45495,25.7,170,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"171","50",1,-33.4108,115.1742333,40.5,171,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"172","503",0,-33.5845333,115.3097667,16.3,172,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"173","506",42,-33.5173833,115.4165,14.1,173,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"174","51",4,-33.4315667,115.41365,25.4,174,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"175","512",4,-33.5094,115.4873333,10.6,175,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"176","52",0,-33.49265,115.2982,29.7,176,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"177","523",1,-33.5634333,115.1589167,26,177,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"178","527",21,-33.5894167,115.2078167,26.8,178,1,"South-west","Geographe",976.656117,"Habitat Protection Zone","IV","Habitat Protection Zone (IUCN IV)",21.0728286984,"1899/12/30","1899/12/30"
+"179","528",1,-33.48105,115.4971,14,179,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"180","53",0,-33.3582167,115.3565167,31.4,180,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"181","538",0,-33.5839167,115.3846667,11.6,181,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"182","54",26,-33.51305,115.1532,33.1,182,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"183","543",7,-33.5950333,115.2434,16.7,183,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"184","544",6,-33.4464167,115.43405,12.3,184,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"185","55",1,-33.5708667,115.2801167,22.2,185,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"186","551",12,-33.5735167,115.3901333,11.7,186,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"187","554",1,-33.55765,115.3835167,12.3,187,3,"South-west","Geographe",976.656117,"National Park Zone","II","National Park Zone (IUCN II)",15.2725206762,"1899/12/30","1899/12/30"
+"188","56",3,-33.4953,115.2224167,32,188,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"189","560",4,-33.4381667,115.5268667,14.6,189,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"190","567",14,-33.5866833,115.2760167,17.4,190,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"191","570",0,-33.5731333,115.1625333,24.6,191,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"192","572",0,-33.3913,115.5492167,8.1,192,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"193","579",5,-33.5017167,115.37405,22,193,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"194","58",0,-33.56965,115.3795833,13.5,194,3,"South-west","Geographe",976.656117,"National Park Zone","II","National Park Zone (IUCN II)",15.2725206762,"1899/12/30","1899/12/30"
+"195","583",2,-33.47835,115.3932,12,195,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"196","586",1,-33.5309167,115.38595,15.8,196,3,"South-west","Geographe",976.656117,"National Park Zone","II","National Park Zone (IUCN II)",15.2725206762,"1899/12/30","1899/12/30"
+"197","587",17,-33.5934667,115.1873833,16.6,197,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"198","592",0,-33.5185,115.4460167,12.3,198,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"199","599",6,-33.5021167,115.4508,13.9,199,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"200","6",9,-33.4070833,115.1204167,41.8,200,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"201","60",0,-33.3626167,115.5049333,21.5,201,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"202","602",0,-33.6202,115.25615,11.2,202,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"203","608",8,-33.4551833,115.4702833,16.7,203,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"204","61",4,-33.4992833,115.1345167,34.8,204,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"205","611",3,-33.5421333,115.4590333,8.2,205,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"206","615",0,-33.5980667,115.3327667,11.8,206,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"207","618",30,-33.5678833,115.3528167,14.5,207,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"208","62",1,-33.4505,115.3306833,29.3,208,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"209","623",14,-33.6129333,115.1556167,7.8,209,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"210","624",2,-33.4209667,115.4918833,17.5,210,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"211","63",13,-33.50385,115.2562,30,211,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"212","631",5,-33.5778833,115.2541167,21,212,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"213","633",3,-33.4711667,115.4535,16.2,213,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"214","634",2,-33.5336667,115.4141167,13,214,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"215","635",2,-33.5809667,115.1995667,21.2,215,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"216","64",4,-33.4364167,115.50945,14.2,216,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"217","640",2,-33.5162,115.4646167,11.5,217,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"218","647",1,-33.4926,115.42465,15.3,218,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"219","65",0,-33.3597167,115.2047667,39.4,219,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"220","650",2,-33.5131167,115.3715667,21.1,220,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"221","655",11,-33.5812,115.2456833,20.5,221,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"222","656",1,-33.3713167,115.5503833,9,222,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"223","666",41,-33.5511167,115.35715,15.6,223,3,"South-west","Geographe",976.656117,"National Park Zone","II","National Park Zone (IUCN II)",15.2725206762,"1899/12/30","1899/12/30"
+"224","67",6,-33.4783167,115.0859333,39.4,224,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"225","672",1,-33.4004333,115.53565,8.4,225,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"226","679",2,-33.4721333,115.4152667,12,226,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"227","68",0,-33.3881667,115.2426,38.9,227,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"228","682",3,-33.5696167,115.3354167,15.2,228,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"229","684",0,-33.5845333,115.1735,20.6,229,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"230","688",0,-33.6026333,115.3181333,12.8,230,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"231","69",0,-33.3534333,115.4040333,28.7,231,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"232","694",7,-33.5280667,115.34985,21.3,232,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"233","698",10,-33.5246167,115.4035333,14,233,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"234","7",29,-33.4204833,115.4457,23.2,234,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"235","70",2,-33.4158833,115.1513667,41,235,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"236","704",0,-33.48475,115.5324,7.45,236,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"237","71",2,-33.4270833,115.4286667,24.4,237,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"238","711",0,-33.36945,115.5666,8.4,238,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"239","714",16,-33.5792667,115.1468167,21.1,239,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"240","719",8,-33.6009667,115.23245,26.3,240,1,"South-west","Geographe",976.656117,"Habitat Protection Zone","IV","Habitat Protection Zone (IUCN IV)",21.0728286984,"1899/12/30","1899/12/30"
+"241","72",14,-33.4624833,115.32235,29.4,241,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"242","720",1,-33.3599,115.58345,8.2,242,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"243","73",0,-33.3718,115.1456,41.5,243,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"244","735",0,-33.5620333,115.1433167,26.7,244,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"245","736",2,-33.3850833,115.5606333,8.2,245,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"246","746",0,-33.5794333,115.3570667,13.2,246,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"247","748",0,-33.3695667,115.5138333,11.1,247,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"248","75",4,-33.5893333,115.29455,16.6,248,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"249","752",1,-33.3765667,115.5914167,6.2,249,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"250","755",1,-33.43385,115.4571167,11.3,250,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"251","759",51,-33.5759,115.3173333,17.3,251,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"252","76",0,-33.41295,115.2846833,35.2,252,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"253","762",8,-33.5198667,115.4149,13,253,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"254","764",2,-33.3744333,115.49605,11.6,254,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"255","77",13,-33.45575,115.1029,40.8,255,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"256","779",6,-33.5817167,115.2263667,19,256,1,"South-west","Geographe",976.656117,"Habitat Protection Zone","IV","Habitat Protection Zone (IUCN IV)",21.0728286984,"1899/12/30","1899/12/30"
+"257","78",1,-33.5076,115.4437667,13.4,257,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"258","782",3,-33.5142,115.4368333,13.7,258,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"259","783",3,-33.5817167,115.2263667,21.5,259,1,"South-west","Geographe",976.656117,"Habitat Protection Zone","IV","Habitat Protection Zone (IUCN IV)",21.0728286984,"1899/12/30","1899/12/30"
+"260","784",12,-33.6014333,115.1773667,13.4,260,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"261","79",0,-33.5874,115.2308833,18.5,261,1,"South-west","Geographe",976.656117,"Habitat Protection Zone","IV","Habitat Protection Zone (IUCN IV)",21.0728286984,"1899/12/30","1899/12/30"
+"262","791",31,-33.4851333,115.4435167,15,262,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"263","794",0,-33.6248167,115.2039333,7.4,263,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"264","80",0,-33.3515833,115.5195333,20.7,264,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"265","800",11,-33.5731667,115.1934833,22.9,265,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"266","807",1,-33.494,115.4907,14,266,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"267","81",0,-33.3788167,115.23045,38.9,267,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"268","810",2,-33.5513333,115.3766,14.3,268,3,"South-west","Geographe",976.656117,"National Park Zone","II","National Park Zone (IUCN II)",15.2725206762,"1899/12/30","1899/12/30"
+"269","816",0,-33.3996,115.56325,7.9,269,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"270","82",0,-33.3955167,115.1102833,42.6,270,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"271","823",5,-33.5857333,115.2872167,16.2,271,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"272","826",25,-33.5426833,115.4005833,12.8,272,3,"South-west","Geographe",976.656117,"National Park Zone","II","National Park Zone (IUCN II)",15.2725206762,"1899/12/30","1899/12/30"
+"273","828",1,-33.4174667,115.5295667,7.6,273,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"274","83",0,-33.46935,115.37905,24.6,274,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"275","832",0,-33.4556167,115.5196833,12.6,275,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"276","839",0,-33.4873,115.4085,20,276,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"277","84",12,-33.3964667,115.1924,41,277,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"278","842",48,-33.5681167,115.11485,22.3,278,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"279","843",12,-33.5999833,115.2586,14.6,279,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"280","848",2,-33.35185,115.5323,10.4,280,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"281","855",4,-33.4901,115.4357667,15.2,281,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"282","858",53,-33.5573167,115.3461833,16.6,282,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"283","86",0,-33.5405167,115.1785167,28.6,283,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"284","864",0,-33.58325,115.3720667,12.4,284,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"285","87",2,-33.4896,115.4589333,13,285,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"286","879",0,-33.6168833,115.1828667,8.1,286,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"287","88",0,-33.5010667,115.2145333,31.4,287,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"288","880",2,-33.53655,115.4444,10.9,288,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"289","89",0,-33.3828167,115.0563833,43.9,289,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"290","9",11,-33.3643333,115.1361167,41.8,290,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"291","90",14,-33.5333167,115.3224833,22,291,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"292","91",0,-33.5396,115.2060833,29.8,292,1,"South-west","Geographe",976.656117,"Habitat Protection Zone","IV","Habitat Protection Zone (IUCN IV)",21.0728286984,"1899/12/30","1899/12/30"
+"293","92",0,-33.4175833,115.3149833,33,293,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"294","93",0,-33.4813167,115.15275,36,294,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"295","95",17,-33.5175,115.3155333,24.9,295,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"296","96",0,-33.4489,115.4808167,15.9,296,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"297","97",20,-33.38465,115.2926667,35.6,297,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"298","98",7,-33.434,115.1726667,38,298,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"299","99",4,-33.3953,115.3990167,15.4,299,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"300","GBR-BOB",31,-33.59235,115.2205667,16.7,300,1,"South-west","Geographe",976.656117,"Habitat Protection Zone","IV","Habitat Protection Zone (IUCN IV)",21.0728286984,"1899/12/30","1899/12/30"
+"301","GBR1-1",26,-33.5936167,115.19625,17.3,301,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"302","GBR1-2",18,-33.5936,115.1995333,16,302,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"303","GBR1-3",21,-33.5937833,115.2022833,15.8,303,1,"South-west","Geographe",976.656117,"Habitat Protection Zone","IV","Habitat Protection Zone (IUCN IV)",21.0728286984,"1899/12/30","1899/12/30"
+"304","GBR1-4",14,-33.59345,115.2055167,16.8,304,1,"South-west","Geographe",976.656117,"Habitat Protection Zone","IV","Habitat Protection Zone (IUCN IV)",21.0728286984,"1899/12/30","1899/12/30"
+"305","GBR2-1",46,-33.5938333,115.19065,17.7,305,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"306","GBR2-2",28,-33.5940167,115.1883833,16.2,306,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"307","GBR2-3",27,-33.5940667,115.1864833,16.4,307,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"308","GBR2-4",22,-33.59365,115.193,16.2,308,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"309","GBR3-1",12,-33.5944667,115.1819333,17.6,309,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"310","GBR3-2",3,-33.59365,115.193,17.9,310,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"311","GBR3-3",14,-33.59365,115.1839667,17,311,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"312","GBR3-4",9,-33.5938667,115.1851,16.6,312,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"313","GBR4-1",6,-33.5933333,115.2080833,16.1,313,1,"South-west","Geographe",976.656117,"Habitat Protection Zone","IV","Habitat Protection Zone (IUCN IV)",21.0728286984,"1899/12/30","1899/12/30"
+"314","GBR4-2",7,-33.5928333,115.2102333,16.3,314,1,"South-west","Geographe",976.656117,"Habitat Protection Zone","IV","Habitat Protection Zone (IUCN IV)",21.0728286984,"1899/12/30","1899/12/30"
+"315","GBR5-1",25,-33.5932167,115.2119333,16.2,315,1,"South-west","Geographe",976.656117,"Habitat Protection Zone","IV","Habitat Protection Zone (IUCN IV)",21.0728286984,"1899/12/30","1899/12/30"
+"316","GBR5-2",29,-33.5927333,115.2148,16.6,316,1,"South-west","Geographe",976.656117,"Habitat Protection Zone","IV","Habitat Protection Zone (IUCN IV)",21.0728286984,"1899/12/30","1899/12/30"
+"317","GBR5-3",17,-33.5924167,115.2175167,16.4,317,1,"South-west","Geographe",976.656117,"Habitat Protection Zone","IV","Habitat Protection Zone (IUCN IV)",21.0728286984,"1899/12/30","1899/12/30"
+"318","RB1",0,-33.53455,115.2176667,28,318,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"319","RB2",0,-33.5085667,115.2254833,30,319,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"320","RC1",16,-33.4628,115.23995,34.2,320,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
+"321","RC2",9,-33.48635,115.1780333,34.3,321,4,"South-west","Geographe",976.656117,"Multiple Use Zone","VI","Multiple Use Zone (IUCN VI)",290.727537771,"1899/12/30","1899/12/30"
+"322","RC3",5,-33.4704833,115.1684167,35,322,2,"South-west","Geographe",976.656117,"Special Purpose Zone (Mining Exclusion)","VI","Special Purpose Zone (Mining Exclusion) (IUCN VI)",649.583230249,"1899/12/30","1899/12/30"
