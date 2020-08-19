@@ -1110,10 +1110,11 @@ names(dfall)
 levels(dfall$ZoneName)
 dfall$CvI <- ifelse(dfall$ZoneName=="Multiple Use Zone", "Impact", "Control")
 head(dfall)
+dfall
 
 #### Save mean data for epower ----
 
-write.csv(fall, paste(tidy.dir, paste(study, s, "MUZ-epower.csv", sep='-'), sep='/'))
+write.csv(dfall, paste(tidy.dir, paste(study, s, "MUZ-epower.csv", sep='-'), sep='/'))
 
 
 
@@ -1307,10 +1308,11 @@ names(dfall)
 levels(dfall$ZoneName)
 dfall$CvI <- ifelse(dfall$ZoneName=="Special Purpose Zone (Mining Exclusion)", "Impact", "Control")
 head(dfall)
+dfall
 
 #### Save mean data for epower ----
 
-write.csv(fall, paste(tidy.dir, paste(study, s, "SPZ-epower.csv", sep='-'), sep='/'))
+write.csv(dfall, paste(tidy.dir, paste(study, s, "SPZ-epower.csv", sep='-'), sep='/'))
 
 
 

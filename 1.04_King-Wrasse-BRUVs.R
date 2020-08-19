@@ -110,7 +110,7 @@ str(df)# 243 ob
 
 # Remove unwanted columns
 names(df)
-df <- df[, c(3:5,9:12,15,26)]
+#df <- df[, c(3:5,9:12,15,26)]
 df <- df %>%
   dplyr::select(sample, maxn, latitude, longitude, depth, ZoneName) %>%
   glimpse()
@@ -1037,6 +1037,7 @@ levels(dfn$ZoneNam)
 
 dfn1 <- dfn
 names(dfn1)
+str(dfn1)
 
 # T1 --
 f1 <- dfn1
@@ -1070,6 +1071,7 @@ write.csv(fall, paste(tidy.dir, paste(study, s, "MUZ-All-epower.csv", sep='-'), 
 
 dfn1 <- dfn
 names(dfn1)
+str(dfn1)
 
 # T1 --
 
@@ -1124,7 +1126,7 @@ head(dfall)
 
 #### Save mean data for epower ----
 
-write.csv(fall, paste(tidy.dir, paste(study, s, "MUZ-epower.csv", sep='-'), sep='/'))
+write.csv(dfall, paste(tidy.dir, paste(study, s, "MUZ-epower.csv", sep='-'), sep='/'))
 
 
 
@@ -1233,6 +1235,7 @@ names(dfn1)
 
 #dfn1 <- dfn
 names(dfn1)
+str(dfn1)
 
 # T1 --
 f1 <- dfn1
@@ -1321,7 +1324,7 @@ head(dfall)
 
 #### Save mean data for epower ----
 
-write.csv(fall, paste(tidy.dir, paste(study, s, "SPZ-epower.csv", sep='-'), sep='/'))
+write.csv(dfall, paste(tidy.dir, paste(study, s, "SPZ-epower.csv", sep='-'), sep='/'))
 
 
 
