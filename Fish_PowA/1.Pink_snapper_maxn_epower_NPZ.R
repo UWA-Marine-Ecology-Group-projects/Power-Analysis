@@ -37,14 +37,15 @@ gb <- readOGR(paste(s.dir, "GeoBay.shp", sep='/'))
 plot(gb)
 
 # Set File to use ----
-f <- "2014-12_Geographe.Bay_stereoBRUVs.king.wrasse.maxn.csv"
+dir(raw.dir)
+f <- "2014-12_Geographe.Bay_stereoBRUVs.pink.snapper.maxn.csv"
 
 # Study name----
 
 study <- "stereo-BRUVs"
 
 # set species name
-s <- "king-wrasse"
+s <- "pink.snapper"
 
 ## read fish data ----
 # these files already have lat and long

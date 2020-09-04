@@ -91,11 +91,11 @@ points(fcsp, col=fcsp$clust)
 levels(fclust$clust)
 
 # Remove unnecessary clusters ----
-# for NPZ I only need 1, 4, 27
+# for NPZ I only need 2,5,8
 
-fclustp <- fclust[fclust$clust == '1' | fclust$clust == '4' | fclust$clust == '27',  ]
+fclustp <- fclust[fclust$clust == '2' | fclust$clust == '5' | fclust$clust == '8',  ]
 head(fclustp)
-str(fclustp) # 31 obs
+str(fclustp) # 44 obs
 fclustp <- droplevels(fclustp)
 summary(fclustp)
 levels(fclustp$clust)
@@ -107,15 +107,15 @@ cl <- split(fclustp, fclustp$clust)
 cl
 
 # Add time to each cluster
-# Cluster 1
-t1 <- rep(c("T1", "T2","T3"), times = c(3,3,3))
-cl$`1`$time <- sample(t1) # use sample to randomize the order of time
-# Cluster 4
-t2 <- rep(c("T1", "T2","T3"), times = c(4,3,3))
-cl$`4`$time <- sample(t2)
-# Cluster 27
-t3 <- rep(c("T1", "T2","T3"), times = c(4,4,4))
-cl$`27`$time <- sample(t3)
+# Cluster 2
+t1 <- rep(c("T1", "T2","T3"), times = c(8,7,7))
+cl$`2`$time <- sample(t1) # use sample to randomize the order of time
+# Cluster 5
+t2 <- rep(c("T1", "T2","T3"), times = c(4,4,3))
+cl$`5`$time <- sample(t2)
+# Cluster 8
+t3 <- rep(c("T1", "T2","T3"), times = c(4,4,3))
+cl$`8`$time <- sample(t3)
 
 # rejoin them into one df --
 
@@ -130,7 +130,7 @@ head(clf)
  
 # Make control impact column ----
 levels(clf$clust)
-clf$CvI <- ifelse(clf$clust=="1", "Impact", "Control")
+clf$CvI <- ifelse(clf$clust=="2", "Impact", "Control")
 head(clf)
 str(clf)
 clf$Period <- as.factor(clf$Period)
@@ -138,4 +138,4 @@ clf$CvI <- as.factor(clf$CvI)
 str(clf)
 
 #### Save data for epower ----
-write.csv(clf, paste(tidy.dir, paste(study, s, "NPZ_epower.csv", sep='-'), sep='/'))
+write.csv(clf, paste(tidy.dir, paste(study, s, "HPZ_epower.csv", sep='-'), sep='/'))
