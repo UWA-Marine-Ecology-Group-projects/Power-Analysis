@@ -30,7 +30,7 @@ rm(list=ls()) #clear memory
 
 # Study name----
 
-study <- "stereo-BRUVs"
+study <- "AUV"
 
 # Set work directory----
 w.dir <- dirname(rstudioapi::getActiveDocumentContext()$path) # sets working directory to where this script is saved (DON't MOVE)
@@ -83,13 +83,13 @@ names(cc)
 # read BRUV data for fish ----
 dir(d.dir)
 
-h <- "stereo-BRUVs_detailed.percent.cover.csv"
+h <- "auv_detailed.percent.cover.csv"
 
 hab <- read.csv(paste(d.dir, h, sep ='/')) 
   #%>% dplyr::select(sample,maxn,latitude, longitude, depth) %>% # Select columns to keep
   #glimpse()
 
-str(hab) # 388 obs
+str(hab) # 1752 obs
 head(hab)
 
 # test for NAs --
@@ -103,46 +103,51 @@ names(hab)
 # make new class of strap-like leaves that does not include posidonia, amphobolis or zostera --
 hab$strap.like <- hab$Strap.like.leaves-(hab$Amphibolis+hab$Posidonia+hab$Zostera)
 # make new class of macroalgae leaves that does not include turf, branching or large canopy --
-hab$macroalgaeother <- hab$Macroalgae-(hab$Turf.algae+hab$Erect.coarse.branching+hab$Erect.finebranching+hab$Large.canopy.forming)
+hab$macroalgaeother <- hab$Macroalgae-(hab$Turf.algae+hab$Erect.coarse.branching+hab$Erect.fine.branching+hab$Large.canopy.forming)
 # remove macroalgae, stralike.leaves and large canopy
-hab <- hab[,-c(5,9,13)]
+names(hab)
+hab <- hab[,-c(5,10,14)]
 names(hab)
 head(hab)
    
 
-# Merge sample to cluster so each sample has a cluster number ----
+# AUV no clusters but grids ----
 
-# merge fwide with c --
-fclust <- merge(hab, ccdf, by = "sample")
-names(fclust)
-str(fclust) # 134 obs
-levels(fclust$clust)
-any(is.na(fclust))
+str(hab)
+levels(hab$campaignid)
 
-# Save fish data by clusters ----
-#write.csv(fclust, paste(d.dir, "GB_hab_BRUV_cluster.csv", sep='/'))
+# join campaignid 2 and 2-exp
+levels(hab$campaignid)[levels(hab$campaignid)=="r20150527_081513_wa-gb-auv-02-exp"] <- "r20150526_035926_wa-gb-auv-02"
+levels(hab$campaignid) # 13 levels
+str(hab)
+
+# Rename all levels
+levels(hab$campaignid) <- c("G1", "G2", "G3", "G6","G5","G4", "G10", "G9", "G11", "G13", "G12", "G14", "G15")
+head(hab)
+
+# Save hab data by campaignid/grid ----
+#write.csv(hab, paste(d.dir, "GB_hab_AUV_grid.csv", sep='/'))
 
 ####    Multivariate    ----
 
 # Load hab data ----
 
-f <- read.csv(paste(d.dir, "GB_hab_BRUV_cluster.csv", sep='/'))
+f <- read.csv(paste(d.dir, "GB_hab_AUV_grid.csv", sep='/'))
 
-# strap like leaves separate --
+
 # Euclidian ----
 names(f)
 str(f)
 head(f)
-f$clust <- as.factor(f$clust)
 
-hab <- f[,-c(1:5,16)]
+hab <- f[,-c(1:5)]
 hab
 
 # euclidean distance --
 f.diste <- vegdist(hab, method = "euclidean", diag=FALSE, upper=FALSE, na.rm = FALSE)
 f.diste
 # NMDS --
-fb.mds <- metaMDS(f.diste, distance="bray", k=2, trymax = 50, trace=FALSE, plot =T)
+fb.mds <- metaMDS(f.diste,  k=2, trymax = 20, trace=FALSE, plot =T)
 fb.mds
 
 # plot w ggplot ----
@@ -154,29 +159,21 @@ fb.plot<-cbind(f[-c(1:5,16)], nmdsb1, nmdsb2, cluster= f[,16])
 fb.plot
 fb.plot$cluster <- as.factor(fb.plot$cluster)
 
-hpca2 <- PCA(f[,-c(1:5)], quali.sup= 11, graph = T)
-hpca <- PCA(f.diste, graph = T)# plot ordination
+#hpca2 <- PCA(f[,-c(1:5)], quali.sup= 11, graph = T)
+#hpca <- PCA(f.diste, graph = T)# plot ordination
 
-hpca2 <- PCA(f[,-c(1:5)], quali.sup= 11, graph = T)
+hpca2 <- PCA(f[,-c(1,3:5)], quali.sup= 1, graph = T)
 
-
-fviz_pca_ind(hpca,
-             geom.ind = "point", # show points only (nbut not "text")
-             col.ind = f$clust, # color by groups
-             palette = c("#FF0000", "#000000", "#FF9900", "#990000", "#33FF00", "#009933", "#3399FF", 
-                         "#0000CC", "#FF66CC", "#660066", "#00FFFF"),
-             addEllipses = TRUE, # Concentration ellipses
-             legend.title = "Groups"
-)
 
 fviz_pca_ind(hpca2,
              geom.ind = "point", # show points only (nbut not "text")
-             col.ind = f$clust, # color by groups
+             col.ind = f$campaignid, # color by groups
              palette = c("#FF0000", "#000000", "#FF9900", "#990000", "#33FF00", "#009933", "#3399FF", 
-                         "#0000CC", "#FF66CC", "#660066", "#00FFFF"),
+                         "#0000CC", "#FF66CC", "#660066", "#00FFFF", "#FFFF00", "#996666"),
              addEllipses = TRUE, # Concentration ellipses
              legend.title = "Groups"
 )
+
 
 
 
@@ -194,20 +191,20 @@ pb
 names(f)
 str(f)
 head(f)
-f$clust <- as.factor(f$clust)
+
 
 # add strap like leves to Posidonia --
 f$Posidonia <- f$Posidonia + f$strap.like
 names(f)
 # remove strap like --
-f <- f[,-14]
+f <- f[,-13]
 names(f)
 
-hab <- f[,-c(1:5,15)]
-hab
+hab2 <- f[,-c(1:5)]
+hab2
 
 # euclidean distance --
-f.diste <- vegdist(hab, method = "euclidean", diag=FALSE, upper=FALSE, na.rm = FALSE)
+f.diste <- vegdist(hab2, method = "euclidean", diag=FALSE, upper=FALSE, na.rm = FALSE)
 f.diste
 # NMDS --
 fb.mds <- metaMDS(f.diste, k=2, trymax = 50, trace=FALSE, plot =T)
@@ -223,14 +220,14 @@ fb.plot
 fb.plot$cluster <- as.factor(fb.plot$cluster)
 
 
-hpca <- PCA(f[,-c(1:5)], quali.sup= 10, graph = T)
+hpca <- PCA(f[,-c(1,3:5)], quali.sup= 1, graph = T)
 
 
 fviz_pca_ind(hpca,
              geom.ind = "point", # show points only (nbut not "text")
-             col.ind = f$clust, # color by groups
+             col.ind = f$campaignid, # color by groups
              palette = c("#FF0000", "#000000", "#FF9900", "#990000", "#33FF00", "#009933", "#3399FF", 
-                         "#0000CC", "#FF66CC", "#660066", "#00FFFF"),
+                         "#0000CC", "#FF66CC", "#660066", "#00FFFF", "#FFFF00", "#996666"),
              addEllipses = TRUE, # Concentration ellipses
              legend.title = "Groups"
 )
