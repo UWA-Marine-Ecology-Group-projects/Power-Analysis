@@ -152,6 +152,8 @@ fb.plot$cluster <- as.factor(fb.plot$cluster)
 pb<-ggplot(fb.plot, aes(nmdsb1, nmdsb2, color=cluster))+
   geom_point(position=position_jitter(.1), shape=16)+##separates overlapping points
   stat_ellipse(type='t',size =1)+ ##draws 95% confidence interval ellipses
+  scale_colour_manual(values = c("#FF0000", "#000000", "#FF9900", "#990000", "#33FF00", "#009933", "#3399FF", 
+                                 "#0000CC", "#FF66CC", "#660066", "#00FFFF")) +
   theme_minimal()
 pb
 
@@ -169,6 +171,8 @@ fg.plot$cluster <- as.factor(fg.plot$cluster)
 pg<-ggplot(fg.plot, aes(nmdsg1, nmdsg2, color=cluster))+
   geom_point(position=position_jitter(.1), shape=16)+##separates overlapping points
   stat_ellipse(type='t',size =1)+ ##draws 95% confidence interval ellipses
+  scale_colour_manual(values = c("#FF0000", "#000000", "#FF9900", "#990000", "#33FF00", "#009933", "#3399FF", 
+                                 "#0000CC", "#FF66CC", "#660066", "#00FFFF")) +
   theme_minimal()
 pg
 
