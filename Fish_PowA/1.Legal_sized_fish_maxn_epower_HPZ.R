@@ -46,7 +46,7 @@ f <- "2014-12_Geographe.Bay_stereoBRUVs.legal.sized.pink.snapper.csv"
 study <- "stereo-BRUVs"
 
 # set species name
-s <- "Legal sized Pink snapper"
+s <- "Legal sized fish"
 
 ## read fish data ----
 # these files already have lat and long
@@ -96,9 +96,9 @@ points(fcsp, col=fcsp$clust)
 levels(fclust$clust)
 
 # Remove unnecessary clusters ----
-# for HPZ I only need 2,5,8
+# for HPZ I only need 2,4,5,25
 
-fclustp <- fclust[fclust$clust == '2' | fclust$clust == '5' | fclust$clust == '8',  ]
+fclustp <- fclust[fclust$clust == '2' | fclust$clust == '4' | fclust$clust == '5' | fclust$clust == '25',  ]
 head(fclustp)
 str(fclustp) # 44 obs
 fclustp <- droplevels(fclustp)
@@ -116,11 +116,14 @@ cl
 t1 <- rep(c("T1", "T2","T3"), times = c(8,7,7))
 cl$`2`$time <- sample(t1) # use sample to randomize the order of time
 # Cluster 4
-t2 <- rep(c("T1", "T2","T3"), times = c(4,4,3))
-cl$`5`$time <- sample(t2)
-# Cluster 27
-t3 <- rep(c("T1", "T2","T3"), times = c(4,4,3))
-cl$`8`$time <- sample(t3)
+t2 <- rep(c("T1", "T2","T3"), times = c(4,3,3))
+cl$`4`$time <- sample(t2)
+# Cluster 5
+t2.1 <- rep(c("T1", "T2","T3"), times = c(4,4,3))
+cl$`5`$time <- sample(t2.1)
+# Cluster 25
+t3 <- rep(c("T1", "T2","T3"), times = c(4,3,3))
+cl$`25`$time <- sample(t3)
 
 # rejoin them into one df --
 
@@ -143,4 +146,4 @@ clf$CvI <- as.factor(clf$CvI)
 str(clf)
 
 #### Save data for epower ----
-write.csv(clf, paste(tidy.dir, paste(study, s, "HPZ_epower.csv", sep='-'), sep='/'))
+write.csv(clf, paste(tidy.dir, paste(study, s, "HPZ_epower2.csv", sep='-'), sep='/'))
