@@ -92,9 +92,9 @@ points(fcsp, col=fcsp$clust)
 levels(fclust$clust)
 
 # Remove unnecessary clusters ----
-# for NPZ I only need 1, 4, 27
+# for NPZ I only need 1, 3, 4, 27
 
-fclustp <- fclust[fclust$clust == '1' | fclust$clust == '4' | fclust$clust == '27',  ]
+fclustp <- fclust[fclust$clust == '1' | fclust$clust == '3' | fclust$clust == '4' | fclust$clust == '27',  ]
 head(fclustp)
 str(fclustp) # 31 obs
 fclustp <- droplevels(fclustp)
@@ -111,6 +111,9 @@ cl
 # Cluster 1
 t1 <- rep(c("T1", "T2","T3"), times = c(3,3,3))
 cl$`1`$time <- sample(t1) # use sample to randomize the order of time
+# Cluster 3
+t1.1 <- rep(c("T1", "T2","T3"), times = c(5,5,5))
+cl$`3`$time <- sample(t1.1) # use sample to randomize the order of time
 # Cluster 4
 t2 <- rep(c("T1", "T2","T3"), times = c(4,3,3))
 cl$`4`$time <- sample(t2)
@@ -139,4 +142,4 @@ clf$CvI <- as.factor(clf$CvI)
 str(clf)
 
 #### Save data for epower ----
-write.csv(clf, paste(tidy.dir, paste(study, s, "NPZ_epower.csv", sep='-'), sep='/'))
+write.csv(clf, paste(tidy.dir, paste(study, s, "NPZ_epower2.csv", sep='-'), sep='/'))

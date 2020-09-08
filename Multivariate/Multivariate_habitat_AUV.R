@@ -140,6 +140,17 @@ names(f)
 str(f)
 head(f)
 
+# remove grids from SPZ --
+levels(f$campaignid)
+f <- f[f$campaignid!="G9",]
+f <- f[f$campaignid!="G10",]
+f <- f[f$campaignid!="G11",]
+f <- f[f$campaignid!="G12",]
+f <- f[f$campaignid!="G13",]
+f <- f[f$campaignid!="G14",]
+f <- f[f$campaignid!="G15",]
+f <- droplevels(f)
+
 hab <- f[,-c(1:5)]
 hab
 
@@ -168,8 +179,9 @@ hpca2 <- PCA(f[,-c(1,3:5)], quali.sup= 1, graph = T)
 fviz_pca_ind(hpca2,
              geom.ind = "point", # show points only (nbut not "text")
              col.ind = f$campaignid, # color by groups
-             palette = c("#FF0000", "#000000", "#FF9900", "#990000", "#33FF00", "#009933", "#3399FF", 
-                         "#0000CC", "#FF66CC", "#660066", "#00FFFF", "#FFFF00", "#996666"),
+             #palette = c("#FF0000", "#000000", "#FF9900", "#990000", "#33FF00", "#009933", "#3399FF", 
+                         #"#0000CC", "#FF66CC", "#660066", "#00FFFF", "#FFFF00", "#996666"),
+             palette = c("#FFFF00", "#FF0000", "#00CC00", "#0000FF", "#000000", "#33FFFF"),
              addEllipses = TRUE, # Concentration ellipses
              legend.title = "Groups"
 )
@@ -191,6 +203,7 @@ pb
 names(f)
 str(f)
 head(f)
+levels(f$campaignid)
 
 
 # add strap like leves to Posidonia --
@@ -226,8 +239,9 @@ hpca <- PCA(f[,-c(1,3:5)], quali.sup= 1, graph = T)
 fviz_pca_ind(hpca,
              geom.ind = "point", # show points only (nbut not "text")
              col.ind = f$campaignid, # color by groups
-             palette = c("#FF0000", "#000000", "#FF9900", "#990000", "#33FF00", "#009933", "#3399FF", 
-                         "#0000CC", "#FF66CC", "#660066", "#00FFFF", "#FFFF00", "#996666"),
+             #palette = c("#FF0000", "#000000", "#FF9900", "#990000", "#33FF00", "#009933", "#3399FF", 
+              #           "#0000CC", "#FF66CC", "#660066", "#00FFFF", "#FFFF00", "#996666"),
+             palette = c("#FFFF00", "#FF0000", "#00CC00", "#0000FF", "#000000", "#33FFFF"),
              addEllipses = TRUE, # Concentration ellipses
              legend.title = "Groups"
 )
