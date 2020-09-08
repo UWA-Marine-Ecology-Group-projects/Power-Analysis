@@ -38,65 +38,46 @@ gb <- readOGR(paste(s.dir, "GeoBay.shp", sep='/'))
 plot(gb)
 
 # Set File to use ----
-dir(raw.dir)
-f <- "2014-12_Geographe.Bay_stereoBRUVs.legal.sized.pink.snapper.csv"
+f.dir <- "Y:/Power-Analysis/Multivariate/data"
+dir(f.dir)
+f <- "GB_fish_cluster.csv"
 
 # Study name----
 
 study <- "stereo-BRUVs"
 
 # set species name
-s <- "Legal sized Pink snapper"
+s <- "species richness"
 
 ## read fish data ----
 # these files already have lat and long
 
-fish <- read.csv(paste(raw.dir, f, sep ='/')) %>%
+fish <- read.csv(paste(f.dir, f, sep ='/')) %>%
   #dplyr::select(sample,maxn,latitude, longitude, depth) %>% # Select columns to keep
   glimpse()
 
-str(fish) # 644 obs
+str(fish) # 135 obs
 head(fish)
 
 # test for NAs --
 any(is.na(fish))
 
 # from long to wide ----
-fishw <- dcast(fish, sample ~ legal, value.var = 'number')
-head(fishw)
-str(fishw) # 322 obs
+#fishw <- dcast(fish, sample ~ legal, value.var = 'number')
+#head(fishw)
+#str(fishw) # 322 obs
 
-# counts to presence-absence --
-fishw$legalpa <- 1 * (fishw$legal > 0)
-head(fishw)
+# species counts to species richness --
 
+fclust <- fish %>%
+  dplyr::mutate(Richness = apply(.[3:160] > 0, 1, sum)) %>%
+  dplyr::select(Sample, clust, Richness)
 
-## read clusters to match to fish sample ----
-dir(tidy.dir)
-
-clusterdf <- "GB_fish_cluster_coords.csv"
-
-clusters <- read.csv(paste(tidy.dir, clusterdf, sep ='/')) # 145 obs
-str(clusters)
-clusters$clust <- as.factor(clusters$clust)
-names(clusters)
-# remove unnecessary columns --
-clusters <- clusters[,-6]
-head(clusters)
-# make sample the same as in fish df --
-names(clusters) <- c("X",   "sample", "clust", "lon", "lat")
-names(clusters)
-
-# Match clusters to samples number ----
-fclust <- merge(fishw, clusters, by='sample')
 head(fclust)
-str(fclust) #135 obs
-any(is.na(fclust))
-# check on map
-fcsp <- fclust
-coordinates(fcsp) <- ~lon+lat
-points(fcsp, col=fcsp$clust)
-levels(fclust$clust)
+str(fclust)
+fclust$clust <- as.factor(fclust$clust)
+
+
 
 # Remove unnecessary clusters ----
 # for NPZ I only need 1, 3, 4, 27
@@ -121,8 +102,8 @@ summary(fclustp)
 t1 <- rep(c("T1", "T2","T3"), times = c(3,3,3))
 cl$`1`$time <- sample(t1) # use sample to randomize the order of time
 # Cluster 3
-t2.1 <- rep(c("T1", "T2","T3"), times = c(5,5,5))
-cl$`3`$time <- sample(t2.1)
+t1.1 <- rep(c("T1", "T2","T3"), times = c(5,5,5))
+cl$`3`$time <- sample(t1.1) # use sample to randomize the order of time
 # Cluster 4
 t2 <- rep(c("T1", "T2","T3"), times = c(4,3,3))
 cl$`4`$time <- sample(t2)
