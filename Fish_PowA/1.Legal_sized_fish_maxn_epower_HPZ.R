@@ -39,7 +39,7 @@ plot(gb)
 
 # Set File to use ----
 dir(raw.dir)
-f <- "2014-12_Geographe.Bay_stereoBRUVs.legal.sized.pink.snapper.csv"
+f <- "2014-12_Geographe.Bay_stereoBRUVs.legal.sized.fish.csv"
 
 # Study name----
 
