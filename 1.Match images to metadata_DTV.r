@@ -13,6 +13,7 @@ library(tidyr)
 library(readr)
 library(stringr)
 library(readr)
+library(reshape2)
 
 # Clear memory ----
 rm(list=ls())
@@ -54,6 +55,16 @@ f2 <- "UWA Downwards Facing Catami.csv"
 
 codes <- read.csv(paste(raw.dir, f2, sep='/'))
 head(codes)
+#simplify clsses
+codes$c1 <- gsub(": ", ".", codes$DESCRIPTION) # remove : and spaces
+codes$c2 <- gsub(". ", ".", codes$c1)
+codes$c3 <- gsub(" ", ".", codes$c2)
+codes$CLASS <- gsub("\\s*\\([^\\)]+\\)","", codes$c3) # remove parenthesis and content within
+
+#remove unwanted columns
+names(codes)
+codes <- codes[,c(1,7)]
+
 
 # DTV metadata --
 dir(raw.dir)
@@ -63,55 +74,66 @@ mdata <- read.csv(paste(raw.dir, f3, sep='/'))
 head(mdata)
 str(mdata) # 5177 obs = images
 
-## 1. ReefCloud to percent cover ----
+## 1. CODES to CLASSES ----
+str(codes) # 731 obs - codes
 
-dtv <- dtv %>% 
-  tidyr::separate(image_path, into = c("surveys", "institution", "id1", "id2", "image"), sep = "/") %>% 
-  dplyr::rename(class = human_classification) %>% # change from human_class into class
+str(dtv) # 129425 obs
+
+names(dtv) <- c("image_path",           "point_num",            "CODE")
+
+
+df2 <- merge(dtv, codes, by = "CODE", all.x=T)
+head(df2)
+str(df2) # 129,425 obs
+dtv <- df2 %>%
+  dplyr::select(CODE, image_path, point_num, CLASS) %>% # columns to keep
+  dplyr::mutate_if(is.character, as.factor) %>% # several cols into factors
+  tidyr::separate(image_path, into = c("surveys", "institution", "id1", "id2", "image"), sep = "/") %>%
   dplyr::mutate(image = as.factor(image)) %>%
-  glimpse()
+  tidyr::separate(image, into = c("image", "type"), sep = ".j") %>% # remove the .jpeg
+  dplyr::select(-c(surveys, institution, id1, id2, type)) %>%
+  glimpse # Rows: 129,425
+
+
+
+## 2. ReefCloud to percent cover ----
 
 str(dtv)
 head(dtv)
+names(dtv)
 
+# catami point score ----
 
-
-# CREATE catami point score ----
-
-unique(dtv$class)%>%sort()
+unique(dtv$CLASS)%>%sort()
 
 point.score <- dtv %>%
   distinct()%>%
-  #dplyr::select(-point_num) %>%
-  filter(!class%in%c("", NA, "U")) %>% # remove unwanted classes: U=unscorable
-  mutate(count = 1) %>%
+  dplyr::select(-CODE) %>%  # remove CODE column
+  filter(!CLASS%in%c("", NA, "Unscorable", "Fishes", "Fishes: Bony Fishes")) %>% # remove unwanted classes: U=unscorable
+  mutate(count = 1) %>% # give them all value of 1
   dplyr::group_by(image) %>%
-  spread(key = class, value = count, fill=0) %>%
-  dplyr::select(-c(surveys, institution, id1, id2)) %>%
+  #tidyr::spread(key = CLASS, value = count, fill=0) %>% # to wide format
+  tidyr::pivot_wider(names_from = CLASS, values_from = count, values_fill=0) %>%
   ungroup() %>%
   dplyr::group_by(image) %>%
   dplyr::summarise_all(funs(sum)) %>%
-  ungroup()
+  ungroup() %>%
+  dplyr::select(-point_num) %>%
+  glimpse
 
 
-head(point.score)
+head(point.score) # in wide format now
 names(point.score)
 str(point.score) # 5024 obs - 5177 levels for image
 point.score <- droplevels(point.score) #  5024 levels
 str(point.score) # 5024 levels for image
 
-# calculate % cover ---- UP TO HERE
+# calculate % cover ---- 
 percent.cover <- point.score %>%
-  tidyr::separate(image, into = c("image.id", "type"), sep = ".j") %>% # remove the .jpeg
-  dplyr::select(-c(point_num, type)) %>%
-  mutate(total.sum=rowSums(.[,3:(ncol(.))],na.rm = TRUE ))%>%
-  dplyr::group_by(image.id) %>%
+  mutate(total.sum=rowSums(.[,3:(ncol(.))],na.rm = TRUE ))%>% # create sum per image
+  dplyr::group_by(image) %>%
   mutate_if(is.numeric, funs(./total.sum*100)) %>%
   mutate_if(is.numeric, funs(round(.,digits=2))) %>%
-  #tidyr::separate(image, into = c("image", "type"), sep = ".") %>%
-  #mutate_at(vars(starts_with("hab: ")),funs(./total.sum*100))%>%
-  #mutate_at(vars(starts_with("hab: ")),funs(round(.,digits=2)))%>%
-  #dplyr::select(-total.sum) %>%
   ungroup()%>%
   #left_join(metadata) %>%
   #filter(!is.na(latitude))%>%
@@ -123,14 +145,14 @@ percent.cover <- point.score %>%
 
 class(percent.cover)
 pc <- as.data.frame(percent.cover)
-str(pc)
+str(pc) # 5024 obs
 head(pc)
 names(pc)
 
 
 # double check the sum --
 pc2 <- pc %>%
-  mutate(total.sum2 = rowSums(.[,2:60], na.rm = TRUE))
+  mutate(total.sum2 = rowSums(.[,2:58], na.rm = TRUE))
 
 head(pc2)
 class(pc2) 
@@ -146,14 +168,171 @@ str(mdata) # 5177 obs
 str(pc2) # 5024 obs
 
 # rename image column in metadata --
-names(mdata) <-  c("width_pixels", "height_pixels", "image.id" , "Latitude" , "Longitude" ,
+names(mdata) <-  c("width_pixels", "height_pixels", "image" , "Latitude" , "Longitude" ,
                    "Reason.for.not.georeferenced", "Zone", "Transect")
 head(mdata)
 
-pcmeta <- merge(pc2, mdata, by = 'image.id')
+pcmeta <- merge(pc2, mdata, by = 'image')
 str(pcmeta) # 5024 obs
 names(pcmeta)
-pcmeta <- pcmeta[,-c(63,64,67)]
+pcmeta <- pcmeta[,-c(61:63,66)]
 names(pcmeta)
 
-write.csv(pcmeta, paste(raw.dir, "DTV_GeoBay_May2020_percent.cover.n.metadata.csv", sep='/'))
+#write.csv(pcmeta, paste(raw.dir, "DTV_GeoBay_May2020_percent.cover.n.metadata.csv", sep='/'))
+
+
+## read all data ----
+df <- read.csv(paste(raw.dir, "DTV_GeoBay_May2020_percent.cover.n.metadata.csv", sep='/'))
+str(df)
+df$Latitude <- as.numeric(df$Latitude)
+df$Longitude <- as.numeric(df$Longitude)
+df$Zone <- as.factor(df$Zone)
+head(df)
+any(is.na(df$Latitude))
+which(is.na(df$Latitude))
+# remove NA's 
+df <- df[!is.na(df$Latitude), ]
+any(is.na(df$Longitude))
+
+# make south latitude
+df$Latitude <- df$Latitude*(-1)
+head(df)
+# make spatial point
+dfs <- df
+coordinates(dfs) <- ~Longitude+Latitude
+proj4string(dfs) <- "+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs"
+plot(geobay)
+plot(dfs, col = dfs$Zone, add=T)
+
+## Remove columns with only zero values --
+df2 <- df[,apply(df,2,function(df) !all(df==0))]
+str(df2)
+names(df) # 65 cols
+names(df2) # 56 cols
+
+
+# Detailed habitat classes ----
+
+# this from Brooke's Benthobox to percent cover script --
+
+names(df2)
+str(df2)
+
+hab.detailed <- df2 %>%
+  # total seagrass
+  dplyr::mutate(total.seagrass=
+                  Seagrasses.Elliptica.Leaves.Halophil.sp. +                
+                Seagrasses.Elliptica.Leaves.Halophil.sp..epiphytes.algae +
+                Seagrasses.Strap.Lik.Leaves  +                            
+                Seagrasses.Strap.Lik.Leaves.Amphiboli.sp.   +             
+                Seagrasses.Strap.Lik.Leaves.Amphiboli.sp..epiphytes.algae+
+                Seagrasses.Strap.Lik.Leaves.Amphiboli.sp..epiphytes.other+
+                Seagrasses.Strap.Lik.Leaves.epiphytes.algae   +           
+                Seagrasses.Strap.Lik.Leaves.Posidoni.sp. +                
+                Seagrasses.Strap.Lik.Leaves.Posidoni.sp..epiphytes.algae+ 
+                Seagrasses.Strap.Lik.Leaves.Posidoni.sp..epiphytes.other ) %>%
+  # total seagrass with epiphytes
+  dplyr::mutate(total.seagrass.with.epiphytes=                
+                  Seagrasses.Elliptica.Leaves.Halophil.sp..epiphytes.algae +            
+                  Seagrasses.Strap.Lik.Leaves.Amphiboli.sp..epiphytes.algae+
+                  Seagrasses.Strap.Lik.Leaves.Amphiboli.sp..epiphytes.other+
+                  Seagrasses.Strap.Lik.Leaves.epiphytes.algae   +               
+                  Seagrasses.Strap.Lik.Leaves.Posidoni.sp..epiphytes.algae+ 
+                  Seagrasses.Strap.Lik.Leaves.Posidoni.sp..epiphytes.other) %>%
+  # Posidonia
+  dplyr::mutate(Posidonia=
+                  Seagrasses.Strap.Lik.Leaves.Posidoni.sp. +                
+                  Seagrasses.Strap.Lik.Leaves.Posidoni.sp..epiphytes.algae+ 
+                  Seagrasses.Strap.Lik.Leaves.Posidoni.sp..epiphytes.other )%>%
+  dplyr::mutate(Posidonia.with.epiphytes=
+                  Seagrasses.Strap.Lik.Leaves.Posidoni.sp..epiphytes.algae+ 
+                  Seagrasses.Strap.Lik.Leaves.Posidoni.sp..epiphytes.other )%>%
+  # Amphibolis
+  dplyr::mutate(Amphibolis=
+                  Seagrasses.Strap.Lik.Leaves.Amphiboli.sp.   +             
+                  Seagrasses.Strap.Lik.Leaves.Amphiboli.sp..epiphytes.algae+
+                  Seagrasses.Strap.Lik.Leaves.Amphiboli.sp..epiphytes.other) %>%
+  dplyr::mutate(Amphibolis.with.epiphytes=
+                  Seagrasses.Strap.Lik.Leaves.Amphiboli.sp..epiphytes.algae+
+                  Seagrasses.Strap.Lik.Leaves.Amphiboli.sp..epiphytes.other) %>%
+
+  # total Macroalgae
+  dplyr::mutate(total.Macroalgae=
+                  Macroalgae           +                                    
+                Macroalgae.Articulate.Calcareous.Red +                    
+                Macroalgae.Drif.Algae     +                               
+                Macroalgae.Erec.Coars.Branching +                         
+                Macroalgae.Erec.Coars.Branching.Brown+                    
+                Macroalgae.Erec.Coars.Branching.Brown.Drift+              
+                Macroalgae.Erec.Coars.Branching.Brown.Sargassu.Spp+       
+                Macroalgae.Erec.Coars.Branching.Red   +                   
+                Macroalgae.Erec.Fin.Branching +                           
+                Macroalgae.Erec.Fin.Branching.Brown+                      
+                Macroalgae.Erec.Fin.Branching.Brown.Brow.Understor.Algae +
+                Macroalgae.Erec.Fin.Branching.Red  +                      
+                Macroalgae.Erec.Fin.Branching.Red.Foliose +               
+                Macroalgae.Encrusting.Brown    +                          
+                Macroalgae.Encrusting.Red  +                              
+                Macroalgae.Filamentou..Filiform.Green  +                  
+                Macroalgae.Filamentou..Filiform.Turfin.Algae   +          
+                Macroalgae.Globos..Saccate.Brown    +                     
+                Macroalgae.Globos..Saccate.Green +                        
+                Macroalgae.Laminate.Brown +                               
+                Macroalgae.Laminate.Green +                               
+                Macroalgae.Laminate.Red)%>%
+  #total turf macroalgae
+  dplyr::mutate(Turf.algae =
+                  Macroalgae.Filamentou..Filiform.Green  +                  
+                  Macroalgae.Filamentou..Filiform.Turfin.Algae   +          
+                  Macroalgae.Globos..Saccate.Brown    +                     
+                  Macroalgae.Globos..Saccate.Green +                        
+                  Macroalgae.Laminate.Brown +                               
+                  Macroalgae.Laminate.Green +                               
+                  Macroalgae.Laminate.Red)%>%
+  # total erect course
+  dplyr::mutate(Erect.coarse.branching=
+                  Macroalgae.Erec.Coars.Branching +                         
+                  Macroalgae.Erec.Coars.Branching.Brown+                    
+                  Macroalgae.Erec.Coars.Branching.Brown.Drift+              
+                  Macroalgae.Erec.Coars.Branching.Brown.Sargassu.Spp+       
+                  Macroalgae.Erec.Coars.Branching.Red  )%>%
+  # total fine course
+  dplyr::mutate(Erect.fine.branching=
+                  Macroalgae.Erec.Fin.Branching +                           
+                  Macroalgae.Erec.Fin.Branching.Brown+                      
+                  Macroalgae.Erec.Fin.Branching.Brown.Brow.Understor.Algae +
+                  Macroalgae.Erec.Fin.Branching.Red  +                      
+                  Macroalgae.Erec.Fin.Branching.Red.Foliose)%>%
+
+  # total sponges
+  dplyr::mutate(total.sponges=
+                Sponges  +                                                
+                Sponges.Cup.Likes.Cups.Cu..Goblet    +                    
+                Sponges.Massiv.Forms)%>%
+   # other inverts 
+   dplyr::mutate(other.inverts=
+                 Ascidians+                                                
+                 Bryozoa    +                                              
+                 Cnidaria.Corals   +                                       
+                 Echinoderms.Feathe.Stars.Stalke.Crinoids)%>%
+   # select columns
+  dplyr::select(image,
+                total.seagrass,
+                total.seagrass.with.epiphytes,
+                Amphibolis,Amphibolis.with.epiphytes,
+                Posidonia,Posidonia.with.epiphytes,
+                total.Macroalgae,
+                Turf.algae,
+                Erect.coarse.branching,
+                Erect.fine.branching,
+                #Large.canopy.forming,
+                total.sponges, 
+                other.inverts,
+                Latitude,
+                Longitude,
+                Zone,
+                Transect) %>%
+  glimpse
+
+
+write.csv(hab.detailed, paste(raw.dir, "DTV_detailed_habitat_percent.cover.csv", sep='/'))
