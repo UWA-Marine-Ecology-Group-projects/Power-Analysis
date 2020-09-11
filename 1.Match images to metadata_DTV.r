@@ -47,7 +47,7 @@ dtv <- read.csv(paste(raw.dir, f1, sep='/'))
 # This is a data frame with 3 columns sample, lat and long, see:
 head(dtv)
 # this is to see the properties of the data frame
-str(dtv) # there are 129425 obs. -- DTV points
+str(dtv) # there are 129425 obs. -- DTV points = 5177 images
 
 # Catami codes --
 dir(raw.dir)
@@ -73,12 +73,20 @@ f3 <- "Geographe bay towed video datasheet_200525 - Image Data for Reefcloud upl
 mdata <- read.csv(paste(raw.dir, f3, sep='/'))
 head(mdata)
 str(mdata) # 5177 obs = images
+any(is.na(mdata))
+length(is.na(mdata))
+mdata <- mdata[!is.na(mdata$Latitude), ]
+any(is.na(mdata))
+str(mdata) # 4989 obs. ~ 121 images per transect
+
 
 ## 1. CODES to CLASSES ----
 str(codes) # 731 obs - codes
 
 str(dtv) # 129425 obs
+dtv$image_path <- as.factor(dtv$image_path)
 
+names(dtv)
 names(dtv) <- c("image_path",           "point_num",            "CODE")
 
 
@@ -89,8 +97,9 @@ dtv <- df2 %>%
   dplyr::select(CODE, image_path, point_num, CLASS) %>% # columns to keep
   dplyr::mutate_if(is.character, as.factor) %>% # several cols into factors
   tidyr::separate(image_path, into = c("surveys", "institution", "id1", "id2", "image"), sep = "/") %>%
-  dplyr::mutate(image = as.factor(image)) %>%
+  #dplyr::mutate(image = as.factor(image)) %>%
   tidyr::separate(image, into = c("image", "type"), sep = ".j") %>% # remove the .jpeg
+  dplyr::mutate(image = as.factor(image)) %>%
   dplyr::select(-c(surveys, institution, id1, id2, type)) %>%
   glimpse # Rows: 129,425
 
@@ -98,9 +107,12 @@ dtv <- df2 %>%
 
 ## 2. ReefCloud to percent cover ----
 
-str(dtv)
+str(dtv) # 5177 images 129425 obs
 head(dtv)
 names(dtv)
+length(levels(dtv$image)) # 5177
+any(is.na(dtv))
+
 
 # catami point score ----
 
@@ -109,11 +121,12 @@ unique(dtv$CLASS)%>%sort()
 point.score <- dtv %>%
   distinct()%>%
   dplyr::select(-CODE) %>%  # remove CODE column
-  filter(!CLASS%in%c("", NA, "Unscorable", "Fishes", "Fishes: Bony Fishes")) %>% # remove unwanted classes: U=unscorable
+  #dplyr::rename(image = image_path) %>%
+  filter(!CLASS%in%c("", NA, "Unscorable", "Fishes", "Fishes.Bon.Fishes")) %>% # remove unwanted classes:unscorable, fishes
   mutate(count = 1) %>% # give them all value of 1
   dplyr::group_by(image) %>%
-  #tidyr::spread(key = CLASS, value = count, fill=0) %>% # to wide format
-  tidyr::pivot_wider(names_from = CLASS, values_from = count, values_fill=0) %>%
+  tidyr::spread(key = CLASS, value = count, fill=0) %>% # to wide format
+  #tidyr::pivot_wider(names_from = CLASS, values_from = count, values_fill=0) %>%
   ungroup() %>%
   dplyr::group_by(image) %>%
   dplyr::summarise_all(funs(sum)) %>%
@@ -126,7 +139,9 @@ head(point.score) # in wide format now
 names(point.score)
 str(point.score) # 5024 obs - 5177 levels for image
 point.score <- droplevels(point.score) #  5024 levels
-str(point.score) # 5024 levels for image
+str(point.score) 
+length(levels(point.score$image)) # 5024
+
 
 # calculate % cover ---- 
 percent.cover <- point.score %>%
@@ -171,12 +186,17 @@ str(pc2) # 5024 obs
 names(mdata) <-  c("width_pixels", "height_pixels", "image" , "Latitude" , "Longitude" ,
                    "Reason.for.not.georeferenced", "Zone", "Transect")
 head(mdata)
+str(mdata)
+
 
 pcmeta <- merge(pc2, mdata, by = 'image')
-str(pcmeta) # 5024 obs
+str(pcmeta) # 4847 obs
 names(pcmeta)
-pcmeta <- pcmeta[,-c(61:63,66)]
+pcmeta <- pcmeta[,-c(60:62,65)]
 names(pcmeta)
+pcmeta$Transect.id <- as.factor(paste(pcmeta$Zone, pcmeta$Transect, sep ='.'))
+
+str(pcmeta) # 41 levels
 
 #write.csv(pcmeta, paste(raw.dir, "DTV_GeoBay_May2020_percent.cover.n.metadata.csv", sep='/'))
 
@@ -184,15 +204,16 @@ names(pcmeta)
 ## read all data ----
 df <- read.csv(paste(raw.dir, "DTV_GeoBay_May2020_percent.cover.n.metadata.csv", sep='/'))
 str(df)
-df$Latitude <- as.numeric(df$Latitude)
-df$Longitude <- as.numeric(df$Longitude)
+head(df)
+#df$Latitude <- as.numeric(df$Latitude)
+#df$Longitude <- as.numeric(df$Longitude)
 df$Zone <- as.factor(df$Zone)
 head(df)
 any(is.na(df$Latitude))
 which(is.na(df$Latitude))
 # remove NA's 
-df <- df[!is.na(df$Latitude), ]
-any(is.na(df$Longitude))
+#df <- df[!is.na(df$Latitude), ]
+#any(is.na(df$Longitude))
 
 # make south latitude
 df$Latitude <- df$Latitude*(-1)
@@ -209,7 +230,7 @@ df2 <- df[,apply(df,2,function(df) !all(df==0))]
 str(df2)
 names(df) # 65 cols
 names(df2) # 56 cols
-
+length(levels(df2$Transect.id)) #41
 
 # Detailed habitat classes ----
 
@@ -331,8 +352,9 @@ hab.detailed <- df2 %>%
                 Latitude,
                 Longitude,
                 Zone,
-                Transect) %>%
+                Transect,
+                Transect.id) %>%
   glimpse
 
 
-write.csv(hab.detailed, paste(raw.dir, "DTV_detailed_habitat_percent.cover.csv", sep='/'))
+#write.csv(hab.detailed, paste(raw.dir, "DTV_detailed_habitat_percent.cover.csv", sep='/'))
