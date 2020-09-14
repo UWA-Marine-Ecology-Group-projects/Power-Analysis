@@ -30,7 +30,7 @@ rm(list=ls()) #clear memory
 
 # Study name----
 
-study <- "AUV"
+study <- "DTV"
 
 # Set work directory----
 w.dir <- dirname(rstudioapi::getActiveDocumentContext()$path) # sets working directory to where this script is saved (DON't MOVE)
@@ -48,48 +48,68 @@ s.dir <- "G:/My Drive/Anita/Shapefiles"
 gb <- readOGR(paste(s.dir, "GeoBay.shp", sep='/'))
 plot(gb)
 
-# read coastal clusters ----
+# CLUSTER the transects ----
 
-cc <- readOGR("Y:/Power-Analysis/Multivariate/spatial/BRUV_coastalclusters.shp")
-cc
-length(levels(cc$Sample)) # 145 samples
-
-# read df of coastal clusters ----
-# file name --
-c <- "GB_fish_cluster.csv"
-ccdf <- read.csv(paste(d.dir, "BRUV_coastalclusters.csv", sep ='/'))
-ccdf <- read.csv(paste(d.dir, c, sep ='/')) %>%
-  dplyr::select(Sample,clust) %>% # Select columns to keep
-  dplyr::rename('sample' = 'Sample') %>%
-  glimpse()
-
-str(ccdf) # 135 obs
-head(ccdf)
-
-# test for NAs --
-any(is.na(ccdf))
-head(ccdf) 
-str(ccdf) # 135 Samples
-ccdf$clust <- as.factor(ccdf$clust)
-summary(ccdf)
-levels(ccdf$clust)
-
-# plot --
-plot(gb)
-plot(cc, col = cc$clust, pch=20, add=T)
-names(cc)
-
-
-# read AUV data for habitat----
+# read DTV data ----
 dir(d.dir)
+dtv <- read.csv(paste(d.dir, "DTV_detailed_habitat_percent.cover.csv", sep='/'))
 
-h <- "auv_detailed.percent.cover.csv"
+head(dtv)
+str(dtv)
+#dtv$Transect <- as.factor(dtv$Transect)
+levels(dtv$Transect.id)
+levels(dtv$Zone)
 
-hab <- read.csv(paste(d.dir, h, sep ='/')) 
-  #%>% dplyr::select(sample,maxn,latitude, longitude, depth) %>% # Select columns to keep
-  #glimpse()
+# make spatial points --
+dtvs <- dtv 
+coordinates(dtvs) <- ~Longitude+Latitude
+plot(gb)
+points(dtvs, col = dtvs$Zone)
+plot(gb)
+# check where the transects are
+length(levels(dtv$Transect.id))
+levels(dtv$Transect.id)
+points(dtvs[dtvs$Transect.id == "SPZ.11",]) # the coordinates of SPZ 2, 7 and 11 are wrong..
 
-str(hab) # 1752 obs
+## make new clusters manually ----
+
+cluster <- factor(c("NPZclust", "HPZclust", "shallow1", "shallow2", "shallow3", "deep", "mid1", "mid2")) # create factor
+lt <- levels(dtvs$Transect.id)
+lt
+
+cluster <- c("HPZclust","HPZclust","HPZclust","HPZclust","HPZclust","HPZclust","HPZclust","HPZclust","HPZclust",
+             "mid1", "mid2", "shallow2", "mid1" , "mid1",  "mid2",  "mid2", 
+             "shallow2" , "shallow1" , "shallow1",  "shallow1",  
+             "NPZclust","NPZclust","NPZclust","NPZclust","NPZclust","NPZclust","NPZclust","NPZclust","NPZclust",  
+             "deep" , "mid2", "mid2", "shallow2", "deep" , "deep" , "mid2" , "shallow3" , "shallow3",
+             "shallow3" , "shallow3",  "shallow3")
+
+
+clusterf <- as.data.frame(cbind(lt, cluster))
+class(clusterf)
+head(clusterf)
+names(dtv)
+names(clusterf) <- c("Transect.id"  ,    "cluster")
+names(clusterf)
+
+dtv2 <- merge(dtv, clusterf, by = "Transect.id")
+head(dtv2)
+str(dtv2)
+
+dtv2s <- dtv2
+coordinates(dtv2s) <- ~Longitude+Latitude
+
+plot(gb)
+points(dtv2s, col = dtv2s$cluster)
+
+# save new df
+#write.csv(dtv2, paste(d.dir, "GB_hab_DTV_cluster.csv", sep ='/'))
+
+
+# read clusters ----
+hab <- read.csv(paste(d.dir, "GB_hab_DTV_cluster.csv", sep ='/'))
+
+str(hab)
 head(hab)
 
 # test for NAs --
@@ -101,38 +121,28 @@ names(hab)
 hab <- hab[,-c(6,8,10)]
 names(hab)
 # make new class of strap-like leaves that does not include posidonia, amphobolis or zostera --
-hab$strap.like <- hab$Strap.like.leaves-(hab$Amphibolis+hab$Posidonia+hab$Zostera)
+hab$strap.like <- hab$total.seagrass-(hab$Amphibolis+hab$Posidonia)
 # make new class of macroalgae leaves that does not include turf, branching or large canopy --
-hab$macroalgaeother <- hab$Macroalgae-(hab$Turf.algae+hab$Erect.coarse.branching+hab$Erect.fine.branching+hab$Large.canopy.forming)
+hab$macroalgaeother <- hab$total.Macroalgae-(hab$Turf.algae+hab$Erect.coarse.branching+hab$Erect.fine.branching)
 # remove macroalgae, stralike.leaves and large canopy
 names(hab)
-hab <- hab[,-c(5,10,14)]
+hab <- hab[,-c(5,8)]
 names(hab)
-head(hab)
-   
 
-# AUV no clusters but grids ----
 
-str(hab)
-levels(hab$campaignid)
+# save new df
+#write.csv(hab, paste(d.dir, "GB_hab_DTV_cluster_multivar.csv", sep ='/'))
 
-# join campaignid 2 and 2-exp
-levels(hab$campaignid)[levels(hab$campaignid)=="r20150527_081513_wa-gb-auv-02-exp"] <- "r20150526_035926_wa-gb-auv-02"
-levels(hab$campaignid) # 13 levels
-str(hab)
 
-# Rename all levels
-levels(hab$campaignid) <- c("G1", "G2", "G3", "G6","G5","G4", "G10", "G9", "G11", "G13", "G12", "G14", "G15")
-head(hab)
 
-# Save hab data by campaignid/grid ----
-#write.csv(hab, paste(d.dir, "GB_hab_AUV_grid.csv", sep='/'))
+
+
 
 ####    Multivariate    ----
 
 # Load hab data ----
 
-f <- read.csv(paste(d.dir, "GB_hab_AUV_grid.csv", sep='/'))
+f <- read.csv(paste(d.dir, "GB_hab_DTV_cluster_multivar.csv", sep ='/'))
 
 
 # Euclidian ----
@@ -140,19 +150,7 @@ names(f)
 str(f)
 head(f)
 
-# remove grids from SPZ --
-levels(f$campaignid)
-f <- f[f$campaignid!="G9",]
-f <- f[f$campaignid!="G10",]
-f <- f[f$campaignid!="G11",]
-f <- f[f$campaignid!="G12",]
-f <- f[f$campaignid!="G13",]
-f <- f[f$campaignid!="G14",]
-f <- f[f$campaignid!="G15",]
-f <- droplevels(f)
-
-hab <- f[,-c(1:5)]
-hab
+hab <- f[,c(6:12, 18,19)]
 
 # euclidean distance --
 f.diste <- vegdist(hab, method = "euclidean", diag=FALSE, upper=FALSE, na.rm = FALSE)
@@ -173,15 +171,15 @@ fb.plot$cluster <- as.factor(fb.plot$cluster)
 #hpca2 <- PCA(f[,-c(1:5)], quali.sup= 11, graph = T)
 #hpca <- PCA(f.diste, graph = T)# plot ordination
 
-hpca2 <- PCA(f[,-c(1,3:5)], quali.sup= 1, graph = T)
+hpca2 <- PCA(f[,-c(1:5, 13:17)], quali.sup= 8, graph = T)
 
 
 fviz_pca_ind(hpca2,
              geom.ind = "point", # show points only (nbut not "text")
-             col.ind = f$campaignid, # color by groups
+             col.ind = f$cluster, # color by groups
              #palette = c("#FF0000", "#000000", "#FF9900", "#990000", "#33FF00", "#009933", "#3399FF", 
                          #"#0000CC", "#FF66CC", "#660066", "#00FFFF", "#FFFF00", "#996666"),
-             palette = c("#FFFF00", "#FF0000", "#00CC00", "#0000FF", "#000000", "#33FFFF"),
+             palette = c( "#FF00CC", "#FF0000", "#00CC00", "#0000FF", "#000000", "#33FFFF","#99FF00","#FFFF00"),
              addEllipses = TRUE, # Concentration ellipses
              legend.title = "Groups"
 )
