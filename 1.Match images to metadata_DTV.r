@@ -334,8 +334,23 @@ hab.detailed <- df2 %>%
    dplyr::mutate(other.inverts=
                  Ascidians+                                                
                  Bryozoa    +                                              
-                 Cnidaria.Corals   +                                       
+                 #Cnidaria.Corals   +                                       
                  Echinoderms.Feathe.Stars.Stalke.Crinoids)%>%
+  # Corals
+  dplyr::mutate(corals =
+                  Cnidaria.Corals) %>%
+  # Unconsolidated 
+  dplyr::mutate(Unconsolidated =
+                  Substrate.Unconsolidate..San..Mu.+
+                  Substrate.Unconsolidate..San..Mu..Coars.San.+
+                  Substrate.Unconsolidate..San..Mu..Fin.San.+
+                  Substrate.Unconsolidate..San..Mu..Mu..Sil.) %>%
+  # Consolidated 
+  dplyr::mutate(Consolidated =
+                  Substrate.Consolidate..Boulders+
+                  Substrate.Consolidate..Rock) %>%
+  
+  
    # select columns
   dplyr::select(image,
                 total.seagrass,
@@ -349,12 +364,16 @@ hab.detailed <- df2 %>%
                 #Large.canopy.forming,
                 total.sponges, 
                 other.inverts,
+                corals,
                 Latitude,
                 Longitude,
                 Zone,
                 Transect,
-                Transect.id) %>%
+                Transect.id,
+                Unconsolidated,
+                Consolidated) %>%
   glimpse
 
 
 #write.csv(hab.detailed, paste(raw.dir, "DTV_detailed_habitat_percent.cover.csv", sep='/'))
+write.csv(hab.detailed, paste(raw.dir, "DTV_detailed_habitat_percent.cover_for_class.csv", sep='/'))

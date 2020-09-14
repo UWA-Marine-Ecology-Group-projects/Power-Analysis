@@ -56,20 +56,21 @@ dtv <- read.csv(paste(d.dir, "DTV_detailed_habitat_percent.cover.csv", sep='/'))
 
 head(dtv)
 str(dtv)
-#dtv$Transect <- as.factor(dtv$Transect)
+dtv$Transect.id <- as.factor(dtv$Transect.id)
 levels(dtv$Transect.id)
+dtv$Zone <- as.factor(dtv$Zone)
 levels(dtv$Zone)
 
 # make spatial points --
 dtvs <- dtv 
 coordinates(dtvs) <- ~Longitude+Latitude
 plot(gb)
-points(dtvs, col = dtvs$Zone)
+points(dtvs, col = dtvs$Transect.id)
 plot(gb)
 # check where the transects are
 length(levels(dtv$Transect.id))
 levels(dtv$Transect.id)
-points(dtvs[dtvs$Transect.id == "SPZ.11",]) # the coordinates of SPZ 2, 7 and 11 are wrong..
+points(dtvs[dtvs$Transect.id == "SPZ.1",]) # the coordinates of SPZ 2, 7 and 11 are wrong..
 
 ## make new clusters manually ----
 
@@ -95,6 +96,7 @@ names(clusterf)
 dtv2 <- merge(dtv, clusterf, by = "Transect.id")
 head(dtv2)
 str(dtv2)
+dtv2$cluster <- as.factor(dtv2$cluster)
 
 dtv2s <- dtv2
 coordinates(dtv2s) <- ~Longitude+Latitude
@@ -150,7 +152,7 @@ names(f)
 str(f)
 head(f)
 
-hab <- f[,c(6:12, 18,19)]
+hab <- f[,c(6:13, 19, 20)]
 
 # euclidean distance --
 f.diste <- vegdist(hab, method = "euclidean", diag=FALSE, upper=FALSE, na.rm = FALSE)
@@ -171,7 +173,7 @@ fb.plot$cluster <- as.factor(fb.plot$cluster)
 #hpca2 <- PCA(f[,-c(1:5)], quali.sup= 11, graph = T)
 #hpca <- PCA(f.diste, graph = T)# plot ordination
 
-hpca2 <- PCA(f[,-c(1:5, 13:17)], quali.sup= 8, graph = T)
+hpca2 <- PCA(f[,c(6:13, 18, 19, 20)], quali.sup= 9, graph = T)
 
 
 fviz_pca_ind(hpca2,
@@ -208,10 +210,10 @@ levels(f$campaignid)
 f$Posidonia <- f$Posidonia + f$strap.like
 names(f)
 # remove strap like --
-f <- f[,-13]
+f <- f[,-19]
 names(f)
 
-hab2 <- f[,-c(1:5)]
+hab2 <-f[,c(6:13, 19)]
 hab2
 
 # euclidean distance --
@@ -231,15 +233,15 @@ fb.plot
 fb.plot$cluster <- as.factor(fb.plot$cluster)
 
 
-hpca <- PCA(f[,-c(1,3:5)], quali.sup= 1, graph = T)
+hpca <- PCA(f[,c(6:13, 18, 19)], quali.sup= 9, graph = T)
 
 
 fviz_pca_ind(hpca,
              geom.ind = "point", # show points only (nbut not "text")
-             col.ind = f$campaignid, # color by groups
+             col.ind = f$cluster, # color by groups
              #palette = c("#FF0000", "#000000", "#FF9900", "#990000", "#33FF00", "#009933", "#3399FF", 
               #           "#0000CC", "#FF66CC", "#660066", "#00FFFF", "#FFFF00", "#996666"),
-             palette = c("#FFFF00", "#FF0000", "#00CC00", "#0000FF", "#000000", "#33FFFF"),
+             palette = c("#FF00CC", "#FF0000", "#00CC00", "#0000FF", "#000000", "#33FFFF","#99FF00","#FFFF00"),
              addEllipses = TRUE, # Concentration ellipses
              legend.title = "Groups"
 )
