@@ -151,4 +151,4 @@ clf$CvI <- as.factor(clf$CvI)
 str(clf)
 
 #### Save data for epower ----
-write.csv(clf, paste(tidy.dir, paste(study, s, "NPZ_epower.csv", sep='-'), sep='/'))
+write.csv(clf, paste(tidy.dir, paste(study, s, "NPZ_epower2.csv", sep='-'), sep='/'))
