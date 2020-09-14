@@ -61,5 +61,8 @@ head(df3)
 any(is.na(df3))
 str(df3) # 4847 obs
 
+df4 <- cbind(df3, df2[,c(16:20)])
+head(df4)
+
 # save data ----
-#write.csv(df3, paste(d.dir, "DTV_detailed_habitat_dominant.csv", sep ='/'))
+#write.csv(df4, paste(d.dir, "DTV_detailed_habitat_dominant.csv", sep ='/'))
