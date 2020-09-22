@@ -248,10 +248,10 @@ names(dfn1)
 
 ## calculate presences and no. scored ----
 
-sg.pres1 <- aggregate(Seagrss ~ clust + ZoneName, data = dfn1, sum)
+sg.pres1 <- aggregate(Seagrass ~ clust + ZoneName, data = dfn1, sum)
 sg.pres1
 
-no.scored1 <-  aggregate(Seagrss ~ clust + ZoneName, data = dfn1, length)           
+no.scored1 <-  aggregate(Seagrass ~ clust + ZoneName, data = dfn1, length)           
 no.scored1
 names(no.scored1) <- c("Cluster", "ZoneName", "no.scored")
 
@@ -349,6 +349,8 @@ str(sgclust)
 
 dfn <- sgclust[sgclust$clust == '2' | sgclust$clust == '3' | sgclust$clust == '8' | sgclust$clust == '27',  ]
 str(dfn)
+names(dfn)
+head(dfn)
 
 
 
@@ -368,10 +370,10 @@ names(dfn1)
 
 ## calculate presences and no. scored ----
 
-sg.pres1 <- aggregate(Seagrss ~ clust + ZoneName, data = dfn1, sum)
+sg.pres1 <- aggregate(Seagrass ~ clust + ZoneName, data = dfn1, sum)
 sg.pres1
 
-no.scored1 <-  aggregate(Seagrss ~ clust + ZoneName, data = dfn1, length)           
+no.scored1 <-  aggregate(Seagrass ~ clust + ZoneName, data = dfn1, length)           
 no.scored1
 names(no.scored1) <- c("Cluster", "ZoneName", "no.scored")
 
