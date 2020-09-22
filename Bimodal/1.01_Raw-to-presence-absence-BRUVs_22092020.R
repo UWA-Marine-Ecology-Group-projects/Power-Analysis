@@ -298,11 +298,14 @@ dfall
 # Make Period Column
 dfall$Period <- "Before"
 names(dfall)
-
+str(dfall)
 # Make control impact column
-levels(dfall$ZoneName)
-dfall$CvI <- ifelse(dfall$ZoneName=="National Park Zone", "Impact", "Control")
+levels(dfall$Cluster)
+dfall <- droplevels(dfall)
+levels(dfall$Cluster)
+dfall$CvI <- ifelse(dfall$Cluster=="1", "Impact", "Control")
 head(dfall)
+
 
 #### Save data for epower ----
 
@@ -417,8 +420,10 @@ dfall$Period <- "Before"
 names(dfall)
 
 # Make control impact column
-levels(dfall$ZoneName)
-dfall$CvI <- ifelse(dfall$ZoneName=="Habitat Protection Zone", "Impact", "Control")
+levels(dfall$Cluster)
+dfall <-droplevels(dfall)
+levels(dfall$Cluster)
+dfall$CvI <- ifelse(dfall$Cluster=="2", "Impact", "Control")
 head(dfall)
 
 #### Save data for epower ----
