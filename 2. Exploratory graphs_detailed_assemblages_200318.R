@@ -51,6 +51,7 @@ names(df)
 
 dfmean <- aggregate(. ~ZoneName, data=df, mean, na.rm=T)
 dfmean
+str(dfmean)
 
 dfsd <- aggregate(. ~ZoneName, data=df, sd, na.rm=T)
 dfsd
@@ -62,10 +63,12 @@ se <- function(x) sqrt(var(x)/length(x))
 
 dfse <- aggregate(. ~ZoneName, data=df, se)
 dfse
+str(dfse)
+any(is.na(dfse))
 
 #### UP TO HERE ###
 
-datas <- cbind(dfmean, dfsd$Seagrasses, sgse$Seagrasses)
+datas <- cbind(dfmean, dfse$Seagrasses)
 
 datas
 str(datas)
@@ -452,7 +455,11 @@ proj4string(gb) # "+proj=longlat +ellps=GRS80 +no_defs"
 
 ## Read Bruv data
 sp <- read.csv(paste(d.dir,"Bruvs2014_zoning.csv", sep='/'))
-str(sp)
+str(sp) # 388 obs
+# remove out the CMR
+sp <- sp[!is.na(sp$ZoneName), ]
+str(sp)  # 243 obs
+levels(sp$ZoneName)[levels(sp$ZoneName)=="Special Purpose Zone (Mining Exclusion)"] <- "Special Purpose Zone"
 
 coordinates(sp) <- ~coords.x1+coords.x2
 proj4string(sp) <- "+proj=longlat +ellps=GRS80 +no_defs"
@@ -469,6 +476,10 @@ gb@data$id = rownames(gb@data)
 gb.points = broom::tidy(gb)
 gb.df = join(gb.points, gb@data, by="id")
 class(gb.df)
+str(gb.df)
+levels(gb.df$ZoneName)
+levels(gb.df$ZoneName)[levels(gb.df$ZoneName)=="Special Purpose Zone (Mining Exclusion)"] <- "Special Purpose Zone"
+
 
 ## plot ---
 
@@ -479,7 +490,7 @@ p0 <- ggplot() +
   #scale_fill_gradient(breaks=c(0.33,0.66,0.99), labels=c("Low","Medium","High")) + 
   coord_equal(ratio= 1) +
   #xlab("Latitude") + ylab("Longitude") +
-  scale_fill_manual("Zones", values = c( "#80daeb","#dbd7d2", "#93dfb8", "#eceabe"), guide=guide_legend(nrow=4, title.position = 'top'))+
+  scale_fill_manual("Zones", values = c( "#eceabe", "#80daeb", "#93dfb8" , "#dbd7d2"), guide=guide_legend(nrow=4, title.position = 'top'))+
   theme(panel.background=element_blank())+
   theme(panel.background= element_rect(color="black")) +
   theme(axis.title = element_blank()) +

@@ -15,6 +15,7 @@ rm(list = ls())
 w.dir<-dirname(rstudioapi::getActiveDocumentContext()$path)
 # Set data directory - to read the data from
 d.dir <- paste(w.dir, "Data", "tidy", sep='/')
+dr.dir <- paste(w.dir, "Data", "raw", sep='/')
 # Set graph directory - to save plots
 p.dir <- paste(w.dir, "Plots", sep='/')
 
@@ -698,3 +699,185 @@ print(p6)
 ggsave(paste(p.dir, "Map_all_auv_zone.png", sep='/'), plot=p6, scale =1, device = "png", dpi =300)  
 
                
+
+
+#####  DTV  ######
+
+### Load data ----
+
+## Set file name --
+filen <- "DTV_detailed_habitat_percent.cover_for_class.csv"
+
+# Load data
+df <- read.csv(paste(dr.dir, filen, sep='/'))
+str(df)
+names(df)
+
+
+# Use only the columns needed for seagrass ----
+sg <- df[,c(2:3,16:20)]
+str(sg)
+
+# Remove NAs --
+sg <- na.omit(sg)
+str(sg)
+
+
+# Compute statistics ----
+
+
+sgmean <- aggregate(data=sg, total.seagrass~Zone, FUN=mean)
+sgmean
+
+sgsd <- aggregate(data=sg, total.seagrass~Zone, FUN=sd)
+sgsd
+
+sgn <- aggregate(data=sg, total.seagrass~Zone, FUN=length)
+sgn
+
+se <- function(x) sqrt(var(x)/length(x))
+
+sgse <- aggregate(data=sg, total.seagrass~Zone, FUN=se)
+sgse
+
+datas <- cbind(sgmean, sgsd$total.seagrass, sgse$total.seagrass)
+
+datas
+str(datas)
+names <- c("Zone","mean", "sd", "se")
+names(datas) <- names
+names(datas)
+datas$Zone
+
+# Rename one of the zones
+
+levels(datas$Zone)[levels(datas$Zone)=="SPZ"] <- "Special Purpose Zone"
+levels(datas$Zone)[levels(datas$Zone)=="NPZ"] <- "National Park Zone"
+levels(datas$Zone)[levels(datas$Zone)=="HPZ"] <- "Habitat Protection Zone"
+levels(datas$Zone)[levels(datas$Zone)=="MUZ"] <- "Multiple Use Zone"
+datas$Zone
+
+### Plot : Bruv Mean habitat per zone ----
+
+## Set colors for plotting --
+# Need 4 colours, one for each zone:
+# for color list: https://kbroman.files.wordpress.com/2014/05/crayons.png
+blue <- brocolors("crayons")["Turquoise Blue"] # "#77dde7"
+green <- brocolors("crayons")["Inchworm"] # "#b2ec5d"
+red <- brocolors("crayons")["Wild Watermelon"] # "#fc6c85" 
+yellow <- brocolors("crayons")["Sunglow"] # "#ffcf48"
+
+theme_set(theme_bw())
+p<-ggplot(data=datas, aes(x=Zone, y=mean, fill = Zone)) +
+  geom_bar(stat="identity", color = "black") +
+  geom_errorbar(aes(ymax = mean-se, ymin = mean+se), width = 0.2, cex = 1) +
+  #geom_errorbar(aes(ymax = mean-sd, ymin = mean+sd), width = 0.2, color = "blue") +
+  scale_fill_manual(values = c("#77dde7", "#fc6c85","#b2ec5d", "#ffcf48")) +
+  labs(title = "DTV", y = "Seagrass mean % cover") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), legend.position = "none",
+        axis.title.x = element_blank(), axis.title.y = element_text(size = 12, face="bold"), 
+        axis.text.y = element_text(size = 12), axis.text.x = element_text(size=12, face="bold"),
+        title = element_text(size = 14, face= "bold"))
+p
+
+ggsave(paste(p.dir, "Sg-DTV-zones.png", sep='/'), plot=p, device = "png", scale = 1, dpi =300 )
+
+## DTV maps ----
+
+library(raster)
+library(sp)
+library(rgdal)
+library(plyr)
+library(maptools)
+library(broom)
+library(viridis)
+library(RColorBrewer)
+
+# Set working directory ####
+w.dir<-dirname(rstudioapi::getActiveDocumentContext()$path)
+# Set data directory - to read the data from
+dx.dir <- "G:/My Drive/meg_projects/Project_Parks_Geo_fish and habitat/Sampling design/GB_Design"
+# Set graph directory - to save plots
+p.dir <- paste(w.dir, "Plots", sep='/')
+
+### Load data ----
+
+## Set file name --
+filen <- "Sampled_GB.csv"
+
+# color# 
+# for color list: https://kbroman.files.wordpress.com/2014/05/crayons.png
+grey <- brocolors("crayons")["Timberwolf"] # "#dbd7d2"
+green <- brocolors("crayons")["Spring Green"] # "#eceabe"
+blue <- brocolors("crayons")["Sky Blue"] # "#80daeb"
+green2 <- brocolors("crayons")["Sea Green"] # "#93dfb8"
+
+## Read Geo bay shapefile
+
+gb <- readOGR(paste(w.dir, "Data", "shapefiles", "GeoBay.shp", sep='/'))
+plot(gb)
+proj4string(gb) # "+proj=longlat +ellps=GRS80 +no_defs"
+
+## Read Bruv data
+sp <- read.csv(paste(dx.dir,filen, sep='/'))
+str(sp)
+
+coordinates(sp) <- ~Longitude+Latitude
+proj4string(sp) <- "+proj=longlat +ellps=GRS80 +no_defs"
+
+points(sp, pch = 21, bg = sp$Zone)
+
+# back to data frame 
+spdf <- as.data.frame(sp)
+head(spdf)
+
+
+
+
+## To plot the Geo Bay polygon ---
+gb@data$id = rownames(gb@data)
+gb.points = broom::tidy(gb)
+gb.df = join(gb.points, gb@data, by="id")
+class(gb.df)
+str(gb.df)
+levels(gb.df$ZoneName)
+levels(gb.df$ZoneName)[levels(gb.df$ZoneName)=="Special Purpose Zone (Mining Exclusion)"] <- "Special Purpose Zone"
+
+## plot ---
+
+p0 <- ggplot() +
+  geom_polygon(data = gb.df, aes(x = long, y = lat, group = group, fill = ZoneName), color = "black") +
+  #geom_point(aes(x=coords.x1, y=coords.x2), data=sp) +
+  #geom_path(color = "white", size = 0.2) +
+  #scale_fill_gradient(breaks=c(0.33,0.66,0.99), labels=c("Low","Medium","High")) + 
+  coord_equal(ratio= 1) +
+  #xlab("Latitude") + ylab("Longitude") +
+  scale_fill_manual("Zones", values = c( "#eceabe", "#80daeb", "#93dfb8" , "#dbd7d2"), guide=guide_legend(nrow=4, title.position = 'top'))+
+  theme(panel.background=element_blank())+
+  theme(panel.background= element_rect(color="black")) +
+  theme(axis.title = element_blank()) +
+  #theme(legend.position = "bottom", legend.box = "vertical", legend.title = element_text(face="bold")) +
+  labs(title = "Geographe Bay - DTV", x ="Latitude" , y ="Longitude") +
+  xlab("Latitude") + ylab("Longitude") +
+  geom_point(aes(x=Longitude, y=Latitude, color = Zone), data=spdf,alpha=1, size=4, color="grey20")+ # to get outline
+  geom_point(aes(x=Longitude, y=Latitude, color = Zone), data=spdf,alpha=1, size=3) +
+  scale_colour_manual("DTV transects", values = c("blue", "red","green",  "yellow"), guide=guide_legend(nrow=4, title.position = "top")) +  # change color scale
+  theme(legend.position = "bottom", legend.box = "horizontal", legend.title = element_text(face="bold")) +
+  xlab("Latitude") + ylab("Longitude") 
+print(p0)
+
+ggsave(paste(p.dir, "Map-all-DTV-zone.png", sep='/'), plot=p0, scale =1, device = "png", dpi =300)
+
+### clusters ----
+
+sp <- read.csv(paste(dx.dir,filen, sep='/'))
+str(sp)
+sp <- sp[!is.na(sp$group), ]
+
+
+coordinates(sp) <- ~Longitude+Latitude
+proj4string(sp) <- "+proj=longlat +ellps=GRS80 +no_defs"
+
+plot(gb)
+points(sp, col = sp$group, pch = 16, cex = 2)
+
