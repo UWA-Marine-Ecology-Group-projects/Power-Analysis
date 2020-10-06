@@ -276,6 +276,10 @@ hab.detailed <- df2 %>%
   dplyr::mutate(Amphibolis.with.epiphytes=
                   Seagrasses.Strap.Lik.Leaves.Amphiboli.sp..epiphytes.algae+
                   Seagrasses.Strap.Lik.Leaves.Amphiboli.sp..epiphytes.other) %>%
+  # Halophila
+  dplyr::mutate(Halophila=
+                  Seagrasses.Elliptica.Leaves.Halophil.sp.+ 
+                  Seagrasses.Elliptica.Leaves.Halophil.sp..epiphytes.algae) %>%
 
   # total Macroalgae
   dplyr::mutate(total.Macroalgae=
@@ -376,4 +380,6 @@ hab.detailed <- df2 %>%
 
 
 #write.csv(hab.detailed, paste(raw.dir, "DTV_detailed_habitat_percent.cover.csv", sep='/'))
-write.csv(hab.detailed, paste(raw.dir, "DTV_detailed_habitat_percent.cover_for_class.csv", sep='/'))
+#write.csv(hab.detailed, paste(raw.dir, "DTV_detailed_habitat_percent.cover_for_class.csv", sep='/'))
+
+#write.csv(hab.detailed, paste("Y:/GB_Survey_Maps/data", "DTV-habitat-percent-cover-detailed-06102020.csv", sep ='/'))
