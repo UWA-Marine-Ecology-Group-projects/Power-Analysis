@@ -361,6 +361,7 @@ hab.detailed <- df2 %>%
                 total.seagrass.with.epiphytes,
                 Amphibolis,Amphibolis.with.epiphytes,
                 Posidonia,Posidonia.with.epiphytes,
+                Halophila,
                 total.Macroalgae,
                 Turf.algae,
                 Erect.coarse.branching,
@@ -382,4 +383,4 @@ hab.detailed <- df2 %>%
 #write.csv(hab.detailed, paste(raw.dir, "DTV_detailed_habitat_percent.cover.csv", sep='/'))
 #write.csv(hab.detailed, paste(raw.dir, "DTV_detailed_habitat_percent.cover_for_class.csv", sep='/'))
 
-#write.csv(hab.detailed, paste("Y:/GB_Survey_Maps/data", "DTV-habitat-percent-cover-detailed-06102020.csv", sep ='/'))
+write.csv(hab.detailed, paste("Y:/GB_Survey_Maps/data", "DTV-habitat-percent-cover-detailed-06102020.csv", sep ='/'))
