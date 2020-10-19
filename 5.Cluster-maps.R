@@ -214,3 +214,135 @@ c9
 
 ## save map ----
 tmap_save(c9, paste(mp.dir, "BRUV-control-clusters-HPZ.tiff", sep='/'))
+
+
+
+##      ##        ##        ##        ##
+
+## DTV clusters ----
+
+### DTV clusters ----
+
+# Load DTV Clusters ----
+
+c <- read.csv(paste(md.dir, "GB_hab_DTV_cluster.csv", sep='/'))
+str(c)
+#c$clust  <- as.factor(c$clust)
+
+levels(c$cluster)
+c <- c[c$cluster!="deep",]
+c <- c[c$cluster!="mid1",]
+c <- c[c$cluster!="mid2",]
+c <- droplevels(c)
+
+levels(c$cluster)
+
+# make sp ----
+cs <- c
+coordinates(cs) <- ~Longitude+Latitude
+plot(gb)
+points(cs, pch = 20, col=cs$cluster)
+proj4string(cs) <- proj4string(gb)
+
+
+
+#library(plyr)
+levels(cs$cluster)
+cs$cluster <- revalue(cs$cluster, c( "HPZclust"= 'HPZ',"NPZclust"= "NPZ", "shallow1" = "Shallow1", "shallow2" ="Shallow2", "shallow3" = "Shallow3"))
+                                    
+levels(cs$cluster)
+cs$cluster<- ordered(cs$cluster, levels = c("NPZ", "HPZ", "Shallow1", "Shallow2", "Shallow3"))
+
+
+plot(gb)
+points(npz)
+
+tmaptools::palette_explorer()
+pal2 <- viridisLite::viridis(14)
+pal3 <- get_brewer_pal("Spectral", n = 14)
+pal4 <- get_brewer_pal("Paired", n = 5)
+pal4
+
+map <- tm_shape(gb)  + tm_borders(col ='black', lwd = 2) +
+  tm_compass(type = "arrow", position = c(0.8, 0.2), size = 4) +
+  tm_scale_bar(breaks = c(0, 5, 10), text.size = 1) + 
+  #tm_graticules(ticks = FALSE) +
+  tm_grid(n.x = 3, n.y = 3, labels.size = 1.5, lines = FALSE) 
+map
+
+
+map1 <- map + tm_shape(cs) + tm_symbols('cluster', size = 0.9,  palette = pal4, shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+map1
+
+
+## save map ----
+tmap_save(map1, paste(mp.dir, "DTV-multivar-clusters.tiff", sep='/'))
+
+# get legend
+
+map1 <- map + tm_shape(cs) + tm_symbols('cluster', size = 0.9,  palette = pal4, shape = 21, border.col='black') + 
+  tm_layout(legend.only = TRUE) + map
+map1
+
+## save map ----
+tmap_save(map1, paste(mp.dir, "DTV-multivar-clusters-legend.tiff", sep='/'))
+
+
+## DTV NPZ controls ----
+
+map <- tm_shape(gb)  + tm_borders(col ='black', lwd = 2) +
+  tm_compass(type = "arrow", position = c(0.8, 0.2), size = 4) +
+  tm_scale_bar(breaks = c(0, 5, 10), text.size = 1) + 
+  #tm_graticules(ticks = FALSE) +
+  tm_grid(n.x = 3, n.y = 3, labels.size = 1.5, lines = FALSE) 
+map
+
+NPZ <- map + tm_shape(cs[cs$cluster=="NPZ",]) + tm_symbols(size = 0.9, col='#FF3333', shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+NPZ
+
+HPZ <-  NPZ + tm_shape(cs[cs$cluster=="HPZ",]) + tm_symbols(size = 0.9, col='#6699FF', shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+HPZ
+
+s2 <-  HPZ + tm_shape(cs[cs$cluster=="Shallow2",]) + tm_symbols(size = 0.9, col='#6699FF', shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+s2
+
+s3 <-  s2 + tm_shape(cs[cs$cluster=="Shallow3",]) + tm_symbols(size = 0.9, col='#6699FF', shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+s3
+
+## save map ----
+tmap_save(s3, paste(mp.dir, "DTV-NPZ-control-clusters.tiff", sep='/'))
+
+
+## DTV HPZ controls ----
+
+map <- tm_shape(gb)  + tm_borders(col ='black', lwd = 2) +
+  tm_compass(type = "arrow", position = c(0.8, 0.2), size = 4) +
+  tm_scale_bar(breaks = c(0, 5, 10), text.size = 1) + 
+  #tm_graticules(ticks = FALSE) +
+  tm_grid(n.x = 3, n.y = 3, labels.size = 1.5, lines = FALSE) 
+map
+
+
+HPZ <-  map + tm_shape(cs[cs$cluster=="HPZ",]) + tm_symbols(size = 0.9, col='#FF3333', shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+HPZ
+
+NPZ <-  HPZ + tm_shape(cs[cs$cluster=="NPZ",]) + tm_symbols(size = 0.9, col='#6699FF', shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+NPZ
+
+s1 <-  NPZ + tm_shape(cs[cs$cluster=="Shallow1",]) + tm_symbols(size = 0.9, col='#6699FF', shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+s1
+
+s3 <-  s1 + tm_shape(cs[cs$cluster=="Shallow3",]) + tm_symbols(size = 0.9, col='#6699FF', shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+s3
+
+## save map ----
+tmap_save(s3, paste(mp.dir, "DTV-HPZ-control-clusters.tiff", sep='/'))
