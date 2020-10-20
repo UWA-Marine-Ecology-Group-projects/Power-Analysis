@@ -36,6 +36,7 @@ library(ggspatial)
 library(ggrepel)
 library(patchwork)
 library(shinyjs)
+library(plyr)
 #library(elsa)
 #install.packages("corrplot")
 #library(corrplot)
@@ -221,7 +222,6 @@ tmap_save(c9, paste(mp.dir, "BRUV-control-clusters-HPZ.tiff", sep='/'))
 
 ## DTV clusters ----
 
-### DTV clusters ----
 
 # Load DTV Clusters ----
 
@@ -246,7 +246,7 @@ proj4string(cs) <- proj4string(gb)
 
 
 
-#library(plyr)
+
 levels(cs$cluster)
 cs$cluster <- revalue(cs$cluster, c( "HPZclust"= 'HPZ',"NPZclust"= "NPZ", "shallow1" = "Shallow1", "shallow2" ="Shallow2", "shallow3" = "Shallow3"))
                                     
@@ -257,7 +257,7 @@ cs$cluster<- ordered(cs$cluster, levels = c("NPZ", "HPZ", "Shallow1", "Shallow2"
 plot(gb)
 points(npz)
 
-tmaptools::palette_explorer()
+#tmaptools::palette_explorer()
 pal2 <- viridisLite::viridis(14)
 pal3 <- get_brewer_pal("Spectral", n = 14)
 pal4 <- get_brewer_pal("Paired", n = 5)
@@ -346,3 +346,29 @@ s3
 
 ## save map ----
 tmap_save(s3, paste(mp.dir, "DTV-HPZ-control-clusters.tiff", sep='/'))
+
+
+##      ##        ##        ##         ##
+
+##  AUV Grids ----
+
+# Load AUV Grids ----
+
+c <- read.csv(paste(md.dir, "GB_hab_AUV_cluster.csv", sep='/'))
+str(c)
+#c$clust  <- as.factor(c$clust)
+
+levels(c$cluster)
+c <- c[c$cluster!="deep",]
+c <- c[c$cluster!="mid1",]
+c <- c[c$cluster!="mid2",]
+c <- droplevels(c)
+
+levels(c$cluster)
+
+# make sp ----
+cs <- c
+coordinates(cs) <- ~Longitude+Latitude
+plot(gb)
+points(cs, pch = 20, col=cs$cluster)
+proj4string(cs) <- proj4string(gb)
