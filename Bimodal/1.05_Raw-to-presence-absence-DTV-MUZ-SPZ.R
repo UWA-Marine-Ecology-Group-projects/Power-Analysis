@@ -196,35 +196,24 @@ head(dfs)
 coordinates(dfs) <- ~Longitude+Lat
 plot(dfs)
 
-points(dfs[dfs$Transect.id == "HPZ.1",], col ='red')
-points(dfs[dfs$Transect.id == "HPZ.2",], col ='red')
-points(dfs[dfs$Transect.id == "HPZ.3",], col ='red')
-points(dfs[dfs$Transect.id == "HPZ.4",], col ='red')
-points(dfs[dfs$Transect.id == "HPZ.5",], col ='red')
-points(dfs[dfs$Transect.id == "HPZ.6",], col ='red')
-points(dfs[dfs$Transect.id == "HPZ.7",], col ='red')
-points(dfs[dfs$Transect.id == "HPZ.8",], col ='red')
-points(dfs[dfs$Transect.id == "HPZ.9",], col ='red')
+# to see points if wanted --
+#points(dfs[dfs$Transect.id == "HPZ.1",], col ='red')
+#points(dfs[dfs$Transect.id == "HPZ.2",], col ='red')
+#points(dfs[dfs$Transect.id == "HPZ.3",], col ='red')
 
-points(dfs[dfs$Transect.id == "NPZ.1",], col ='red')
-points(dfs[dfs$Transect.id == "NPZ.2",], col ='red')
-points(dfs[dfs$Transect.id == "NPZ.3",], col ='red')
-points(dfs[dfs$Transect.id == "NPZ.4",], col ='red')
-points(dfs[dfs$Transect.id == "NPZ.5",], col ='red')
-points(dfs[dfs$Transect.id == "NPZ.6",], col ='red')
-points(dfs[dfs$Transect.id == "NPZ.7",], col ='red')
-points(dfs[dfs$Transect.id == "NPZ.8",], col ='red')
-points(dfs[dfs$Transect.id == "NPZ.9",], col ='red')
+# remove NPZ zone ----
+levels(df$Zone)
+df <- df[df$Zone != "NPZ",]
+df <- droplevels(df)
+levels(df$Zone)
 
 # Group transects into clusters ----
 levels(df$Transect.id)
 lt <- levels(df$Transect.id)
-cluster <- c("HPZclust1","HPZclust1","HPZclust1","HPZclust1","HPZclust1","HPZclust2","HPZclust2","HPZclust2","HPZclust2",
-             "mid1", "Mid2", "MUZshallow2", "mid1" , "mid1",  "mid3",  "mid3", 
-             "MUZshallow2" , "MUZshallow1" , "MUZshallow1",  "MUZshallow1",  
-             "NPZclust1","NPZclust1","NPZclust1","NPZclust1","NPZclust1","NPZclust2","NPZclust2","NPZclust2","NPZclust2",  
-             "deep" , "mid2", "mid2", "SPZshallow1", "deep" , "deep" , "mid2" , "SPZshallow2" , "SPZshallow2",
-             "SPZshallow2" , "SPZshallow1",  "SPZshallow1")
+cluster <- c("HPZ.c1",  "HPZ.c1" , "HPZ.c1",  "HPZ.c2" , "HPZ.c2" , "HPZ.c2"  ,"HPZ.c3" , "HPZ.c3",  "HPZ.c3" ,
+             "MUZ.c1" , "MUZ.c3" ,"MUZ.c3" ,"MUZ.c1",  "MUZ.c1",  "MUZ.c1",  "MUZ.c2", 
+             "MUZ.c3" , "MUZ.c2",  "MUZ.c2" , "MUZ.c2", "SPZ.c1" , "SPZ.c2", "SPZ.c2",
+             "MUZ.c3" ,"SPZ.c1",  "SPZ.c1", "SPZ.c2",  "SPZ.c3",  "SPZ.c3" , "SPZ.c3",  "SPZ.c3",  "SPZ.c3" )
 
 clusterf <- as.data.frame(cbind(lt, cluster))
 head(clusterf)
@@ -239,11 +228,15 @@ df2$Zone <- as.factor(df2$Zone)
 df2$cluster <- as.factor(df2$cluster)
 names(df2)
 str(df2)
+df2$Latitude <- df2$Latitude*(-1)
+head(df2)
 
 df3 <- df2
 df3 <- na.omit(df3)
 coordinates(df3) <- ~Longitude+Latitude
 plot(df3, pch=21, bg = df3$cluster)
+
+df <- df2
 
 #### MUZ ####
 
@@ -251,13 +244,114 @@ plot(df3, pch=21, bg = df3$cluster)
 # for NPZ I only need shallow 1, 2, 3
 levels(df2$cluster)
 
-dfn <- df2[df2$cluster == 'NPZclust1' | df2$cluster == 'NPZclust2' | 
-             df2$cluster == 'MUZshallow1' | df2$cluster == 'MUZshallow2' |
-             df2$cluster == 'SPZshallow1' | df2$cluster == 'SPZshallow2',  ]
-str(dfn)
-dfs <- droplevels(dfn)
-levels(dfn$cluster)
-summary(dfn)
+dfn <- df2
+
+#### T1 ####
+
+# subsample dat to n=2500( 100 images/25 points per transect ) to improve speed
+
+dfn1 <-as.data.frame(dfn %>% group_by(cluster) %>% sample_n(size = 2500))
+str(dfn1)
+dfn1 <- droplevels(dfn1)
+str(dfn1) # 11250 obs
+
+names(dfn1)
+
+
+## calculate presences and no. scored ----
+
+sg.pres1 <- aggregate(total.sg ~ cluster + Zone, data = dfn1, sum)
+sg.pres1
+
+no.scored1 <-  aggregate(total.sg ~ cluster + Zone, data = dfn1, length)           
+no.scored1
+names(no.scored1) <- c("Cluster", "ZoneName", "no.scored")
+
+df1 <- cbind(sg.pres1, no.scored1[,3])
+df1
+names(df1) <- c("Cluster",        "ZoneName",       "Seagrass",    "no.scored")
+df1$Time <- "T1"
+df1
+
+#### T2 ####
+
+# subsample dat to n=2500( 100 images/25 points per transect ) to improve speed
+
+dfn2 <- as.data.frame(dfn %>% group_by(cluster) %>% sample_n(size = 2500))
+str(dfn2)
+dfn2 <- droplevels(dfn2)
+str(dfn2) # 11250 obs
+
+## calculate presences and no. scored ----
+
+sg.pres1 <- aggregate(total.sg ~ cluster + Zone, data = dfn2, sum)
+sg.pres1
+
+no.scored1 <-  aggregate(total.sg ~ cluster + Zone, data = dfn2, length)           
+no.scored1
+names(no.scored1) <- c("Cluster", "ZoneName", "no.scored")
+
+df2 <- cbind(sg.pres1, no.scored1[,3])
+df2
+names(df2) <- c("Cluster",        "ZoneName",       "Seagrass",    "no.scored")
+df2$Time <- "T2"
+df2
+
+#### T3 ####
+
+# subsample dat to n=2500( 100 images/25 points per transect ) to improve speed
+
+dfn3 <-as.data.frame(dfn %>% group_by(cluster) %>% sample_n(size = 2500))
+str(dfn3)
+dfn3 <- droplevels(dfn3)
+str(dfn3) # 11250 obs
+
+## calculate presences and no. scored ----
+
+sg.pres1 <- aggregate(total.sg ~ cluster + Zone, data = dfn3, sum)
+sg.pres1
+
+no.scored1 <-  aggregate(total.sg ~ cluster + Zone, data = dfn3, length)           
+no.scored1
+names(no.scored1) <- c("Cluster", "ZoneName", "no.scored")
+
+df3 <- cbind(sg.pres1, no.scored1[,3])
+df3
+names(df3) <- c("Cluster",        "ZoneName",       "Seagrass",    "no.scored")
+df3$Time <- "T3"
+df3
+
+## joint these together --
+
+dfall <- rbind(df1, df2, df3)
+dfall
+
+
+# Make Period Column
+dfall$Period <- "Before"
+names(dfall)
+str(dfall)
+# Make control impact column
+levels(dfall$Cluster)
+dfall <- droplevels(dfall)
+levels(dfall$Cluster)
+dfall$CvI <- ifelse(dfall$ZoneName=="MUZ", "Impact", "Control")
+head(dfall)
+
+
+#### Save data for epower ----
+
+write.csv(dfall, paste(tidy.dir, paste(study, "MUZ-seag-epower-22102020.csv", sep='-'), sep='/'))
+
+
+
+
+#### SPZ ####
+
+
+levels(df$cluster)
+
+dfn <- df
 
 #### T1 ####
 
@@ -348,127 +442,13 @@ str(dfall)
 levels(dfall$Cluster)
 dfall <- droplevels(dfall)
 levels(dfall$Cluster)
-dfall$CvI <- ifelse(dfall$ZoneName=="NPZ", "Impact", "Control")
+dfall$CvI <- ifelse(dfall$ZoneName=="SPZ", "Impact", "Control")
 head(dfall)
 
 
 #### Save data for epower ----
 
-write.csv(dfall, paste(tidy.dir, paste(study, "NPZ-seag-epower-22092020.csv", sep='-'), sep='/'))
-
-
-
-
-#### HPZ ####
-
-# Remove unnecessary clusters ----
-# for NPZ I only need shallow 1, 2, 3
-levels(df2$cluster)
-
-dfn <- df2[df2$cluster == 'HPZclust1' | df2$cluster == 'HPZclust2' | 
-             df2$cluster == 'MUZshallow1' | df2$cluster == 'MUZshallow2' |
-             df2$cluster == 'SPZshallow1' | df2$cluster == 'SPZshallow2',  ]
-str(dfn)
-dfs <- droplevels(dfn)
-levels(dfn$cluster)
-summary(dfn)
-
-#### T1 ####
-
-# subsample dat to n=2500( 100 images/25 points per transect ) to improve speed
-
-dfn1 <-as.data.frame(dfn %>% group_by(cluster) %>% sample_n(size = 2500))
-str(dfn1)
-dfn1 <- droplevels(dfn1)
-str(dfn1) # 11250 obs
-
-names(dfn1)
-
-
-## calculate presences and no. scored ----
-
-sg.pres1 <- aggregate(total.sg ~ cluster + Zone, data = dfn1, sum)
-sg.pres1
-
-no.scored1 <-  aggregate(total.sg ~ cluster + Zone, data = dfn1, length)           
-no.scored1
-names(no.scored1) <- c("Cluster", "ZoneName", "no.scored")
-
-df1 <- cbind(sg.pres1, no.scored1[,3])
-df1
-names(df1) <- c("Cluster",        "ZoneName",       "Seagrass",    "no.scored")
-df1$Time <- "T1"
-df1
-
-#### T2 ####
-
-# subsample dat to n=2500( 100 images/25 points per transect ) to improve speed
-
-dfn2 <-as.data.frame(dfn %>% group_by(cluster) %>% sample_n(size = 2500))
-str(dfn2)
-dfn2 <- droplevels(dfn2)
-str(dfn2) # 11250 obs
-
-## calculate presences and no. scored ----
-
-sg.pres1 <- aggregate(total.sg ~ cluster + Zone, data = dfn2, sum)
-sg.pres1
-
-no.scored1 <-  aggregate(total.sg ~ cluster + Zone, data = dfn2, length)           
-no.scored1
-names(no.scored1) <- c("Cluster", "ZoneName", "no.scored")
-
-df2 <- cbind(sg.pres1, no.scored1[,3])
-df2
-names(df2) <- c("Cluster",        "ZoneName",       "Seagrass",    "no.scored")
-df2$Time <- "T2"
-df2
-
-#### T3 ####
-
-# subsample dat to n=2500( 100 images/25 points per transect ) to improve speed
-
-dfn3 <-as.data.frame(dfn %>% group_by(cluster) %>% sample_n(size = 2500))
-str(dfn3)
-dfn3 <- droplevels(dfn3)
-str(dfn3) # 11250 obs
-
-## calculate presences and no. scored ----
-
-sg.pres1 <- aggregate(total.sg ~ cluster + Zone, data = dfn3, sum)
-sg.pres1
-
-no.scored1 <-  aggregate(total.sg ~ cluster + Zone, data = dfn3, length)           
-no.scored1
-names(no.scored1) <- c("Cluster", "ZoneName", "no.scored")
-
-df3 <- cbind(sg.pres1, no.scored1[,3])
-df3
-names(df3) <- c("Cluster",        "ZoneName",       "Seagrass",    "no.scored")
-df3$Time <- "T3"
-df3
-
-## joint these together --
-
-dfall <- rbind(df1, df2, df3)
-dfall
-
-
-# Make Period Column
-dfall$Period <- "Before"
-names(dfall)
-str(dfall)
-# Make control impact column
-levels(dfall$Cluster)
-dfall <- droplevels(dfall)
-levels(dfall$Cluster)
-dfall$CvI <- ifelse(dfall$ZoneName=="HPZ", "Impact", "Control")
-head(dfall)
-
-
-#### Save data for epower ----
-
-write.csv(dfall, paste(tidy.dir, paste(study, "HPZ-seag-epower-22092020.csv", sep='-'), sep='/'))
+write.csv(dfall, paste(tidy.dir, paste(study, "SPZ-seag-epower-22102020.csv", sep='-'), sep='/'))
 
 
 
