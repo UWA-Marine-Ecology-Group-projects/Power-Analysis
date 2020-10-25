@@ -204,16 +204,19 @@ plot(dfs)
 # remove NPZ zone ----
 levels(df$Zone)
 df <- df[df$Zone != "NPZ",]
+#df <- df[df$Zone != "HPZ",]
 df <- droplevels(df)
 levels(df$Zone)
 
 # Group transects into clusters ----
 levels(df$Transect.id)
 lt <- levels(df$Transect.id)
-cluster <- c("HPZ.c1",  "HPZ.c1" , "HPZ.c1",  "HPZ.c2" , "HPZ.c2" , "HPZ.c2"  ,"HPZ.c3" , "HPZ.c3",  "HPZ.c3" ,
-             "MUZ.c1" , "MUZ.c3" ,"MUZ.c3" ,"MUZ.c1",  "MUZ.c1",  "MUZ.c1",  "MUZ.c2", 
-             "MUZ.c3" , "MUZ.c2",  "MUZ.c2" , "MUZ.c2", "SPZ.c1" , "SPZ.c2", "SPZ.c2",
-             "MUZ.c3" ,"SPZ.c1",  "SPZ.c1", "SPZ.c2",  "SPZ.c3",  "SPZ.c3" , "SPZ.c3",  "SPZ.c3",  "SPZ.c3" )
+cluster <- c( "HPZ.c1" , "HPZ.c1",  "HPZ.c1" , "HPZ.c1"  ,"HPZ.c1"  ,"HPZ.c2" , "HPZ.c2",  "HPZ.c2",  "HPZ.c2" ,
+              "MUZ.c1" , "MUZ.c1" ,"MUZ.c2" ,"MUZ.c1" , "MUZ.c1" , "MUZ.c1" , "MUZ.c1" , "MUZ.c2",  "MUZ.c2" , 
+              "MUZ.c2", "MUZ.c2" , "SPZ.c1" , "SPZ.c1", "SPZ.c1", "SPZ.c2", "SPZ.c1" , "SPZ.c1",  "SPZ.c1" ,
+              "SPZ.c2"  ,"SPZ.c2", "SPZ.c2",  "SPZ.c2",  "SPZ.c2" )
+              
+              
 
 clusterf <- as.data.frame(cbind(lt, cluster))
 head(clusterf)
@@ -237,6 +240,7 @@ coordinates(df3) <- ~Longitude+Latitude
 plot(df3, pch=21, bg = df3$cluster)
 
 df <- df2
+str(df2)
 
 #### MUZ ####
 
@@ -337,7 +341,9 @@ dfall <- droplevels(dfall)
 levels(dfall$Cluster)
 dfall$CvI <- ifelse(dfall$ZoneName=="MUZ", "Impact", "Control")
 head(dfall)
-
+summary(dfall)
+str(dfall)
+levels(dfall$Cluster)
 
 #### Save data for epower ----
 
@@ -348,10 +354,81 @@ write.csv(dfall, paste(tidy.dir, paste(study, "MUZ-seag-epower-22102020.csv", se
 
 #### SPZ ####
 
+# read data
+df <- read.csv(paste(raw.dir, "DTV_seagrass_presence_absence_alltransects.csv", sep='/'))
 
-levels(df$cluster)
+str(df)
+df$Transect.id <- as.factor(df$Transect.id)
 
-dfn <- df
+dfs <- df
+dfs <- na.omit(dfs)
+dfs$Lat <- paste('-', dfs$Latitude, sep='')
+str(dfs)
+dfs$Lat <- as.numeric(dfs$Lat)
+head(dfs)
+#coordinates(dfs) <- ~Longitude+Lat
+#plot(dfs)
+
+# to see points if wanted --
+#points(dfs[dfs$Transect.id == "HPZ.1",], col ='red')
+#points(dfs[dfs$Transect.id == "HPZ.2",], col ='red')
+#points(dfs[dfs$Transect.id == "HPZ.3",], col ='red')
+
+# remove NPZ zone ----
+levels(df$Zone)
+df <- df[df$Zone != "NPZ",]
+df <- df[df$Zone != "HPZ",]
+df <- droplevels(df)
+levels(df$Zone)
+
+# Group transects into clusters ----
+levels(df$Transect.id)
+lt <- levels(df$Transect.id)
+cluster <- c( "MUZ.c1",  "MUZ.c2", "MUZ.c4", "MUZ.c1", "MUZ.c1" , "MUZ.c2",
+              "MUZ.c2",  "MUZ.c4", "MUZ.c3" , "MUZ.c3" , "MUZ.c3",  "SPZ.c1",  
+              "SPZ.c1" ,"SPZ.c1", "SPZ.c2", "SPZ.c1" , "SPZ.c1" , "SPZ.c1" , 
+              "SPZ.c2" , "SPZ.c2" , "SPZ.c2",  "SPZ.c2",  "SPZ.c2" )
+           
+
+
+
+clusterf <- as.data.frame(cbind(lt, cluster))
+head(clusterf)
+names(clusterf) <- c("Transect.id"  ,    "cluster")
+
+df2 <- merge(df, clusterf, by = "Transect.id")
+head(df2)
+str(df2)
+df2$image <- as.factor(df2$image)
+df2$Transect <- as.factor(df2$Transect)
+df2$Zone <- as.factor(df2$Zone)
+df2$cluster <- as.factor(df2$cluster)
+names(df2)
+str(df2)
+df2$Latitude <- df2$Latitude*(-1)
+head(df2)
+
+levels(df2$cluster)
+
+## Make MUZ deep and shallow for controls
+cluster <- levels(df2$cluster)
+Zones <- c("MUZdeep", "MUZdeep", "MUZshallow", "MUZshallow", "SPZ", "SPZ")
+zone2 <- cbind(cluster, Zones)
+
+df3 <- merge(df2, zone2, by = "cluster")
+head(df3)
+
+
+#df3 <- na.omit(df3)
+#coordinates(df3) <- ~Longitude+Latitude
+#plot(df3, pch=21, bg = df3$cluster)
+
+df <- df3
+str(df3)
+summary(df3)
+
+
+dfn <- df3
 
 #### T1 ####
 
@@ -367,10 +444,10 @@ names(dfn1)
 
 ## calculate presences and no. scored ----
 
-sg.pres1 <- aggregate(total.sg ~ cluster + Zone, data = dfn1, sum)
+sg.pres1 <- aggregate(total.sg ~ cluster + Zones, data = dfn1, sum)
 sg.pres1
 
-no.scored1 <-  aggregate(total.sg ~ cluster + Zone, data = dfn1, length)           
+no.scored1 <-  aggregate(total.sg ~ cluster + Zones, data = dfn1, length)           
 no.scored1
 names(no.scored1) <- c("Cluster", "ZoneName", "no.scored")
 
@@ -391,10 +468,10 @@ str(dfn2) # 11250 obs
 
 ## calculate presences and no. scored ----
 
-sg.pres1 <- aggregate(total.sg ~ cluster + Zone, data = dfn2, sum)
+sg.pres1 <- aggregate(total.sg ~ cluster + Zones, data = dfn2, sum)
 sg.pres1
 
-no.scored1 <-  aggregate(total.sg ~ cluster + Zone, data = dfn2, length)           
+no.scored1 <-  aggregate(total.sg ~ cluster + Zones, data = dfn2, length)           
 no.scored1
 names(no.scored1) <- c("Cluster", "ZoneName", "no.scored")
 
@@ -415,10 +492,10 @@ str(dfn3) # 11250 obs
 
 ## calculate presences and no. scored ----
 
-sg.pres1 <- aggregate(total.sg ~ cluster + Zone, data = dfn3, sum)
+sg.pres1 <- aggregate(total.sg ~ cluster + Zones, data = dfn3, sum)
 sg.pres1
 
-no.scored1 <-  aggregate(total.sg ~ cluster + Zone, data = dfn3, length)           
+no.scored1 <-  aggregate(total.sg ~ cluster + Zones, data = dfn3, length)           
 no.scored1
 names(no.scored1) <- c("Cluster", "ZoneName", "no.scored")
 
@@ -444,6 +521,7 @@ dfall <- droplevels(dfall)
 levels(dfall$Cluster)
 dfall$CvI <- ifelse(dfall$ZoneName=="SPZ", "Impact", "Control")
 head(dfall)
+summary(dfall)
 
 
 #### Save data for epower ----
