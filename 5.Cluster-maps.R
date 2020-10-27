@@ -354,21 +354,268 @@ tmap_save(s3, paste(mp.dir, "DTV-HPZ-control-clusters.tiff", sep='/'))
 
 # Load AUV Grids ----
 
-c <- read.csv(paste(md.dir, "GB_hab_AUV_cluster.csv", sep='/'))
+c <- read.csv(paste(md.dir, "GB_hab_AUV_grid_20200914.csv", sep='/'))
 str(c)
 #c$clust  <- as.factor(c$clust)
 
-levels(c$cluster)
-c <- c[c$cluster!="deep",]
-c <- c[c$cluster!="mid1",]
-c <- c[c$cluster!="mid2",]
+# make sp to check
+cs <- c
+coordinates(cs) <- ~longitude+latitude
+points(cs, pch=21, bg=cs$campaignid)
+
+# removve clusters unnecessary clusters ----
+levels(c$campaignid)
+c <- c[c$campaignid!="G9",]
+c <- c[c$campaignid!="G10",]
+c <- c[c$campaignid!="G11",]
+c <- c[c$campaignid!="G12",]
+c <- c[c$campaignid!="G13",]
+c <- c[c$campaignid!="G14",]
+c <- c[c$campaignid!="G15",]
 c <- droplevels(c)
 
-levels(c$cluster)
+levels(c$campaignid)
+# rename for ploting
+library(plyr)
+c$campaignid <- revalue(c$campaignid, c("G1"="MUZ 1", "G2"="HPZ 1", "G3"="HPZ 2", "G4"="MUZ 2", "G5"="NPZ 1", "G6"="MUZ 3"))
+levels(c$campaignid)
 
-# make sp ----
+# make sp to check
 cs <- c
-coordinates(cs) <- ~Longitude+Latitude
+coordinates(cs) <- ~longitude+latitude
+points(cs, pch=21, bg=cs$campaignid)
+
+
+## All AUV coastal clusters ----
+
+# choose color --
+#pal1 <- choose_palette() # 14 colours
+#hcl_palettes(plot = TRUE)
+pal <- sequential_hcl(14, palette = "viridis")
+
+lab <- levels(cs$campaignid)
+
+#tmaptools::palette_explorer()
+pal2 <- viridisLite::viridis(14)
+pal3 <- get_brewer_pal("Spectral", n = 14)
+pal4 <- get_brewer_pal("Paired", n = 14)
+
+map <- tm_shape(gb)  + tm_borders(col ='black', lwd = 2) +
+  tm_compass(type = "arrow", position = c(0.8, 0.2), size = 4) +
+  tm_scale_bar(breaks = c(0, 5, 10), text.size = 1) + 
+  #tm_graticules(ticks = FALSE) +
+  tm_grid(n.x = 3, n.y = 3, labels.size = 1.5, lines = FALSE) 
+map
+
+map1 <- map + tm_shape(cs) + tm_symbols('campaignid', size = 0.9,  palette = pal4, shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+map1
+
+
+## save map ----
+tmap_save(map1, paste(mp.dir, "AUV-multivar-clusters.tiff", sep='/'))
+
+# get the legend ----
+
+map1 <- map + tm_shape(cs) + tm_symbols('campaignid', size = 4,  palette = pal4, shape = 21, border.col='black') + 
+  tm_layout(legend.only = TRUE,
+            legend.text.size = 1.2)
+map1
+
+## save map ----
+tmap_save(map1, paste(mp.dir, "AUV-multivar-clusters-legend.tiff", sep='/'))
+
+## PLOT AUV NPZ ----
 plot(gb)
-points(cs, pch = 20, col=cs$cluster)
-proj4string(cs) <- proj4string(gb)
+plot(cs[cs$campaignid=="MUZ 1",], add=T)
+plot(cs[cs$campaignid=="HPZ 1",], add=T)
+
+
+
+map <- tm_shape(gb)  + tm_borders(col ='black', lwd = 2) +
+  tm_compass(type = "arrow", position = c(0.8, 0.2), size = 4) +
+  tm_scale_bar(breaks = c(0, 5, 10), text.size = 1) + 
+  #tm_graticules(ticks = FALSE) +
+  tm_grid(n.x = 3, n.y = 3, labels.size = 1.5, lines = FALSE) 
+map
+
+NPZ <- map + tm_shape(cs[cs$campaignid=="NPZ 1",]) + tm_symbols(size = 0.9, col='#FF3333', shape = 201) + 
+  tm_layout(legend.show = FALSE) + map
+NPZ
+
+HPZ1 <-  NPZ + tm_shape(cs[cs$campaignid=="HPZ 1",]) + tm_symbols(size = 0.9, col='#6699FF', shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+HPZ1
+
+HPZ2 <-  HPZ1 + tm_shape(cs[cs$campaignid=="HPZ 2",]) + tm_symbols(size = 0.9, col='#6699FF', shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+HPZ2
+
+MUZ1 <-  HPZ2 + tm_shape(cs[cs$campaignid=="MUZ 1",]) + tm_symbols(size = 0.9, col='#6699FF', shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+MUZ1
+
+MUZ2 <-  MUZ1 + tm_shape(cs[cs$campaignid=="MUZ 2",]) + tm_symbols(size = 0.9, col='#6699FF', shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+MUZ2
+
+MUZ3 <-  MUZ2 + tm_shape(cs[cs$campaignid=="MUZ 3",]) + tm_symbols(size = 0.9, col='#6699FF', shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+MUZ3
+
+## save map ----
+tmap_save(MUZ3, paste(mp.dir, "AUV-control-NPZ.tiff", sep='/'))
+
+## PLOT AUV HPZ ----
+plot(gb)
+plot(cs[cs$campaignid=="MUZ 1",], add=T)
+plot(cs[cs$campaignid=="HPZ 1",], add=T)
+
+
+
+map <- tm_shape(gb)  + tm_borders(col ='black', lwd = 2) +
+  tm_compass(type = "arrow", position = c(0.8, 0.2), size = 4) +
+  tm_scale_bar(breaks = c(0, 5, 10), text.size = 1) + 
+  #tm_graticules(ticks = FALSE) +
+  tm_grid(n.x = 3, n.y = 3, labels.size = 1.5, lines = FALSE) 
+map
+
+NPZ <- map + tm_shape(cs[cs$campaignid=="NPZ 1",]) + tm_symbols(size = 0.9, col='#6699FF', shape = 201) + 
+  tm_layout(legend.show = FALSE) + map
+NPZ
+
+HPZ1 <-  NPZ + tm_shape(cs[cs$campaignid=="HPZ 1",]) + tm_symbols(size = 0.9, col='#FF3333', shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+HPZ1
+
+HPZ2 <-  HPZ1 + tm_shape(cs[cs$campaignid=="HPZ 2",]) + tm_symbols(size = 0.9, col='#FF3333', shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+HPZ2
+
+MUZ1 <-  HPZ2 + tm_shape(cs[cs$campaignid=="MUZ 1",]) + tm_symbols(size = 0.9, col='#6699FF', shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+MUZ1
+
+MUZ2 <-  MUZ1 + tm_shape(cs[cs$campaignid=="MUZ 2",]) + tm_symbols(size = 0.9, col='#6699FF', shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+MUZ2
+
+MUZ3 <-  MUZ2 + tm_shape(cs[cs$campaignid=="MUZ 3",]) + tm_symbols(size = 0.9, col='#6699FF', shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+MUZ3
+
+## save map ----
+tmap_save(MUZ3, paste(mp.dir, "AUV-control-HPZ.tiff", sep='/'))
+
+
+
+
+##      ##        ##        ##         ##
+
+##  FTV Grids ----
+
+# Load AUV Grids ----
+
+c <- read.csv(paste(md.dir, "GB_hab_TV_transect_20200914.csv", sep='/'))
+str(c)
+#c$clust  <- as.factor(c$clust)
+
+# make sp to check
+cs <- c
+coordinates(cs) <- ~longitude+latitude
+plot(gb)
+points(cs, pch=21, bg=cs$transect)
+
+
+# rename for ploting
+levels(c$transect)
+library(plyr)
+c$transect <- revalue(c$transect, c("T2" = "Transect 1", "T3"= "Transect HPZ", "T4"="Transect 2", "T5" = "Transect 3", "T6" = "Transect 4",
+                                        "T7"="Transect 5"))
+levels(c$transect)
+
+# make sp to check
+cs <- c
+coordinates(cs) <- ~longitude+latitude
+points(cs, pch=21, bg=cs$campaignid)
+
+
+## All AUV coastal clusters ----
+
+# choose color --
+#pal1 <- choose_palette() # 14 colours
+#hcl_palettes(plot = TRUE)
+pal <- sequential_hcl(14, palette = "viridis")
+
+lab <- levels(cs$campaignid)
+
+#tmaptools::palette_explorer()
+pal2 <- viridisLite::viridis(14)
+pal3 <- get_brewer_pal("Spectral", n = 14)
+pal4 <- get_brewer_pal("Paired", n = 14)
+
+map <- tm_shape(gb)  + tm_borders(col ='black', lwd = 2) +
+  tm_compass(type = "arrow", position = c(0.8, 0.2), size = 4) +
+  tm_scale_bar(breaks = c(0, 5, 10), text.size = 1) + 
+  #tm_graticules(ticks = FALSE) +
+  tm_grid(n.x = 3, n.y = 3, labels.size = 1.5, lines = FALSE) 
+map
+
+map1 <- map + tm_shape(cs) + tm_symbols('transect', size = 0.9,  palette = pal4, shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+map1
+
+
+## save map ----
+tmap_save(map1, paste(mp.dir, "FTV-transects.tiff", sep='/'))
+
+# get the legend ----
+
+map1 <- map + tm_shape(cs) + tm_symbols('transect', size = 4,  palette = pal4, shape = 21, border.col='black') + 
+  tm_layout(legend.only = TRUE,
+            legend.text.size = 1.2)
+map1
+
+## save map ----
+tmap_save(map1, paste(mp.dir, "FTV-transect-legend.tiff", sep='/'))
+
+
+
+## PLOT FTV HPZ ----
+plot(gb)
+plot(cs[cs$transect=="Transect 1",], add=T)
+plot(cs[cs$transect=="Transect HPZ",], add=T)
+
+
+
+map <- tm_shape(gb)  + tm_borders(col ='black', lwd = 2) +
+  tm_compass(type = "arrow", position = c(0.8, 0.2), size = 4) +
+  tm_scale_bar(breaks = c(0, 5, 10), text.size = 1) + 
+  #tm_graticules(ticks = FALSE) +
+  tm_grid(n.x = 3, n.y = 3, labels.size = 1.5, lines = FALSE) 
+map
+
+
+HPZ1 <-  map + tm_shape(cs[cs$transect=="Transect 1",]) + tm_symbols(size = 0.9, col='#6699FF', shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+HPZ1
+
+HPZ2 <-  HPZ1 + tm_shape(cs[cs$transect=="Transect 2",]) + tm_symbols(size = 0.9, col='#6699FF', shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+HPZ2
+
+MUZ1 <-  HPZ2 + tm_shape(cs[cs$transect=="Transect HPZ",]) + tm_symbols(size = 0.9, col='#FF3333', shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+MUZ1
+
+MUZ2 <-  MUZ1 + tm_shape(cs[cs$transect=="Transect 3",]) + tm_symbols(size = 0.9, col='#6699FF', shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+MUZ2
+
+MUZ3 <-  MUZ2 + tm_shape(cs[cs$transect=="Transect 4",]) + tm_symbols(size = 0.9, col='#6699FF', shape = 20) + 
+  tm_layout(legend.show = FALSE) + map
+MUZ3
+
+## save map ----
+tmap_save(MUZ3, paste(mp.dir, "FTV-control-HPZ.tiff", sep='/'))
+
