@@ -12,7 +12,13 @@ setwd("C:/Users/00093391/Dropbox/UWA/Research Associate/PowAn/Desktop")
 
 # set directory
 
-w.directory <- dirname("C:/Users/00093391/Dropbox/UWA/Research Associate/PowAn/Desktop/ ")
+# Set working directory ####
+w.dir<-dirname(rstudioapi::getActiveDocumentContext()$path)
+# Set data directory - to read the data from
+d.dir <- paste(w.dir, "Data", "tidy", sep='/')
+# Set graph directory - to save plots
+p.dir <- paste(w.dir, "Plots", sep='/')
+s.dir <- paste(w.dir, "Data/shapefiles", s)
 
 
 # load Bruv data used for power analysis ----
@@ -328,13 +334,16 @@ green2 <- brocolors("crayons")["Sea Green"] # "#93dfb8"
 
 ## Read Geo bay shapefile
 
-gb <- readOGR(dsn="C:/Users/21933549/Dropbox/UWA/Research Associate/PowAn/Desktop/shapefiles/GeoBay.shp")
+
+gb <- readOGR(paste(s.dir, "GeoBay.shp", sep='/'))
 plot(gb)
 proj4string(gb) # "+proj=longlat +ellps=GRS80 +no_defs"
 
 ## Read Bruv data
-sp <- read.csv("C:/Users/21933549/Dropbox/UWA/Research Associate/PowAn/DATA/Bruv.csv")
+sp <- read.csv(paste(d.dir, "BRUV_clusteredpoints.csv", sep='/'))
 str(sp)
+sp$clust <- as.factor(sp$clust)
+levels(sp$clust)
 
 coordinates(sp) <- ~coords.x1+coords.x2
 proj4string(sp) <- "+proj=longlat +ellps=GRS80 +no_defs"
@@ -372,19 +381,39 @@ p0 <- ggplot() +
   #theme(legend.position = "bottom", legend.box = "vertical", legend.title = element_text(face="bold")) +
   labs(title = "Geographe Bay - Stereo-BRUVS", x ="Latitude" , y ="Longitude") +
   xlab("Latitude") + ylab("Longitude") +
-  geom_point(aes(x=coords.x1, y=coords.x2, color = ZoneName), data=sp,alpha=1, size=3, color="grey20")+ # to get outline
-  geom_point(aes(x=coords.x1, y=coords.x2, color = ZoneName), data=sp,alpha=1, size=2) +
-  scale_colour_manual("Stereo-BRUVs", values = c("yellow", "blue", "green"), guide=guide_legend(nrow=3, title.position = "top")) +  # change color scale
+  geom_point(aes(x=coords.x1, y=coords.x2, color = clust), data=sp, alpha=1, size=3, color="grey20")+ # to get outline
+  geom_point(aes(x=coords.x1, y=coords.x2, color = clust), data=sp, alpha=1, size=2) +
+ # scale_colour_manual("Stereo-BRUVs", values = c("yellow", "blue", "green", "black"), guide=guide_legend(nrow=3, title.position = "top")) +  # change color scale
   theme(legend.position = "bottom", legend.box = "horizontal", legend.title = element_text(face="bold")) +
   xlab("Latitude") + ylab("Longitude") 
 print(p0)
 
-ggsave(paste(w.directory, "Map_BRUVS_pa.png", sep='/'), plot=p0, scale =1, device = "png", dpi =300)
+#ggsave(paste(w.directory, "Map_BRUVS_pa.png", sep='/'), plot=p0, scale =1, device = "png", dpi =300)
 
 
 ## AUV maps ----
-sp <- read.csv("C:/Users/21933549/Dropbox/UWA/Research Associate/PowAn/DATA/Auv.csv")
-str(sp)
+# Load data
+df <- read.csv(paste(d.dir, "Auv_zoning.csv", sep='/'))
+str(df)
+names(df)
+any(is.na(df))
+
+# wa-gb-auv-02 and wa-gb-auv-02-exp are the same, join them
+levels(df$campaignid)[levels(df$campaignid)=="r20150527_081513_wa-gb-auv-02-exp"] <- "r20150526_035926_wa-gb-auv-02"
+levels(df$campaignid) # 13 grids in total
+
+# change the names of the sites
+levels(df$campaignid)
+sitenames <- c("AUV1", "AUV2", "AUV3", "AUV6", "AUV5", "AUV4", "AUV10", "AUV9", "AUV11", "AUV13", "AUV12", "AUV14", "AUV15")
+levels(df$campaignid) <- sitenames
+
+# reorder levels
+print(levels(df$campaignid))
+#sp$campaignid = factor(sp$campaignid,levels(sp$campaignid)[c(1:3,6,5,4)])
+df$campaignid = factor(sp$campaignid,levels(sp$campaignid)[c(1:3,6,5,4,8,7,9,11,10,12,13)])
+
+
+sp <- df
 
 coordinates(sp) <- ~coords.x1+coords.x2
 proj4string(sp) <- "+proj=longlat +ellps=GRS80 +no_defs"
@@ -434,7 +463,7 @@ p6 <- ggplot() +
   geom_point(aes(x=coords.x1, y=coords.x2, color = campaignid), data=sp,alpha=1, size=3, color="grey20")+ # to get outline
   geom_point(aes(x=coords.x1, y=coords.x2, color = campaignid), data=sp,alpha=1, size=2) +
   #scale_colour_manual("Stereo-BRUVs", values = c("yellow", "dodgerblue", "dodgerblue4","red", "forestgreen", "darkorange1"), guide=guide_legend(nrow=6, title.position = "top")) +  # change color scale
-  scale_color_brewer("Stereo-BRUVs", palette = "YlGnBu", guide=guide_legend(nrow=6, title.position = "top"))+
+  scale_color_brewer("AUV grids", palette = "YlGnBu", guide=guide_legend(nrow=6, title.position = "top"))+
   theme(legend.position = "bottom", legend.box = "horizontal", legend.title = element_text(face="bold")) +
   xlab("Latitude") + ylab("Longitude") 
 print(p6)
@@ -443,13 +472,13 @@ ggsave(paste(w.directory, "Map_AUV_pa.png", sep='/'), plot=p6, scale =1, device 
 
                
 ## Towed Video maps ----
-sp <- read.csv("C:/Users/21933549/Dropbox/UWA/Research Associate/PowAn/DATA/Tv.csv")
+sp <- read.csv(paste(d.dir, "TV.csv", sep='/'))
 str(sp)
 
 coordinates(sp) <- ~coords.x1+coords.x2
 proj4string(sp) <- "+proj=longlat +ellps=GRS80 +no_defs"
-
-#points(sp, pch = 21, bg = sp$ZoneName)
+plot(gb)
+points(sp, pch = 21, bg = sp$Transect)
 
 #plot(gb@polygons[1])
 #plot(gb[1,])
@@ -469,13 +498,13 @@ gb.points = broom::tidy(gb)
 gb.df = join(gb.points, gb@data, by="id")
 
 # change the names of the sites
-levels(sp$campaignid)
-sitenames <- c("AUV1", "AUV2", "AUV3", "AUV6", "AUV5", "AUV4")
-levels(sp$campaignid) <- sitenames
+levels(sp$Transect) # "LGBDT2" "LGBDT3" "LGBDT4" "LGBDT5" "LGBDT6" "LGBDT7"
+sitenames <- c("Transect 1", "Transect HPZ", "Transect 2", "Transect 3", "Transect 4", "Transect 5")
+levels(sp$Transect) <- sitenames
 
 # reorder levels
-print(levels(sp$Transect))
-sp$campaignid = factor(sp$campaignid,levels(sp$campaignid)[c(1:3,6,5,4)])    
+#print(levels(sp$Transect))
+#sp$campaignid = factor(sp$campaignid,levels(sp$campaignid)[c(1:3,6,5,4)])    
 
 p7 <- ggplot() +
   geom_polygon(data = gb.df, aes(x = long, y = lat, group = group, fill = ZoneName), color = "black") +
@@ -495,10 +524,35 @@ p7 <- ggplot() +
   geom_point(aes(x=coords.x1, y=coords.x2, color = Transect), data=sp,alpha=1, size=2) +
   #scale_colour_manual("Stereo-BRUVs", values = c("yellow", "dodgerblue", "dodgerblue4","red", "forestgreen", "darkorange1"), guide=guide_legend(nrow=6, title.position = "top")) +  # change color scale
   scale_color_brewer("Transects", palette = "YlGnBu", guide=guide_legend(nrow=6, title.position = "top"))+
-  theme(legend.position = "bottom", legend.box = "horizontal", legend.title = element_text(face="bold")) +
+  theme(legend.position = "bottom", legend.box = "horizontal", legend.title = element_text(face="bold", size=16), 
+        legend.text = element_text(size = 16)) +
   xlab("Latitude") + ylab("Longitude") 
 print(p7)
 
-ggsave(paste(w.directory, "Map_TV_pa.png", sep='/'), plot=p7, scale =1, device = "png", dpi =300)  
+#ggsave(paste(w.directory, "Map_TV_pa.png", sep='/'), plot=p7, scale =1, device = "png", dpi =300)  
+ggsave("G:/My Drive/Anita/Parks_Geo_SW/GB_PLOTS/Map_FTVtransects.png", plot=p7, scale =1, device = "png", dpi =300)  
 
+### JUST MAP ####
+
+
+p0 <- ggplot() +
+  geom_polygon(data = gb.df, aes(x = long, y = lat, group = group, fill = ZoneName), color = "black") +
+  #geom_point(aes(x=coords.x1, y=coords.x2), data=sp) +
+  #geom_path(color = "white", size = 0.2) +
+  #scale_fill_gradient(breaks=c(0.33,0.66,0.99), labels=c("Low","Medium","High")) + 
+  coord_equal(ratio= 1) +
+  #xlab("Latitude") + ylab("Longitude") +
+  scale_fill_manual("Zones", values = c("#eceabe", "#80daeb", "#93dfb8" , "#dbd7d2"), guide=guide_legend(nrow=4, title.position = 'top'))+
+  theme(panel.background=element_blank())+
+  theme(panel.background= element_rect(color="black")) +
+  theme(axis.title = element_blank()) +
+  #theme(legend.position = "bottom", legend.box = "vertical", legend.title = element_text(face="bold")) +
+  labs(title = "Geographe Bay - Stereo-BRUVS", x ="Latitude" , y ="Longitude") +
+  xlab("Latitude") + ylab("Longitude") +
+  #geom_point(aes(x=coords.x1, y=coords.x2, color = clust), data=sp, alpha=1, size=3, color="grey20")+ # to get outline
+  #geom_point(aes(x=coords.x1, y=coords.x2, color = clust), data=sp, alpha=1, size=2) +
+  # scale_colour_manual("Stereo-BRUVs", values = c("yellow", "blue", "green", "black"), guide=guide_legend(nrow=3, title.position = "top")) +  # change color scale
+  theme(legend.position = "bottom", legend.box = "horizontal", legend.title = element_text(face="bold")) +
+  xlab("Latitude") + ylab("Longitude") 
+print(p0)
 

@@ -95,7 +95,7 @@ p<-ggplot(data=datas, aes(x=Zone, y=mean, fill = Zone)) +
         title = element_text(size = 14, face= "bold"))
 p
 
-ggsave(paste(p.dir, "Sg-bruvs-zones.png", sep='/'), plot=p, device = "png", scale = 1, dpi =300 )
+#ggsave(paste(p.dir, "Sg-bruvs-zones.png", sep='/'), plot=p, device = "png", scale = 1, dpi =300 )
 
 
 
@@ -177,14 +177,16 @@ p2<-ggplot(data=datas, aes(x=Zone, y=mean, fill = Zone)) +
         title = element_text(size = 14, face= "bold")) 
 p2
 
-ggsave(paste(p.dir, "Sg-tv-zones.png", sep='/'), plot=p2, device = "png", scale = 1, dpi =300 )
+#ggsave(paste(p.dir, "Sg-tv-zones.png", sep='/'), plot=p2, device = "png", scale = 1, dpi =300 )
 
 
 ### Transect plots ----
 
 library(stringr)
 
+sg <- read.csv(paste(d.dir, "TV.csv", sep='/'))
 str(sg)
+
 
 ## Get the transect code form Sample number --
 sg$Transect <- str_sub(sg$sample, 1,6)
@@ -215,6 +217,9 @@ names(dataSites) <- names
 names(dataSites)
 
 
+levels(sg$Transect) # "LGBDT2" "LGBDT3" "LGBDT4" "LGBDT5" "LGBDT6" "LGBDT7"
+sitenames <- c("Transect 1", "Transect HPZ", "Transect 2", "Transect 3", "Transect 4", "Transect 5")
+levels(sg$Transect) <- sitenames
 #### TV Plots ----
 
 # color# 
@@ -226,6 +231,8 @@ names(dataSites)
 
 
 levels(dataSites$Transect)
+sitenames <- c("Transect 1", "Transect HPZ", "Transect 2", "Transect 3", "Transect 4", "Transect 5")
+levels(dataSites$Transect) <- sitenames
 
 #sitenames <- c("LGBDT2", "Habitat Protection Zone", "LGBDT4", "LGBDT5", "LGBDT6","LGBDT7")
 
@@ -245,14 +252,14 @@ p3<-ggplot(data=dataSites, aes(x=Transect, y=mean, fill = Transect)) +
   labs(title = "Towed Video transects", y = "Seagrass % cover", x = "Sites") +
   #scale_fill_manual(values = c("yellow", "dodgerblue", "dodgerblue4","red", "forestgreen", "darkorange1")) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        axis.title = element_text(size = 12, face = "bold"), axis.text = element_text(size=12), title = element_text(size=14, face="bold"),
+        axis.title = element_text(size = 14, face = "bold"), axis.text = element_text(size=14), title = element_text(size=14, face="bold"),
         legend.position = "none")
 p3
 
-ggsave(paste(p.dir, "Sg-tv-transects.png", sep='/'), plot=p3, device = "png", scale = 1, dpi =300 )
+#ggsave(paste(p.dir, "Sg-tv-transects.png", sep='/'), plot=p3, device = "png", scale = 1, dpi =300 )
 
 
-
+ggsave("G:/My Drive/Anita/Parks_Geo_SW/GB_PLOTS/Sg-tv-transects2.png", plot=p3, device = "png", width = 8, height = 6, units = 'in', dpi =300 )
 
 
 
@@ -333,7 +340,7 @@ p2<-ggplot(data=datas, aes(x=ZoneName, y=mean, fill = ZoneName)) +
         title = element_text(size = 14, face= "bold"))
 p2
 
-ggsave(paste(p.dir, "sg_Auv_zones.png", sep='/'), plot=p2, device = "png", scale = 1, dpi =300 )
+#ggsave(paste(p.dir, "sg_Auv_zones.png", sep='/'), plot=p2, device = "png", scale = 1, dpi =300 )
 
 ### AUV grid plots ----
 
@@ -381,6 +388,7 @@ dataSites$Site = factor(dataSites$Site,levels(dataSites$Site)[c(1:3,6,5,4,8,7,9,
 ### Decide on colours - 13 needed
 # colors for grids with sg
 # Expand palettes : https://www.r-bloggers.com/how-to-expand-color-palette-with-ggplot-and-rcolorbrewer/
+library(RColorBrewer)
 colorCount <- length(dataSites$Site)
 getPalette <- colorRampPalette(brewer.pal(9, "YlGnBu"))
 
@@ -406,17 +414,18 @@ p3<-ggplot(data=dataSites, aes(x=Site, y=mean, fill = Site)) +
   labs(title = "AUV survey sites", y = "Seagrass % cover", x = "Sites") +
   #scale_fill_manual(values = c("yellow", "dodgerblue", "dodgerblue4","red", "forestgreen", "darkorange1")) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        axis.title = element_text(size = 12, face = "bold"), axis.text = element_text(size=12), title = element_text(size=14, face="bold"),
+        axis.title = element_text(size = 16, face = "bold"), axis.text = element_text(size=16), title = element_text(size=16, face="bold"),
         legend.position = "none") 
-  geom_rect(xmin = as.numeric(dataSites$Sites[[5]])-0.5, ymin = 0, xmax= as.numeric(dataSites$Sites[[5]])+0.5, ymax=80, fill = "grey80")
+  geom_rect(xmin = as.numeric(dataSites$Sites[[5]])-0.5, ymin = 0, xmax= as.numeric(dataSites$Sites[[5]])+0.5, ymax=80, fill = "grey80") +
   geom_rect(data = dataSites, aes(x =mean, fill = sites),
             xmin = dataSites$Sites[5], ymin = 0, xmax= dataSites$Sites[5], ymax=80, fill = "grey80")
  
 
 p3
 
-ggsave(paste(p.dir, "Auv_Sites.png", sep='/'), plot=p3, device = "png", scale = 1, dpi =300 )
+#ggsave(paste(p.dir, "Auv_Sites.png", sep='/'), plot=p3, device = "png", scale = 1, dpi =300 )
 
+ggsave("G:/My Drive/Anita/Parks_Geo_SW/GB_PLOTS/Auv_Sites.png", plot=p3, device = "png", scale = 1, dpi =300 )
 
 
 
