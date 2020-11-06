@@ -23,6 +23,7 @@ library(tidyverse)
 library(ggvegan) # have to fix  Rtools before I can install this package
 library(githubinstall)
 library(RColorBrewer)
+library(colorspace)
 
 # clear environment ---
 rm(list=ls()) #clear memory
@@ -53,6 +54,7 @@ plot(gb)
 # read DTV data ----
 dir(d.dir)
 dtv <- read.csv(paste(d.dir, "DTV_detailed_habitat_percent.cover.csv", sep='/'))
+dtv <- read.csv(paste(d.dir, "Dtv_CMR.csv", sep='/'))
 
 head(dtv)
 str(dtv)
@@ -106,6 +108,49 @@ points(dtv2s, col = dtv2s$cluster)
 
 # save new df
 #write.csv(dtv2, paste(d.dir, "GB_hab_DTV_cluster.csv", sep ='/'))
+
+
+# better map ----
+
+gb <- readOGR(paste(s.dir, "GeoBay.shp", sep='/'))
+plot(gb)
+proj4string(gb) # "+proj=longlat +ellps=GRS80 +no_defs"
+
+plot(gb@polygons[1])
+plot(gb[1,])
+plot(gb[2,])
+plot(gb[4,])
+MP <- (gb[3,])
+HPZ <-(gb[1,])
+GB <- (gb[4,])
+plot(HPZ)
+
+
+gb@data$id = rownames(gb@data)
+gb.points = broom::tidy(gb)
+gb.df = join(gb.points, gb@data, by="id")
+
+p0 <- ggplot() +
+  geom_polygon(data = gb.df, aes(x = long, y = lat, group = group, fill = ZoneName), color = "black") +
+  #geom_point(aes(x=coords.x1, y=coords.x2), data=sp) +
+  #geom_path(color = "white", size = 0.2) +
+  #scale_fill_gradient(breaks=c(0.33,0.66,0.99), labels=c("Low","Medium","High")) + 
+  coord_equal(ratio= 1) +
+  #xlab("Latitude") + ylab("Longitude") +
+  scale_fill_manual("Zones", values = c("#eceabe", "#80daeb", "#93dfb8" , "#dbd7d2"), guide=guide_legend(nrow=4, title.position = 'top'))+
+  theme(panel.background=element_blank())+
+  theme(panel.background= element_rect(color="black")) +
+  theme(axis.title = element_blank()) +
+  #theme(legend.position = "bottom", legend.box = "vertical", legend.title = element_text(face="bold")) +
+  labs(title = "Geographe Bay - Stereo-BRUVS", x ="Latitude" , y ="Longitude") +
+  xlab("Latitude") + ylab("Longitude") +
+  geom_point(aes(x=Longitude, y=Latitude, color = cluster), data=dtv2, alpha=1, size=3, color="grey20")+ # to get outline
+  geom_point(aes(x=Longitude, y=Latitude, color = cluster), data=dtv2, alpha=1, size=2) +
+  scale_colour_manual("DTV transect clusters", values = bluepal(8), guide=guide_legend(nrow=3, title.position = "top")) +  # change color scale
+  theme(legend.position = "bottom", legend.box = "horizontal", legend.title = element_text(face="bold")) +
+  xlab("Latitude") + ylab("Longitude") 
+print(p0)
+
 
 
 # read clusters ----
@@ -176,12 +221,16 @@ fb.plot$cluster <- as.factor(fb.plot$cluster)
 hpca2 <- PCA(f[,c(6:13, 18, 19, 20)], quali.sup= 9, graph = T)
 
 
+bluepal <- choose_palette()
+
+
 fviz_pca_ind(hpca2,
              geom.ind = "point", # show points only (nbut not "text")
              col.ind = f$cluster, # color by groups
              #palette = c("#FF0000", "#000000", "#FF9900", "#990000", "#33FF00", "#009933", "#3399FF", 
                          #"#0000CC", "#FF66CC", "#660066", "#00FFFF", "#FFFF00", "#996666"),
-             palette = c( "#FF00CC", "#FF0000", "#00CC00", "#0000FF", "#000000", "#33FFFF","#99FF00","#FFFF00"),
+             #palette = c( "#FF00CC", "#FF0000", "#00CC00", "#0000FF", "#000000", "#33FFFF","#99FF00","#FFFF00"),
+             palette=bluepal(8),
              addEllipses = TRUE, # Concentration ellipses
              legend.title = "Groups"
 )
@@ -189,13 +238,18 @@ fviz_pca_ind(hpca2,
 
 
 
-pb<-ggplot(fb.plot, aes(nmdsb1, nmdsb2, color=cluster))+
-  geom_point(position=position_jitter(.1), shape=16)+##separates overlapping points
+theme_set(theme_bw())
+pb1<-ggplot(fb.plot, aes(nmdsb1, nmdsb2, color=cluster))+
+  geom_point(position=position_jitter(.1), shape=18)+##separates overlapping points
   stat_ellipse(type='t',size =1)+ ##draws 95% confidence interval ellipses
-  scale_colour_manual(values = c("#FF0000", "#000000", "#FF9900", "#990000", "#33FF00", "#009933", "#3399FF", 
-                                 "#0000CC", "#FF66CC", "#660066", "#00FFFF"))+
-  theme_minimal()
-pb
+  #scale_colour_manual(values = c("#FF0000", "#000000", "#FF9900", "#990000", "#33FF00", "#009933", "#3399FF", 
+  #                              "#0000CC", "#FF66CC", "#660066", "#00FFFF"))+
+  labs(x ="Dim1 (18.7%)", y="Dim2 (14.6%)") +
+  scale_color_manual(values = bluepal(12)) +
+  theme(legend.text = element_text(size = 14), legend.title = element_text(size = 14, face='bold'),
+        axis.title = element_render(size = 14), axis.text = element_text(size=12)) 
+
+pb1
 
 
 # strap like leaves + Posidonia --
