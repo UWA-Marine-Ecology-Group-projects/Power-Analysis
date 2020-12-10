@@ -32,6 +32,7 @@ filen <- "Bruv2014_detailed_zoning.csv"
 df <- read.csv(paste(d.dir, filen, sep='/'))
 str(df)
 names(df)
+head(df)
 
 
 # Use only the columns needed for seagrass ----
@@ -186,7 +187,7 @@ p2<-ggplot(data=datas, aes(x=Zone, y=mean, fill = Zone)) +
         title = element_text(size = 14, face= "bold")) 
 p2
 
-ggsave(paste(p.dir, "Sg-tv-zones.png", sep='/'), plot=p2, device = "png", scale = 1, dpi =300 )
+#ggsave(paste(p.dir, "Sg-tv-zones.png", sep='/'), plot=p2, device = "png", scale = 1, dpi =300 )
 
 
 ### Transect plots ----
