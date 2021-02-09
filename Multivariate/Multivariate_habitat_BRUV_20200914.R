@@ -19,8 +19,9 @@ library(vegan)
 library(FactoMineR)
 library(factoextra)
 library(tidyverse)
-#devtools::install_github("gavinsimpson/ggvegan")
-library(ggvegan) # have to fix  Rtools before I can install this package
+#install.packages("remotes")
+#remotes::install_github("gavinsimpson/ggvegan")
+#library(ggvegan) # have to fix  Rtools before I can install this package
 library(githubinstall)
 library(RColorBrewer)
 library(colorspace)
@@ -64,6 +65,8 @@ cc
 length(levels(cc$Sample)) # 145 samples
 cc2 <- as.data.frame(cc)
 str(cc2)
+cc2$clust <- as.numeric(cc2$clust)
+cc2$clust <- as.factor(cc2$clust)
 
 # read df of coastal clusters ----
 # file name --
@@ -90,7 +93,7 @@ plot(gb)
 plot(cc, col = cc$clust, pch=20, add=T)
 names(cc)
 
-# better map ----
+# Better MAP ----
 
 gb <- readOGR(paste(s.dir, "GeoBay.shp", sep='/'))
 plot(gb)
@@ -110,6 +113,15 @@ gb@data$id = rownames(gb@data)
 gb.points = broom::tidy(gb)
 gb.df = join(gb.points, gb@data, by="id")
 
+# choose palette --
+#mixpal <- choose_palette()
+goodcols <- c("#FF0000", "#000000", "#FF9900", "#990000", "#33FF00", "#009933", "#3399FF", 
+              "#0000CC", "#FF66CC", "#660066", "#00FFFF")
+
+levels(cc2$clust)
+
+# plot --
+
 p0 <- ggplot() +
   geom_polygon(data = gb.df, aes(x = long, y = lat, group = group, fill = ZoneName), color = "black") +
   #geom_point(aes(x=coords.x1, y=coords.x2), data=sp) +
@@ -126,7 +138,8 @@ p0 <- ggplot() +
   xlab("Latitude") + ylab("Longitude") +
   geom_point(aes(x=coords.x1, y=coords.x2, color = clust), data=cc2, alpha=1, size=3, color="grey20")+ # to get outline
   geom_point(aes(x=coords.x1, y=coords.x2, color = clust), data=cc2, alpha=1, size=2) +
-  scale_colour_manual("Stereo-BRUV clusters", values = bluepal(12), guide=guide_legend(nrow=3, title.position = "top")) +  # change color scale
+  #scale_colour_manual("Stereo-BRUV clusters", values = mixpal(12), guide=guide_legend(nrow=3, title.position = "top")) +  # change color scale
+  scale_colour_manual("Stereo-BRUV clusters", values = goodcols, guide=guide_legend(nrow=3, title.position = "top")) +
   theme(legend.position = "bottom", legend.box = "horizontal", legend.title = element_text(face="bold")) +
   xlab("Latitude") + ylab("Longitude") 
 print(p0)
@@ -160,6 +173,8 @@ names(hab)
 hab <- hab[,-c(5,9,13)]
 names(hab)
 head(hab)
+head(ccdf)
+
    
 
 # Merge sample to cluster so each sample has a cluster number ----
@@ -193,6 +208,8 @@ hab
 # euclidean distance --
 f.diste <- vegdist(hab, method = "euclidean", diag=FALSE, upper=FALSE, na.rm = FALSE)
 f.diste
+class(f.diste)
+fdiste <- as.data.frame(f.diste)
 # NMDS --
 fb.mds <- metaMDS(f.diste, distance="euclidean", k=2, trymax = 50, trace=FALSE, plot =T)
 fb.mds
@@ -212,7 +229,7 @@ hpca <- PCA(f.diste, graph = T)# plot ordination
 hpca2 <- PCA(f[,-c(1:5)], quali.sup= 11, graph = T)
 
 
-fviz_pca_ind(hpca,
+fviz_pca_ind(hpca2,
              geom.ind = "point", # show points only (nbut not "text")
              col.ind = f$clust, # color by groups
              palette = c("#FF0000", "#000000", "#FF9900", "#990000", "#33FF00", "#009933", "#3399FF", 
@@ -221,13 +238,14 @@ fviz_pca_ind(hpca,
              legend.title = "Groups"
 )
 
-bluepal <- choose_palette()
+### choose pal if needed
+#bluepal <- choose_palette()
 
 
 fviz_pca_ind(hpca2,
              geom.ind = "point", # show points only (nbut not "text")
              col.ind = f$clust, # color by groups
-             palette = bluepal(12),
+             palette = mixpal(12),
              #palette = c("#FF0000", "#000000", "#FF9900", "#990000", "#33FF00", "#009933", "#3399FF", 
               #           "#0000CC", "#FF66CC", "#660066", "#00FFFF"),
              addEllipses = TRUE, # Concentration ellipses
@@ -242,7 +260,7 @@ pb1<-ggplot(fb.plot, aes(nmdsb1, nmdsb2, color=cluster))+
   #scale_colour_manual(values = c("#FF0000", "#000000", "#FF9900", "#990000", "#33FF00", "#009933", "#3399FF", 
    #                              "#0000CC", "#FF66CC", "#660066", "#00FFFF"))+
   labs(x ="Dim1 (18.7%)", y="Dim2 (14.6%)") +
-  scale_color_manual(values = bluepal(12)) +
+  scale_color_manual(values = mixpal(12)) +
   theme(legend.text = element_text(size = 14), legend.title = element_text(size = 14, face='bold'),
         axis.title = element_render(size = 14), axis.text = element_text(size=12)) 
  
@@ -286,7 +304,7 @@ fb.plot$cluster <- as.factor(fb.plot$cluster)
 hpca <- PCA(f[,-c(1:5)], quali.sup= 12, graph = T)
 
 
-fviz_pca_ind(hpca,
+fviz_pca_ind(hpca2,
              geom.ind = "point", # show points only (nbut not "text")
              col.ind = f$clust, # color by groups
              palette = c("#FF0000", "#000000", "#FF9900", "#990000", "#33FF00", "#009933", "#3399FF", 
